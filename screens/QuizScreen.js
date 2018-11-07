@@ -4,28 +4,12 @@ import {
     Text,
     StyleSheet,
 } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 class QuizScreen extends Component {
 
-    static navigationOptions = ({navigation}) => {
-
-        return {
-
-            headerTitle: navigation.getParam('courseName', 'NO TITLE') + " Quiz",
-            headerLeft: (
-                <Icon.Button name='arrow-back'
-                             backgroundColor='white'
-                             color='black'
-                             size={24}
-                             onPress={() => navigation.state.params.goBack()}/>
-            ),
-        };
-    };
-
     constructor(props) {
         super(props);
-        this.state = {course: null};
+        this.state = {course: null, quiz: null};
     }
 
     componentDidMount() {
@@ -35,7 +19,8 @@ class QuizScreen extends Component {
         });
 
         this.setState({
-            course: this.props.navigation.getParam('course', 'NO-COURSE')
+            course: this.props.navigation.getParam('course', 'NO-COURSE'),
+            quiz: this.props.navigation.getParam('quiz', 'default')
         })
     }
 

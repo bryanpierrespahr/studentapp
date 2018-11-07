@@ -3,6 +3,9 @@ import {
     View,
     Text,
     StyleSheet,
+    ImageBackground,
+    TouchableOpacity,
+    FlatList
 } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -23,9 +26,64 @@ class OverviewScreen extends Component {
         };
     };
 
+    renderWeeks = ({item}) => (
+
+        <View style={styles.week}>
+            <FlatList
+                data={item.content}
+                renderItem={this.renderWeek}/>
+        </View>
+
+    );
+
+    renderWeek = ({item}) => (
+
+        <TouchableOpacity
+            onPress={() => this.handleOnPress(item)}>
+            <View>
+                <Text>
+                    {item.title}
+                </Text>
+            </View>
+        </TouchableOpacity>
+    )
+
+    handleOnPress = (item) => {
+
+        switch (item.type) {
+            case 'link':
+                this.openLinkInWebView(item)
+                break;
+            case 'lecture':
+                //Do something
+                break;
+            case 'quiz':
+                this.openQuiz(item)
+                break;
+        }
+    }
+
+    openQuiz = (quiz) => {
+
+        this.props.navigation.navigate('Quiz', {
+            quiz: quiz,
+            course: this.state.course
+        })
+    }
+
+    openLinkInWebView = (link) => {
+        
+        this.props.navigation.navigate('WebView', {
+            title : link.title,
+            uri: link.link
+        });
+
+    }
+
+
     constructor(props) {
         super(props);
-        this.state = {course: null};
+        this.state = {course: null, weeks: []};
     }
 
     componentDidMount() {
@@ -35,8 +93,10 @@ class OverviewScreen extends Component {
         });
 
         this.setState({
-            course: this.props.navigation.getParam('course', 'NO-COURSE')
+            course: this.props.navigation.getParam('course', 'default'),
+            weeks: this.props.navigation.getParam('weeks', 'default')
         })
+
     }
 
     goBackToDashboard() {
@@ -45,11 +105,116 @@ class OverviewScreen extends Component {
 
     render() {
 
-        return (
-            <View style={styles.container}>
-                <Text>OverviewScreen</Text>
-            </View>
-        )
+        if (this.state.course != null) {
+
+            //Array of weeks
+            const weeks = this.state.weeks;
+
+            //Create an arry for content
+            var content = [];
+
+            //Loop through each weeks
+            for (let i = 0; i < weeks.length; i++) {
+
+                //if there is lectures for this week
+                if (weeks[i].weekLectures != null) {
+
+                    var lectures = [];
+
+                    //Loop through lectures array
+                    for (let j = 0; j < weeks[i].weekLectures.length; j++) {
+                        lectures.push(weeks[i].weekLectures[j])
+                    }
+                }
+
+                //if there is links for this week
+                if (weeks[i].weekLinks != null) {
+
+                    var links = [];
+
+                    //Loop through links array
+                    for (let k = 0; k < weeks[i].weekLinks.length; k++) {
+                        links.push(weeks[i].weekLinks[k])
+                    }
+                }
+
+                //if there is quizzes for this week
+                if (weeks[i].weekQuizzes != null) {
+
+                    var quizzes = [];
+
+                    //Loop through quizzes array
+                    for (let l = 0; l < weeks[i].weekQuizzes.length; l++) {
+                        quizzes.push(weeks[i].weekQuizzes[l])
+                    }
+                }
+
+                //No
+                for (let z = 1; z < 6; z++) {
+
+                    //Loop through lectures array
+                    for (let a = 0; a < lectures.length; a++) {
+
+                        //if no = current no
+                        if (lectures[a].no == z) {
+                            content.push(lectures[a])
+                        }
+                    }
+
+                    //Loop through links array
+                    for (let b = 0; b < links.length; b++) {
+
+                        //if linkNo = current no
+                        if (links[b].linkNo == z) {
+                            content.push(links[b])
+                        }
+                    }
+
+                    //Loop through quizzes array
+                    for (let c = 0; c < quizzes.length; c++) {
+
+                        //if no = current no
+                        if (quizzes[c].no == z) {
+                            content.push(quizzes[c])
+                        }
+                    }
+
+                }
+
+                console.log("Week :" + weeks[i].weekId);
+                console.log("content length = " + content.length);
+                console.log(content);
+
+                //Add content property & array to the week
+                weeks[i].content = content;
+
+                //Empty array
+                content = [];
+            }
+
+            return (
+
+                <View style={styles.container}>
+                    <View style={styles.head}>
+                        <ImageBackground source={require('../assets/overview_background.png')}
+                                         style={styles.imageBackground}>
+                            <View>
+                                <Text>{this.state.course.name}</Text>
+                            </View>
+                        </ImageBackground>
+                    </View>
+                    <View style={styles.body}>
+                        <FlatList
+                            data={weeks}
+                            horizontal={true}
+                            renderItem={this.renderWeeks}
+                        />
+                    </View>
+                </View>
+            )
+        }
+
+        return null;
     }
 
 }
@@ -59,5 +224,21 @@ export default OverviewScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection: 'column',
     },
+    head: {
+        flex: 30,
+    },
+    body: {
+        flex: 70,
+    },
+    imageBackground: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    week: {
+        width: 250,
+        backgroundColor: 'yellow'
+    }
 })
