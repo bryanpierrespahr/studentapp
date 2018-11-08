@@ -102,11 +102,10 @@ class OverviewScreen extends Component {
 
     componentDidMount() {
 
-        const course = this.props.screenProps.course;
 
         this.props.navigation.setParams({
             goBack: this.goBackToDashboard.bind(this),
-            course: course
+            course: this.props.screenProps.course
         });
 
         this.setState({

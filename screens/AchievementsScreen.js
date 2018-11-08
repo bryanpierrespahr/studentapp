@@ -12,7 +12,6 @@ class AchievementsScreen extends Component {
 
         return {
             headerTitle: 'Achievements',
-            // headerTitle: navigation.getParam('courseName', 'NO TITLE'),
             headerLeft: (
                 <Icon.Button name='arrow-back'
                              backgroundColor='white'

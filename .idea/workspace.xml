@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4a3dccde-4f22-4c5f-8737-3516fd038d7a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/navigator.js" afterPath="$PROJECT_DIR$/navigator.js" />
       <change beforePath="$PROJECT_DIR$/screens/AchievementsScreen.js" afterPath="$PROJECT_DIR$/screens/AchievementsScreen.js" />
       <change beforePath="$PROJECT_DIR$/screens/DashboardScreen.js" afterPath="$PROJECT_DIR$/screens/DashboardScreen.js" />
@@ -24,8 +23,8 @@
       <file leaf-file-name="navigator.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/navigator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="605">
-              <caret line="126" column="91" lean-forward="false" selection-start-line="126" selection-start-column="85" selection-end-line="126" selection-end-column="91" />
+            <state relative-caret-position="431">
+              <caret line="93" column="28" lean-forward="false" selection-start-line="93" selection-start-column="28" selection-end-line="93" selection-end-column="28" />
               <folding>
                 <element signature="e#13#93#0" expanded="true" />
               </folding>
@@ -43,11 +42,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DashboardScreen.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="DashboardScreen.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/screens/DashboardScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-130">
-              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+            <state relative-caret-position="416">
+              <caret line="40" column="39" lean-forward="true" selection-start-line="40" selection-start-column="39" selection-end-line="40" selection-end-column="39" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -70,8 +69,8 @@
       <file leaf-file-name="OverviewScreen.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/screens/OverviewScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="538">
-              <caret line="121" column="30" lean-forward="false" selection-start-line="121" selection-start-column="30" selection-end-line="121" selection-end-column="30" />
+            <state relative-caret-position="463">
+              <caret line="111" column="26" lean-forward="false" selection-start-line="111" selection-start-column="26" selection-end-line="111" selection-end-column="26" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -92,8 +91,8 @@
       <file leaf-file-name="InfosScreen.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/screens/InfosScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="43" column="0" lean-forward="true" selection-start-line="43" selection-start-column="0" selection-end-line="49" selection-end-column="5" />
+            <state relative-caret-position="638">
+              <caret line="81" column="37" lean-forward="true" selection-start-line="81" selection-start-column="37" selection-end-line="81" selection-end-column="37" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -101,11 +100,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AchievementsScreen.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AchievementsScreen.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/screens/AchievementsScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="750">
-              <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+            <state relative-caret-position="325">
+              <caret line="13" column="40" lean-forward="false" selection-start-line="13" selection-start-column="40" selection-end-line="13" selection-end-column="40" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -135,10 +134,11 @@
       <find>course.na</find>
       <find>componentDid</find>
       <find>lectur</find>
-      <find>naviga</find>
       <find>PDF</find>
-      <find>params</find>
+      <find>naviga</find>
+      <find>course</find>
       <find>goBa</find>
+      <find>params</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -152,12 +152,12 @@
         <option value="$PROJECT_DIR$/screens/WebviewScreen.js" />
         <option value="$PROJECT_DIR$/screens/QuizScreen.js" />
         <option value="$PROJECT_DIR$/screens/WebViewScreen.js" />
-        <option value="$PROJECT_DIR$/screens/DashboardScreen.js" />
         <option value="$PROJECT_DIR$/screens/CourseScreen.js" />
+        <option value="$PROJECT_DIR$/screens/AchievementsScreen.js" />
+        <option value="$PROJECT_DIR$/screens/OverviewScreen.js" />
         <option value="$PROJECT_DIR$/navigator.js" />
         <option value="$PROJECT_DIR$/screens/InfosScreen.js" />
-        <option value="$PROJECT_DIR$/screens/OverviewScreen.js" />
-        <option value="$PROJECT_DIR$/screens/AchievementsScreen.js" />
+        <option value="$PROJECT_DIR$/screens/DashboardScreen.js" />
       </list>
     </option>
   </component>
@@ -263,12 +263,12 @@
       <updated>1541495829352</updated>
       <workItem from="1541495831257" duration="6539000" />
       <workItem from="1541578661221" duration="28988000" />
-      <workItem from="1541663280512" duration="7623000" />
+      <workItem from="1541663280512" duration="9522000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43150000" />
+    <option name="totallyTimeSpent" value="45049000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -301,7 +301,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -436,38 +438,20 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/components/HorizontalFlatList.js" />
-    <entry file="file://$PROJECT_DIR$/screens/CourseScreen.js">
+    <entry file="file://$PROJECT_DIR$/screens/AchievementsScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="6" column="50" lean-forward="false" selection-start-line="6" selection-start-column="50" selection-end-line="6" selection-end-column="50" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/screens/DashboardScreen.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-130">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        <state relative-caret-position="325">
+          <caret line="13" column="40" lean-forward="false" selection-start-line="13" selection-start-column="40" selection-end-line="13" selection-end-column="40" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/screens/QuizScreen.js">
+    <entry file="file://$PROJECT_DIR$/screens/OverviewScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-63">
-          <caret line="5" column="21" lean-forward="false" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/screens/InfosScreen.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="43" column="0" lean-forward="true" selection-start-line="43" selection-start-column="0" selection-end-line="49" selection-end-column="5" />
+        <state relative-caret-position="463">
+          <caret line="111" column="26" lean-forward="false" selection-start-line="111" selection-start-column="26" selection-end-line="111" selection-end-column="26" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
@@ -482,30 +466,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/navigator.js">
+    <entry file="file://$PROJECT_DIR$/screens/InfosScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="605">
-          <caret line="126" column="91" lean-forward="false" selection-start-line="126" selection-start-column="85" selection-end-line="126" selection-end-column="91" />
-          <folding>
-            <element signature="e#13#93#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/screens/OverviewScreen.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="538">
-          <caret line="121" column="30" lean-forward="false" selection-start-line="121" selection-start-column="30" selection-end-line="121" selection-end-column="30" />
+        <state relative-caret-position="638">
+          <caret line="81" column="37" lean-forward="true" selection-start-line="81" selection-start-column="37" selection-end-line="81" selection-end-column="37" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/screens/AchievementsScreen.js">
+    <entry file="file://$PROJECT_DIR$/navigator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+        <state relative-caret-position="431">
+          <caret line="93" column="28" lean-forward="false" selection-start-line="93" selection-start-column="28" selection-end-line="93" selection-end-column="28" />
+          <folding>
+            <element signature="e#13#93#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/screens/QuizScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-63">
+          <caret line="5" column="21" lean-forward="false" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/screens/CourseScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="6" column="50" lean-forward="false" selection-start-line="6" selection-start-column="50" selection-end-line="6" selection-end-column="50" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/screens/DashboardScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="40" column="39" lean-forward="true" selection-start-line="40" selection-start-column="39" selection-end-line="40" selection-end-column="39" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>

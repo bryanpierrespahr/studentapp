@@ -18,19 +18,17 @@ class DashboardScreen extends Component {
         this.props.navigation.navigate('Course', {
             course: course,
             weeks: course.weeks,
-            activeTab : 'Overview'
         });
 
 
     }
+    keyExtractor = (item) => {
+        return item.code
+    }
 
     constructor(props) {
         super(props);
-        this.state = {courses: [], selectedCourse : null};
-    }
-
-    keyExtractor = (item) => {
-        return item.code
+        this.state = {courses: [], selectedCourse: null};
     }
 
     render() {
@@ -39,37 +37,45 @@ class DashboardScreen extends Component {
             {
                 name: 'Digital Service Design',
                 code: 'DIG4TF021',
+                scope: '5 ECTS',
                 timing: '3rd Semester',
-                language:'English',
-                courseLevel: 'Profile studies',
-                courseType: 'Elective',
+                language: 'English',
+                level: 'Profile studies',
+                type: 'Elective',
+                objective: 'Upon successful completion of this course, ' +
+                'the student should be able to understand how to create better services by utilizing existing ' +
+                'technologies and API’s along with graphical design theories and principles.',
+                teacher :{
+                    name:'Amir Dirin',
+                    email: 'amir.dirin@haaga-helia.fi'
+                },
                 weeks: [
                     {
-                        weekId : 1,
-                        weekLectures : [
+                        weekId: 1,
+                        weekLectures: [
                             {
-                                id : 1,
-                                no : 1,
+                                id: 1,
+                                no: 1,
                                 title: 'PDF 1',
-                                link : 'exampleFile1',
+                                link: 'exampleFile1',
                                 type: 'lecture'
                             },
                             {
-                                id : 2,
-                                no : 1,
+                                id: 2,
+                                no: 1,
                                 title: 'PDF 2',
                                 link: 'exampleFile2',
                                 type: 'lecture'
                             },
                             {
-                                id : 3,
-                                no : 2,
+                                id: 3,
+                                no: 2,
                                 title: 'PDF 3',
                                 link: 'exampleFile3',
                                 type: 'lecture'
                             }
                         ],
-                        weekLinks : [
+                        weekLinks: [
                             {
                                 linkId: 1,
                                 linkNo: 1,
@@ -90,13 +96,13 @@ class DashboardScreen extends Component {
                                 id: 1,
                                 no: 1,
                                 title: 'Quiz 1',
-                                type:'quiz'
+                                type: 'quiz'
                             },
                             {
                                 id: 2,
                                 no: 2,
                                 title: 'Quiz 2',
-                                type:'quiz'
+                                type: 'quiz'
                             },
                         ]
                     },
@@ -123,7 +129,7 @@ class DashboardScreen extends Component {
                         weekQuizzes: [
                             {
                                 id: 3,
-                                no:1,
+                                no: 1,
                                 title: 'Quiz 1',
                                 type: 'quiz'
                             }
@@ -131,19 +137,19 @@ class DashboardScreen extends Component {
                     }
                 ]
 
-            },{
+            }, {
                 name: 'Mobile Programming',
                 code: 'SWD4TF020',
-            },{
+            }, {
                 name: 'Business Intelligence',
                 code: 'BUS8TF017',
-            },{
+            }, {
                 name: 'Front End Development',
                 code: 'SWD4TF022',
-            },{
+            }, {
                 name: 'Future Learning Research',
                 code: 'PRO8TF100-3001',
-            },{
+            }, {
                 name: 'Linux Basics',
                 code: 'DAT8TF063',
             }];

@@ -3,7 +3,8 @@ import {
     View,
     Text,
     StyleSheet,
-    ImageBackground
+    ImageBackground,
+    ScrollView
 } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -31,14 +32,12 @@ class InfosScreen extends Component {
 
     componentDidMount() {
 
-        console.log(this.props.navigation.getParam('course'));
-
         this.props.navigation.setParams({
             goBack: this.goBackToDashboard.bind(this)
         });
 
         this.setState({
-            course: this.props.navigation.getParam('course', 'NO-COURSE')
+            course: this.props.screenProps.course,
         })
     }
 
@@ -53,19 +52,36 @@ class InfosScreen extends Component {
 
         if (this.state.course != null) {
 
+            const course = this.state.course;
+
             return (
                 <View style={styles.container}>
                     <View style={styles.head}>
                         <ImageBackground source={require('../assets/overview_background.png')}
                                          style={styles.imageBackground}>
                             <View>
-                                <Text>{this.state.course.name}</Text>
+                                <Text style={styles.courseTitle}>{this.state.course.name}</Text>
                             </View>
                         </ImageBackground>
                     </View>
                     <View style={styles.body}>
-
+                        <ScrollView>
+                            <Text style={styles.subTitle}>Teacher</Text>
+                            <Text style={styles.paragraph}>Name : {course.teacher.name}</Text>
+                            <Text style={styles.paragraph}>Email : {course.teacher.email}</Text>
+                            <Text style={styles.subTitle}>Course Description</Text>
+                            <Text style={styles.paragraph}>Name : {course.name}</Text>
+                            <Text style={styles.paragraph}>Code : {course.code}</Text>
+                            <Text style={styles.paragraph}>Scope : {course.scope}</Text>
+                            <Text style={styles.paragraph}>Timing : {course.timing}</Text>
+                            <Text style={styles.paragraph}>Language : {course.language}</Text>
+                            <Text style={styles.paragraph}>Course level : {course.level}</Text>
+                            <Text style={styles.paragraph}>Course type : {course.type}</Text>
+                            <Text style={styles.subTitle}>Objective</Text>
+                            <Text style={styles.paragraph}>{course.objective}</Text>
+                        </ScrollView>
                     </View>
+
                 </View>
             )
 
@@ -87,11 +103,25 @@ const styles = StyleSheet.create({
         flex: 15
     },
     body: {
-        flex: 85
+        flex: 85,
+        paddingHorizontal:3,
     },
     imageBackground: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
+    courseTitle: {
+        fontSize: 30,
+        fontWeight: 'bold',
+    },
+    subTitle: {
+        fontSize: 18,
+        borderBottomWidth: 2,
+        borderBottomColor: 'black',
+        marginTop: 5,
+    },
+    paragraph:{
+        fontSize: 14
+    }
 })

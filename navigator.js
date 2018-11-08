@@ -90,7 +90,8 @@ export default CourseTabNavigator = createBottomTabNavigator({
         }
     }
 }, {
-    initialRouteName: 'Overview',
+    //TODO : change
+    initialRouteName: 'Infos',
     order: ['Overview', 'Infos', 'Achievements']
 });
 
