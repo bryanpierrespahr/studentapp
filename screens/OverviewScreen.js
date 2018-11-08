@@ -55,7 +55,7 @@ class OverviewScreen extends Component {
                 this.openLinkInWebView(item)
                 break;
             case 'lecture':
-                //Do something
+                this.openPDFInWebView(item)
                 break;
             case 'quiz':
                 this.openQuiz(item)
@@ -65,19 +65,33 @@ class OverviewScreen extends Component {
 
     openQuiz = (quiz) => {
 
-        this.props.navigation.navigate('Quiz', {
+        const nav = this.props.screenProps.navigation;
+
+        nav.navigate('Quiz', {
             quiz: quiz,
             course: this.state.course
         })
     }
 
     openLinkInWebView = (link) => {
-        
-        this.props.navigation.navigate('WebView', {
-            title : link.title,
+
+        const nav = this.props.screenProps.navigation;
+
+        nav.navigate('WebView', {
+            title: link.title,
             uri: link.link
         });
 
+    }
+
+    openPDFInWebView = (pdf) => {
+
+        const nav = this.props.screenProps.navigation;
+
+        nav.navigate('WebView', {
+            title: pdf.title,
+            uri: pdf.link
+        })
     }
 
 
@@ -88,19 +102,26 @@ class OverviewScreen extends Component {
 
     componentDidMount() {
 
+        const course = this.props.screenProps.course;
+
         this.props.navigation.setParams({
-            goBack: this.goBackToDashboard.bind(this)
+            goBack: this.goBackToDashboard.bind(this),
+            course: course
         });
 
         this.setState({
-            course: this.props.navigation.getParam('course', 'default'),
-            weeks: this.props.navigation.getParam('weeks', 'default')
+            course: this.props.screenProps.course,
+            weeks: this.props.screenProps.weeks
         })
 
     }
 
+
     goBackToDashboard() {
-        this.props.navigation.navigate('Dashboard');
+
+        const nav = this.props.screenProps.navigation;
+        nav.navigate('Dashboard');
+
     }
 
     render() {
@@ -152,6 +173,7 @@ class OverviewScreen extends Component {
                 //No
                 for (let z = 1; z < 6; z++) {
 
+
                     //Loop through lectures array
                     for (let a = 0; a < lectures.length; a++) {
 
@@ -160,6 +182,7 @@ class OverviewScreen extends Component {
                             content.push(lectures[a])
                         }
                     }
+
 
                     //Loop through links array
                     for (let b = 0; b < links.length; b++) {
@@ -170,6 +193,7 @@ class OverviewScreen extends Component {
                         }
                     }
 
+
                     //Loop through quizzes array
                     for (let c = 0; c < quizzes.length; c++) {
 
@@ -179,11 +203,8 @@ class OverviewScreen extends Component {
                         }
                     }
 
-                }
 
-                console.log("Week :" + weeks[i].weekId);
-                console.log("content length = " + content.length);
-                console.log(content);
+                }
 
                 //Add content property & array to the week
                 weeks[i].content = content;

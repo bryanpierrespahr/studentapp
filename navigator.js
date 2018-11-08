@@ -6,6 +6,7 @@ import InfosScreen from "./screens/InfosScreen";
 import AchievementsScreen from "./screens/AchievementsScreen";
 import WebViewScreen from "./screens/WebViewScreen";
 import QuizScreen from "./screens/QuizScreen";
+import CourseScreen from "./screens/CourseScreen";
 
 // export const CourseTabNavigator = createBottomTabNavigator({
 //     Overview : {
@@ -69,11 +70,11 @@ const QuizStack = createStackNavigator({
     }
 })
 
-export const CourseTabNavigator = createBottomTabNavigator({
+export default CourseTabNavigator = createBottomTabNavigator({
     Overview: {
         screen: OverviewStack,
         navigationOptions: {
-            tabBarLabel: 'OVERVIEW'
+            tabBarLabel: 'OVERVIEW',
         }
     },
     Infos: {
@@ -85,19 +86,35 @@ export const CourseTabNavigator = createBottomTabNavigator({
     Achievements: {
         screen: AchievementsStack,
         navigationOptions: {
-            tabBarLabel: 'ACHIEVEMENTS'
+            tabBarLabel: 'ACHIEVEMENTS',
         }
-    },
+    }
+}, {
+    initialRouteName: 'Overview',
+    order: ['Overview', 'Infos', 'Achievements']
 });
 
-CourseTabNavigator.navigationOptions = {
-    // Hide the header from AppNavigator stack
-    header: null,
-};
+// CourseTabNavigator.navigationOptions = {
+//     // Hide the header from AppNavigator stack
+//     header: null,
+// };
+
+CourseTabNavigator.navigationOptions = ({navigation}) => {
+
+    const {routeName} = navigation.state.routes[navigation.state.index];
+
+    const headerTitle = routeName;
+
+    return {
+        headerTitle
+    }
+}
 
 export const AppStackNavigator = createStackNavigator({
     Dashboard: {screen: DashboardScreen},
-    Course: {screen: CourseTabNavigator},
+    Course: {
+        screen: CourseScreen,
+    },
     WebView: {
         screen: WebviewStack,
         navigationOptions: ({navigation}) => ({

@@ -14,22 +14,22 @@ class DashboardScreen extends Component {
     };
 
     onPress = (course) => {
-        console.log(course.name);
 
-        this.props.navigation.navigate('Overview', {
+        this.props.navigation.navigate('Course', {
             course: course,
-            weeks: course.weeks
+            weeks: course.weeks,
+            activeTab : 'Overview'
         });
+
 
     }
 
     constructor(props) {
         super(props);
-        this.state = {courses: []};
+        this.state = {courses: [], selectedCourse : null};
     }
 
     keyExtractor = (item) => {
-        console.log(item.code);
         return item.code
     }
 

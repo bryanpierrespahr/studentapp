@@ -23,6 +23,7 @@ class AchievementsScreen extends Component {
         };
     };
 
+
     constructor(props) {
         super(props);
         this.state = {course: null};
@@ -34,13 +35,11 @@ class AchievementsScreen extends Component {
             goBack: this.goBackToDashboard.bind(this)
         });
 
-        this.setState({
-            course: this.props.navigation.getParam('course', 'NO-COURSE')
-        })
     }
 
     goBackToDashboard() {
-        this.props.navigation.navigate('Dashboard');
+        const nav = this.props.screenProps.navigation;
+        nav.navigate('Dashboard');
     }
 
 
@@ -48,7 +47,7 @@ class AchievementsScreen extends Component {
 
         return (
             <View style={styles.container}>
-                <Text>AchievementsScreen</Text>
+                <Text></Text>
             </View>
         )
     }
