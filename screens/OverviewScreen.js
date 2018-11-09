@@ -219,7 +219,7 @@ class OverviewScreen extends Component {
                         <ImageBackground source={require('../assets/overview_background.png')}
                                          style={styles.imageBackground}>
                             <View>
-                                <Text>{this.state.course.name}</Text>
+                                <Text style={styles.courseTitle}>{this.state.course.name}</Text>
                             </View>
                         </ImageBackground>
                     </View>
@@ -256,6 +256,10 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    courseTitle: {
+        fontSize: 35,
+        fontWeight: 'bold',
     },
     week: {
         width: 250,

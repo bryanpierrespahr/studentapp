@@ -234,7 +234,7 @@ class QuizScreen extends Component {
             })
 
         }
-        
+
         return (
             <View style={styles.container}>
                 <View style={styles.body}>

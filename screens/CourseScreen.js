@@ -10,6 +10,39 @@ class CourseScreen extends Component {
         }
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {openedAt: null, closedAt: null, timeSpent: null}
+    }
+
+    componentDidMount() {
+
+        var openedAt = new Date();
+
+        this.setState({
+            openedAt: openedAt
+        })
+
+        console.log("Opened at : " + openedAt)
+
+    }
+
+    componentWillUnmount() {
+
+        var closedAt = new Date();
+
+        console.log("Closed at : " + closedAt);
+
+        var timeSpent = (closedAt.getTime() - this.state.openedAt.getTime()) / 1000;
+
+        console.log("TIME SPENT : " + timeSpent);
+
+        this.setState({
+            closedAt: closedAt,
+            timeSpent: timeSpent
+        })
+
+    }
 
     render() {
 
