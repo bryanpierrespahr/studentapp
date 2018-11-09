@@ -4,7 +4,7 @@ import {
     Text,
     StyleSheet,
     FlatList,
-    Button
+    TouchableOpacity
 } from 'react-native'
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
 
@@ -94,7 +94,7 @@ class QuizScreen extends Component {
                     },
                     {
                         id: 2,
-                        title: 'Which country does the YouTuber &quot;SinowBeats&quot; originate from ?',
+                        title: 'Which country does the YouTuber \'SinowBeats\' originate from ?',
                         correct_answer: 'Scotland',
                         incorrect_answers: [
                             'England',
@@ -104,7 +104,7 @@ class QuizScreen extends Component {
                     },
                     {
                         id: 3,
-                        title: 'In the video game &quot;Team Fortress 2&quot;, which class is able to double jump ?',
+                        title: 'In the video game \'Team Fortress 2\', which class is able to double jump ?',
                         correct_answer: 'Scout',
                         incorrect_answers: [
                             'Spy',
@@ -134,7 +134,7 @@ class QuizScreen extends Component {
                     },
                     {
                         id: 6,
-                        title: 'Sean Bean voices the character of &quot;Martin Septim&quot; in which Elder Scrolls game ?',
+                        title: 'Sean Bean voices the character of "Martin Septim" in which Elder Scrolls game ?',
                         correct_answer: 'The Elder Scrolls IV: Oblivion',
                         incorrect_answers: [
                             'The Elder Scrolls V: Skyrim',
@@ -241,7 +241,7 @@ class QuizScreen extends Component {
                     <FlatList
                         data={this.state.questions}
                         renderItem={({item, index}) =>
-                            <View>
+                            <View style={styles.questions}>
                                 <Text>{item.question}</Text>
                                 <RadioGroup
                                     onSelect={(i, value) => this.onSelect(i, value, index)}
@@ -264,10 +264,12 @@ class QuizScreen extends Component {
                                 </RadioGroup>
                             </View>
                         }/>
-                    <Button
+                    <TouchableOpacity
+                        style={styles.submitButton}
                         onPress={this.submit}
-                        title="SUBMIT"
-                    >SUBMIT</Button>
+                    >
+                        <Text style={styles.textButton}>SUBMIT</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         )
@@ -280,15 +282,26 @@ export default QuizScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'yellow',
     },
     body: {
         flex: 1,
-        backgroundColor: 'red',
     },
-    flat: {
+    questions: {
         flex: 1,
+        marginVertical: 5,
+        marginHorizontal: 8,
+    },
+    submitButton: {
+        height: 42,
+        color: 'red',
         backgroundColor: 'green',
-    }
+        justifyContent: 'center',
+        alignItems:'center'
+    },
+    textButton:{
+        color:'white',
+        fontSize: 16,
+        fontWeight: '600'
+    },
 
 })

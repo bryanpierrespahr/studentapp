@@ -12,8 +12,6 @@ import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import OcticonsIcon from 'react-native-vector-icons/Octicons';
 import SimpleLineIconsIcon from 'react-native-vector-icons/SimpleLineIcons';
 
-
-
 class OverviewScreen extends Component {
 
     static navigationOptions = ({navigation}) => {

@@ -6,6 +6,7 @@ import {
     FlatList,
     TouchableOpacity
 } from 'react-native'
+import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 
 class DashboardScreen extends Component {
 
@@ -161,10 +162,16 @@ class DashboardScreen extends Component {
                     keyExtractor={this.keyExtractor}
                     renderItem={({item}) =>
                         <TouchableOpacity onPress={() => this.onPress(item)}>
-                            <View>
-                                <Text>
+                            <View style={styles.course}>
+                                <Text style={styles.courseName}>
                                     {item.name}
                                 </Text>
+                                <IoniconsIcon
+                                    style={styles.ic}
+                                    name='ios-arrow-forward'
+                                    backgroundColor='white'
+                                    color='black'
+                                    size={30}/>
                             </View>
                         </TouchableOpacity>}
                 />
@@ -179,5 +186,21 @@ export default DashboardScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        margin: 7,
+    },
+    course:{
+        flexDirection: 'row',
+        height: 30,
+        backgroundColor: '#D3D3D3',
+        marginVertical: 6,
+    },
+    courseName:{
+        justifyContent: 'center',
+        textAlign: 'center',
+        fontSize: 20,
+        fontWeight: '500'
+    },
+    ic:{
+        marginLeft: 'auto',
     },
 })
