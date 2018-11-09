@@ -7,7 +7,12 @@ import {
     TouchableOpacity,
     FlatList
 } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import IoniconsIcon from 'react-native-vector-icons/Ionicons';
+import OcticonsIcon from 'react-native-vector-icons/Octicons';
+import SimpleLineIconsIcon from 'react-native-vector-icons/SimpleLineIcons';
+
+
 
 class OverviewScreen extends Component {
 
@@ -17,7 +22,7 @@ class OverviewScreen extends Component {
             headerTitle: 'Overview',
             // headerTitle: navigation.getParam('courseName', 'NO TITLE'),
             headerLeft: (
-                <Icon.Button name='arrow-back'
+                <MaterialIcon.Button name='arrow-back'
                              backgroundColor='white'
                              color='black'
                              size={24}
@@ -26,9 +31,10 @@ class OverviewScreen extends Component {
         };
     };
 
-    renderWeeks = ({item}) => (
+    renderWeeks = ({item, index}) => (
 
         <View style={styles.week}>
+            <Text style={styles.weekTitle}>Week {index + 1}</Text>
             <FlatList
                 data={item.content}
                 renderItem={this.renderWeek}/>
@@ -36,17 +42,68 @@ class OverviewScreen extends Component {
 
     );
 
-    renderWeek = ({item}) => (
+    renderWeek = ({item}) => {
 
-        <TouchableOpacity
-            onPress={() => this.handleOnPress(item)}>
-            <View>
-                <Text>
-                    {item.title}
-                </Text>
-            </View>
-        </TouchableOpacity>
-    )
+        switch (item.type) {
+            case 'lecture':
+                return (
+                    <TouchableOpacity
+                        onPress={() => this.handleOnPress(item)}>
+                        <View style={styles.inline}>
+                            <OcticonsIcon
+                                style={styles.ic}
+                                name='file-pdf'
+                                backgroundColor='white'
+                                color='black'
+                                size={16}/>
+                            <Text style={styles.weekContent}>
+                                {item.title}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                );
+                break;
+            case 'quiz':
+                return (
+                    <TouchableOpacity
+                        onPress={() => this.handleOnPress(item)}>
+                        <View style={styles.inline}>
+                            <SimpleLineIconsIcon
+                                style={styles.ic}
+                                name='question'
+                                backgroundColor='white'
+                                color='black'
+                                size={16}/>
+                            <Text style={styles.weekContent}>
+                                {item.title}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                );
+                break;
+            case 'link':
+                return (
+                    <TouchableOpacity
+                        onPress={() => this.handleOnPress(item)}>
+                        <View style={styles.inline}>
+                            <IoniconsIcon
+                                style={styles.ic}
+                                name='ios-link'
+                                backgroundColor='white'
+                                color='black'
+                                size={16}/>
+                            <Text style={styles.weekContent}>
+                                {item.title}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                );
+                break;
+        }
+
+
+    }
+
 
     handleOnPress = (item) => {
 
@@ -212,6 +269,8 @@ class OverviewScreen extends Component {
                 content = [];
             }
 
+            console.log(weeks);
+
             return (
 
                 <View style={styles.container}>
@@ -263,6 +322,30 @@ const styles = StyleSheet.create({
     },
     week: {
         width: 250,
-        backgroundColor: 'yellow'
+        backgroundColor: '#DCDCDC',
+        marginHorizontal: 8,
+        marginTop: 10,
+    },
+    weekTitle: {
+        fontSize: 16,
+        fontWeight: '600',
+        borderBottomWidth: 2,
+        borderBottomColor: 'black',
+        textAlign: 'center',
+        justifyContent: 'center',
+        marginVertical: 3,
+    },
+    weekContent: {
+        fontSize: 15,
+        paddingLeft: 8,
+
+    },
+    inline:{
+        marginVertical: 2,
+        paddingHorizontal: 10,
+        flexDirection: 'row'
+    },
+    ic :{
+        paddingTop: 5,
     }
 })

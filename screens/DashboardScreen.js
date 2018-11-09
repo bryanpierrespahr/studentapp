@@ -123,7 +123,7 @@ class DashboardScreen extends Component {
                                 linkNo: 1,
                                 title: 'Taxonomy of Digital Service Design',
                                 link: 'https://aisel.aisnet.org/cgi/viewcontent.cgi?referer=https://www.google.com/&httpsredir=1&article=1064&context=icis2016',
-                                type: 'lecture'
+                                type: 'link'
                             }
                         ],
                         weekQuizzes: [
