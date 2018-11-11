@@ -29,7 +29,7 @@ class DashboardScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {courses: [], selectedCourse: null};
+        this.state = {courses: []};
     }
 
     render() {
@@ -49,6 +49,11 @@ class DashboardScreen extends Component {
                 teacher :{
                     name:'Amir Dirin',
                     email: 'amir.dirin@haaga-helia.fi'
+                },
+                schedule: {
+                    day: 'Thursday',
+                    hour: '8:30 - 11:30',
+                    room: '5001',
                 },
                 weeks: [
                     {
@@ -175,6 +180,7 @@ class DashboardScreen extends Component {
                             </View>
                         </TouchableOpacity>}
                 />
+
             </View>
         )
     }
@@ -186,7 +192,7 @@ export default DashboardScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        margin: 7,
+        padding: 7,
     },
     course:{
         flexDirection: 'row',

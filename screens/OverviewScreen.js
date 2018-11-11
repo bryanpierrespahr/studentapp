@@ -11,6 +11,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import OcticonsIcon from 'react-native-vector-icons/Octicons';
 import SimpleLineIconsIcon from 'react-native-vector-icons/SimpleLineIcons';
+import ProgressBar from '../components/ProgressBar';
 
 class OverviewScreen extends Component {
 
@@ -21,10 +22,10 @@ class OverviewScreen extends Component {
             // headerTitle: navigation.getParam('courseName', 'NO TITLE'),
             headerLeft: (
                 <MaterialIcon.Button name='arrow-back'
-                             backgroundColor='white'
-                             color='black'
-                             size={24}
-                             onPress={() => navigation.state.params.goBack()}/>
+                                     backgroundColor='white'
+                                     color='black'
+                                     size={24}
+                                     onPress={() => navigation.state.params.goBack()}/>
             ),
         };
     };
@@ -152,7 +153,7 @@ class OverviewScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {course: null, weeks: []};
+        this.state = {course: null, weeks: [], percentage: 0};
     }
 
     componentDidMount() {
@@ -166,6 +167,11 @@ class OverviewScreen extends Component {
         this.setState({
             course: this.props.screenProps.course,
             weeks: this.props.screenProps.weeks
+        })
+
+        //TODO: Get this value from the DB via server
+        this.setState({
+            percentage: 70
         })
 
     }
@@ -267,16 +273,25 @@ class OverviewScreen extends Component {
                 content = [];
             }
 
-            console.log(weeks);
+            const course = this.state.course;
 
             return (
-
                 <View style={styles.container}>
                     <View style={styles.head}>
                         <ImageBackground source={require('../assets/overview_background.png')}
                                          style={styles.imageBackground}>
-                            <View>
-                                <Text style={styles.courseTitle}>{this.state.course.name}</Text>
+                            <View styles={styles.textHeader}>
+                                <Text style={styles.courseTitle}>{course.name}</Text>
+                            </View>
+                            <View style={styles.textFooter}>
+                                <View style={styles.progress}>
+                                    <ProgressBar percentage={this.state.percentage}/>
+                                </View>
+                                <View style={styles.schedule}>
+                                    <Text style={styles.details}>{course.schedule.day}</Text>
+                                    <Text style={styles.details}>{course.schedule.hour}</Text>
+                                    <Text style={styles.details}>Room {course.schedule.room}</Text>
+                                </View>
                             </View>
                         </ImageBackground>
                     </View>
@@ -311,12 +326,35 @@ const styles = StyleSheet.create({
     },
     imageBackground: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignSelf: 'center',
+        position: 'relative',
     },
     courseTitle: {
         fontSize: 35,
         fontWeight: 'bold',
+        marginTop: 25,
+    },
+    textHeader: {
+        flex: 1,
+    },
+    textFooter: {
+        flex: 1,
+        flexDirection: 'row',
+    },
+    progress: {
+        flex: 2,
+        justifyContent: 'flex-end',
+    },
+    schedule: {
+        flex: 1,
+        marginLeft: 20,
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end'
+    },
+    details: {
+        alignSelf: 'flex-start',
+        fontSize: 17,
+        fontWeight: '500',
     },
     week: {
         width: 250,
@@ -338,12 +376,12 @@ const styles = StyleSheet.create({
         paddingLeft: 8,
 
     },
-    inline:{
+    inline: {
         marginVertical: 2,
         paddingHorizontal: 10,
         flexDirection: 'row'
     },
-    ic :{
+    ic: {
         paddingTop: 5,
     }
 })

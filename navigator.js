@@ -75,18 +75,36 @@ export default CourseTabNavigator = createBottomTabNavigator({
         screen: OverviewStack,
         navigationOptions: {
             tabBarLabel: 'OVERVIEW',
+            tabBarOptions:{
+                labelStyle: {
+                    fontSize: 14,
+                    marginBottom: 10,
+                },
+            }
         }
     },
     Infos: {
         screen: InfosStack,
         navigationOptions: {
-            tabBarLabel: 'INFOS'
+            tabBarLabel: 'INFOS',
+            tabBarOptions:{
+                labelStyle: {
+                    fontSize: 14,
+                    marginBottom: 10,
+                },
+            }
         }
     },
     Achievements: {
         screen: AchievementsStack,
         navigationOptions: {
             tabBarLabel: 'ACHIEVEMENTS',
+            tabBarOptions:{
+                labelStyle: {
+                    fontSize: 14,
+                    marginBottom: 10,
+                },
+            }
         }
     }
 }, {

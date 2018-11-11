@@ -1,0 +1,39 @@
+import React, {Component} from 'react'
+import {
+    View,
+    Text, StyleSheet
+} from 'react-native'
+
+class Filler extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            percentage: this.props.percentage
+        }
+    }
+
+    render() {
+        return (
+            <View style={{
+                width: `${this.state.percentage}%`,
+                backgroundColor: 'green',
+                height: '100%',
+                borderRadius: 40,
+            }}>
+                <Text style={styles.percentage}>{this.state.percentage}%</Text>
+            </View>
+        )
+    }
+}
+
+export default Filler;
+
+const styles = StyleSheet.create({
+
+    percentage: {
+        alignSelf: 'flex-end',
+        paddingRight: 5,
+        fontWeight: '500',
+    }
+})
