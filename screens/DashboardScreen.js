@@ -4,7 +4,8 @@ import {
     Text,
     StyleSheet,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    Button
 } from 'react-native'
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 
@@ -26,6 +27,11 @@ class DashboardScreen extends Component {
     keyExtractor = (item) => {
         return item.code
     }
+    navigateToScreen = () => {
+
+        this.props.navigation.navigate('');
+
+    }
 
     constructor(props) {
         super(props);
@@ -46,8 +52,8 @@ class DashboardScreen extends Component {
                 objective: 'Upon successful completion of this course, ' +
                 'the student should be able to understand how to create better services by utilizing existing ' +
                 'technologies and API’s along with graphical design theories and principles.',
-                teacher :{
-                    name:'Amir Dirin',
+                teacher: {
+                    name: 'Amir Dirin',
                     email: 'amir.dirin@haaga-helia.fi'
                 },
                 schedule: {
@@ -181,9 +187,15 @@ class DashboardScreen extends Component {
                         </TouchableOpacity>}
                 />
 
+                <Button
+                    size={50}
+                    title='TEST'
+                    onPress={() => this.navigateToScreen}></Button>
+
             </View>
         )
     }
+
 
 }
 
@@ -194,19 +206,19 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 7,
     },
-    course:{
+    course: {
         flexDirection: 'row',
         height: 30,
         backgroundColor: '#D3D3D3',
         marginVertical: 6,
     },
-    courseName:{
+    courseName: {
         justifyContent: 'center',
         textAlign: 'center',
         fontSize: 20,
         fontWeight: '500'
     },
-    ic:{
+    ic: {
         marginLeft: 'auto',
     },
 })

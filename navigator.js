@@ -7,6 +7,7 @@ import AchievementsScreen from "./screens/AchievementsScreen";
 import WebViewScreen from "./screens/WebViewScreen";
 import QuizScreen from "./screens/QuizScreen";
 import CourseScreen from "./screens/CourseScreen";
+import LoginScreen from "./screens/LoginScreen";
 
 // export const CourseTabNavigator = createBottomTabNavigator({
 //     Overview : {
@@ -75,7 +76,7 @@ export default CourseTabNavigator = createBottomTabNavigator({
         screen: OverviewStack,
         navigationOptions: {
             tabBarLabel: 'OVERVIEW',
-            tabBarOptions:{
+            tabBarOptions: {
                 labelStyle: {
                     fontSize: 14,
                     marginBottom: 10,
@@ -87,7 +88,7 @@ export default CourseTabNavigator = createBottomTabNavigator({
         screen: InfosStack,
         navigationOptions: {
             tabBarLabel: 'INFOS',
-            tabBarOptions:{
+            tabBarOptions: {
                 labelStyle: {
                     fontSize: 14,
                     marginBottom: 10,
@@ -99,7 +100,7 @@ export default CourseTabNavigator = createBottomTabNavigator({
         screen: AchievementsStack,
         navigationOptions: {
             tabBarLabel: 'ACHIEVEMENTS',
-            tabBarOptions:{
+            tabBarOptions: {
                 labelStyle: {
                     fontSize: 14,
                     marginBottom: 10,
@@ -108,7 +109,6 @@ export default CourseTabNavigator = createBottomTabNavigator({
         }
     }
 }, {
-    //TODO : change
     initialRouteName: 'Overview',
     order: ['Overview', 'Infos', 'Achievements']
 });
@@ -147,3 +147,12 @@ export const AppStackNavigator = createStackNavigator({
         })
     }
 })
+
+// export const AuthStackNavigator = createStackNavigator({
+//     Login: {
+//         screen: LoginScreen,
+//         navigationOptions: {
+//             header: null,
+//         }
+//     },
+// })
