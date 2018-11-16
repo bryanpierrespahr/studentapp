@@ -85,8 +85,8 @@ class QuizScreen extends Component {
                     {
                         id: 1,
                         title: 'Which American president appears on a one dollar bill ?',
-                        correct_answer: 'George Washington',
-                        incorrect_answers: [
+                        correctAnswer: 'George Washington',
+                        incorrectAnswers: [
                             'Thomas Jefferson',
                             'Abraham Lincoln',
                             'Benjamin Franklin',
@@ -95,8 +95,8 @@ class QuizScreen extends Component {
                     {
                         id: 2,
                         title: 'Which country does the YouTuber \'SinowBeats\' originate from ?',
-                        correct_answer: 'Scotland',
-                        incorrect_answers: [
+                        correctAnswer: 'Scotland',
+                        incorrectAnswers: [
                             'England',
                             'Sweden',
                             'Germany'
@@ -105,8 +105,8 @@ class QuizScreen extends Component {
                     {
                         id: 3,
                         title: 'In the video game \'Team Fortress 2\', which class is able to double jump ?',
-                        correct_answer: 'Scout',
-                        incorrect_answers: [
+                        correctAnswer: 'Scout',
+                        incorrectAnswers: [
                             'Spy',
                             'Engineer',
                             'Pyro'
@@ -115,8 +115,8 @@ class QuizScreen extends Component {
                     {
                         id: 4,
                         title: 'In the Portal series of games, who was the founder of Aperture Science ?',
-                        correct_answer: 'Cave Johnson',
-                        incorrect_answers: [
+                        correctAnswer: 'Cave Johnson',
+                        incorrectAnswers: [
                             'GLaDOs',
                             'Wallace Breen',
                             'Gordon Freeman'
@@ -125,8 +125,8 @@ class QuizScreen extends Component {
                     {
                         id: 5,
                         title: 'In the movie Gremlins, after what time of day should you not feed Mogwai ?',
-                        correct_answer: 'Midnight',
-                        incorrect_answers: [
+                        correctAnswer: 'Midnight',
+                        incorrectAnswers: [
                             'Evening',
                             'Morning',
                             'Afternoon'
@@ -135,8 +135,8 @@ class QuizScreen extends Component {
                     {
                         id: 6,
                         title: 'Sean Bean voices the character of "Martin Septim" in which Elder Scrolls game ?',
-                        correct_answer: 'The Elder Scrolls IV: Oblivion',
-                        incorrect_answers: [
+                        correctAnswer: 'The Elder Scrolls IV: Oblivion',
+                        incorrectAnswers: [
                             'The Elder Scrolls V: Skyrim',
                             "The Elder Scrolls III: Morrowind ",
                             "The Elder Scrolls III: Morrowind "
@@ -145,8 +145,8 @@ class QuizScreen extends Component {
                     {
                         id: 7,
                         title: "What was the original release date of Grand Theft Auto V ?",
-                        correct_answer: "September 17, 2013",
-                        incorrect_answers: [
+                        correctAnswer: "September 17, 2013",
+                        incorrectAnswers: [
                             "August 17, 2013",
                             "April 14, 2015",
                             "November 18, 2014"
@@ -155,8 +155,8 @@ class QuizScreen extends Component {
                     {
                         id: 8,
                         title: 'Nidhogg is a mythical creature from what mythology ?',
-                        correct_answer: 'Norse',
-                        incorrect_answers: [
+                        correctAnswer: 'Norse',
+                        incorrectAnswers: [
                             'Greek',
                             'Egyptian',
                             'Hindu'
@@ -165,8 +165,8 @@ class QuizScreen extends Component {
                     {
                         id: 9,
                         title: "How many sides does a heptagon have ?",
-                        correct_answer: '7',
-                        incorrect_answers: [
+                        correctAnswer: '7',
+                        incorrectAnswers: [
                             '8',
                             '6',
                             '5'
@@ -175,8 +175,8 @@ class QuizScreen extends Component {
                     {
                         id: 10,
                         title: "How many countries are inside the United Kingdom ?",
-                        correct_answer: 'Four',
-                        incorrect_answers: [
+                        correctAnswer: 'Four',
+                        incorrectAnswers: [
                             'Two',
                             'Three',
                             'One'
@@ -194,11 +194,11 @@ class QuizScreen extends Component {
                 allQuestions.push(quiz.questions[i].title);
                 var answers = [];
 
-                answers.push(quiz.questions[i].correct_answer)
+                answers.push(quiz.questions[i].correctAnswer)
                 //Loop through answers
                 for (let j = 0; j < 3; j++) {
 
-                    answers.push(quiz.questions[i].incorrect_answers[j]);
+                    answers.push(quiz.questions[i].incorrectAnswers[j]);
                 }
 
                 answers = this.shuffle(answers);
@@ -216,7 +216,7 @@ class QuizScreen extends Component {
                 if (z % 4 == 0 && z != 0) {
 
                     var quest = {};
-                    quest.question = allQuestions[(z - 4) / 4];
+                    quest.title = allQuestions[(z - 4) / 4];
                     quest.answers = answ;
                     resultQuiz.push(quest);
                     answ = [];
@@ -242,7 +242,7 @@ class QuizScreen extends Component {
                         data={this.state.questions}
                         renderItem={({item, index}) =>
                             <View style={styles.questions}>
-                                <Text>{item.question}</Text>
+                                <Text>{item.title}</Text>
                                 <RadioGroup
                                     onSelect={(i, value) => this.onSelect(i, value, index)}
                                 >

@@ -12,6 +12,7 @@ import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import OcticonsIcon from 'react-native-vector-icons/Octicons';
 import SimpleLineIconsIcon from 'react-native-vector-icons/SimpleLineIcons';
 import ProgressBar from '../components/ProgressBar';
+import API from '../utils/api';
 
 class OverviewScreen extends Component {
 
@@ -32,6 +33,7 @@ class OverviewScreen extends Component {
 
     renderWeeks = ({item, index}) => (
 
+
         <View style={styles.week}>
             <Text style={styles.weekTitle}>Week {index + 1}</Text>
             <FlatList
@@ -42,6 +44,7 @@ class OverviewScreen extends Component {
     );
 
     renderWeek = ({item}) => {
+
 
         switch (item.type) {
             case 'lecture':
@@ -100,7 +103,6 @@ class OverviewScreen extends Component {
                 break;
         }
 
-
     }
 
 
@@ -151,9 +153,149 @@ class OverviewScreen extends Component {
     }
 
 
+    getWeeks = () => {
+
+        const weeksId = this.state.course.weeksId;
+
+
+        var weeks = [];
+        var fetches = [];
+
+        for (var i = 0; i < weeksId.length; i++) {
+            fetches.push(
+                fetch("http://192.168.1.100:3001/week/" + weeksId[i])
+                    .then((response) => response.json())
+                    .then((week) => {
+                        var week = week;
+                        weeks.push(week);
+                        this.getLectures(week.lecturesId);
+                        this.getLinks(week.linksId);
+                        this.getQuizzes(week.quizzesId);
+                    })
+            )
+        }
+
+        Promise.all(fetches).then(() => {
+
+            this.setState({
+                weeks: weeks
+            }, () => this.setCounter())
+        })
+
+    }
+
+    setCounter = () => {
+
+        var count = 0;
+
+        const weeks = this.state.weeks;
+
+        for (var z = 0; z < weeks.length; z++) {
+            for (var y = 0; y < weeks[z].lecturesId.length; y++) {
+                count++;
+            }
+            for (var r = 0; r < weeks[z].linksId.length; r++) {
+                count++;
+            }
+            for (var v = 0; v < weeks[z].quizzesId.length; v++) {
+                count++;
+            }
+        }
+
+        this.setState({
+            counter: count
+        })
+    }
+
+    getLectures = (lecturesId) => {
+
+
+        var currentCounter = 0;
+        var lectures = this.state.lectures;
+        var fetches = [];
+
+        for (var i = 0; i < lecturesId.length; i++) {
+            fetches.push(
+                fetch("http://192.168.1.100:3001/lecture/" + lecturesId[i])
+                    .then((response) => response.json())
+                    .then((lecture) => {
+                        currentCounter++;
+                        var lec = lecture;
+                        lectures.push(lec);
+                    }));
+        }
+
+        Promise.all(fetches).then(() => {
+
+            this.setState({
+                lectures: lectures,
+                currentCounter: this.state.currentCounter + currentCounter
+            })
+
+        })
+
+    }
+
+    getQuizzes = (quizzesId) => {
+
+        var quizzes = this.state.quizzes;
+        var fetches = [];
+        var currentCounter = 0;
+
+
+        for (var i = 0; i < quizzesId.length; i++) {
+            fetches.push(
+                fetch("http://192.168.1.100:3001/quiz/" + quizzesId[i])
+                    .then((response) => response.json())
+                    .then((quiz) => {
+                        currentCounter++;
+                        var q = quiz;
+                        quizzes.push(q);
+                    }));
+        }
+
+        Promise.all(fetches).then(() => {
+
+            this.setState({
+                quizzes: quizzes,
+                currentCounter: this.state.currentCounter + currentCounter
+            })
+
+        })
+
+    }
+
+    getLinks = (linksId) => {
+
+        var links = this.state.links;
+        var fetches = [];
+        var currentCounter = 0;
+
+        for (var i = 0; i < linksId.length; i++) {
+            fetches.push(
+                fetch("http://192.168.1.100:3001/link/" + linksId[i])
+                    .then((response) => response.json())
+                    .then((link) => {
+                        currentCounter++;
+                        var lk = link;
+                        links.push(lk);
+                    }));
+        }
+
+        Promise.all(fetches).then(() => {
+
+            this.setState({
+                links: links,
+                currentCounter: this.state.currentCounter + currentCounter
+            })
+        })
+
+    }
+
+
     constructor(props) {
         super(props);
-        this.state = {course: null, weeks: [], percentage: 0};
+        this.state = {course: null, weeks: [], lectures: [], quizzes: [], links: [], counter: -1, currentCounter: 0};
     }
 
     componentDidMount() {
@@ -166,8 +308,8 @@ class OverviewScreen extends Component {
 
         this.setState({
             course: this.props.screenProps.course,
-            weeks: this.props.screenProps.weeks
-        })
+            //weeks: this.props.screenProps.weeks
+        }, () => this.getWeeks())
 
         //TODO: Get this value from the DB via server
         this.setState({
@@ -175,7 +317,6 @@ class OverviewScreen extends Component {
         })
 
     }
-
 
     goBackToDashboard() {
 
@@ -186,83 +327,49 @@ class OverviewScreen extends Component {
 
     render() {
 
-        if (this.state.course != null) {
+
+        if (this.state.course != null && this.state.counter == this.state.currentCounter) {
+
 
             //Array of weeks
             const weeks = this.state.weeks;
+            const lectures = this.state.lectures;
+            const links = this.state.links;
+            const quizzes = this.state.quizzes;
 
-            //Create an arry for content
-            var content = [];
+            for (var i = 0; i < weeks.length; i++) {
 
-            //Loop through each weeks
-            for (let i = 0; i < weeks.length; i++) {
+                //Create an array for content
+                var content = [];
 
-                //if there is lectures for this week
-                if (weeks[i].weekLectures != null) {
-
-                    var lectures = [];
-
-                    //Loop through lectures array
-                    for (let j = 0; j < weeks[i].weekLectures.length; j++) {
-                        lectures.push(weeks[i].weekLectures[j])
-                    }
-                }
-
-                //if there is links for this week
-                if (weeks[i].weekLinks != null) {
-
-                    var links = [];
-
-                    //Loop through links array
-                    for (let k = 0; k < weeks[i].weekLinks.length; k++) {
-                        links.push(weeks[i].weekLinks[k])
-                    }
-                }
-
-                //if there is quizzes for this week
-                if (weeks[i].weekQuizzes != null) {
-
-                    var quizzes = [];
-
-                    //Loop through quizzes array
-                    for (let l = 0; l < weeks[i].weekQuizzes.length; l++) {
-                        quizzes.push(weeks[i].weekQuizzes[l])
-                    }
-                }
-
-                //No
-                for (let z = 1; z < 6; z++) {
-
+                for (var z = 1; z < 6; z++) {
 
                     //Loop through lectures array
                     for (let a = 0; a < lectures.length; a++) {
 
                         //if no = current no
-                        if (lectures[a].no == z) {
+                        if (lectures[a].weekNo == (i + 1) && lectures[a].no == z) {
                             content.push(lectures[a])
                         }
                     }
 
-
-                    //Loop through links array
+                    //Loop through lectures array
                     for (let b = 0; b < links.length; b++) {
 
-                        //if linkNo = current no
-                        if (links[b].linkNo == z) {
+                        //if no = current no
+                        if (links[b].weekNo == (i + 1) && links[b].no == z) {
                             content.push(links[b])
                         }
                     }
-
 
                     //Loop through quizzes array
                     for (let c = 0; c < quizzes.length; c++) {
 
                         //if no = current no
-                        if (quizzes[c].no == z) {
+                        if (quizzes[c].weekNo == (i + 1) && quizzes[c].no == z) {
                             content.push(quizzes[c])
                         }
                     }
-
 
                 }
 
@@ -307,6 +414,8 @@ class OverviewScreen extends Component {
         }
 
         return null;
+
+
     }
 
 }

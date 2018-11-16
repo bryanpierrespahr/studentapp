@@ -6,18 +6,47 @@ import {
     TextInput,
     TouchableOpacity,
     Image,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    AsyncStorage
 } from 'react-native';
+import API from '../utils/api';
+
 
 class LoginScreen extends Component {
 
+    storeToken = async (student, token) => {
+
+        try {
+            await AsyncStorage.setItem("token", token);
+            await AsyncStorage.setItem("student", JSON.stringify(student))
+
+        } catch (error) {
+            console.log("Error setting token");
+        }
+    }
+
     login = () => {
 
-        console.log("Signing in");
-
-        this.props.navigation.navigate('App');
-
+        API.login(this.state.email, this.state.password)
+            .then((data) => {
+                this.setState({
+                    student: data.data.student
+                }, () => this.storeToken(data.data.student, data.data.token));
+            }).then(() => {
+            this.props.navigation.navigate('App', {
+                user: this.state.user
+            });
+        })
+            .catch(error => {
+                console.log(error);
+            })
     }
+
+    constructor(props) {
+        super(props);
+        this.state = {email: '', password: '', student: null}
+    }
+
 
     render() {
         return (
@@ -29,22 +58,24 @@ class LoginScreen extends Component {
                 <View style={styles.form}>
                     <TextInput style={styles.inputBox}
                                underlineColorAndroid='rgba(0,0,0,0)'
+                               onChangeText={(email) => this.setState({email})}
                                placeholder="Email"
                                placeholderTextColor="#ffffff"
                                selectionColor="#fff"
                                keyboardType="email-address"
-                               onSubmitEditing={() => this.password.focus()}
+                               onSubmitEditing={() => this.state.password.focus()}
                     />
                     <TextInput style={styles.inputBox}
                                underlineColorAndroid='rgba(0,0,0,0)'
                                placeholder="Password"
+                               onChangeText={(password) => this.setState({password})}
                                secureTextEntry={true}
                                placeholderTextColor="#ffffff"
-                               ref={(input) => this.password = input}
+                               ref={this.state.password}
                     />
                     <TouchableOpacity style={styles.button}
-                                      onPress={this.props.login}>
-                        <Text style={styles.buttonText}>{this.props.type}</Text>
+                                      onPress={this.login}>
+                        <Text style={styles.buttonText}>LOG IN</Text>
                     </TouchableOpacity>
                 </View>
             </KeyboardAvoidingView>
@@ -60,22 +91,25 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start'
     },
-    imageView:{
+    imageView: {
         flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     form: {
         flex: 2,
         justifyContent: 'flex-start',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     image: {
-        marginTop: 50,
+        marginTop: 20,
         width: 350,
         height: 100,
+        resizeMode: 'contain'
     },
     inputBox: {
         width: 300,
-        height: 40,
+        height: 45,
         backgroundColor: 'rgba(255, 255,255,0.2)',
         borderRadius: 25,
         paddingHorizontal: 16,

@@ -7,39 +7,7 @@ import AchievementsScreen from "./screens/AchievementsScreen";
 import WebViewScreen from "./screens/WebViewScreen";
 import QuizScreen from "./screens/QuizScreen";
 import CourseScreen from "./screens/CourseScreen";
-import LoginScreen from "./screens/LoginScreen";
 
-// export const CourseTabNavigator = createBottomTabNavigator({
-//     Overview : {
-//         screen : OverviewScreen,
-//         navigationOptions : {
-//             tabBarLabel: 'OVERVIEW'
-//         }
-//     },
-//     Infos : {
-//         screen : InfosScreen,
-//         navigationOptions : {
-//             tabBarLabel: 'INFOS'
-//         }
-//     },
-//     Achievements : {
-//         screen : OverviewScreen,
-//         navigationOptions : {
-//             tabBarLabel: 'ACHIEVEMENTS'
-//         }
-//     },
-//
-// });
-//
-// CourseTabNavigator.navigationOptions = ({ navigation }) => {
-//     const { routeName } = navigation.state.routes[navigation.state.index];
-//
-//     const headerTitle = routeName;
-//
-//     return {
-//         headerTitle,
-//     };
-// };
 
 const OverviewStack = createStackNavigator({
     Overview: OverviewScreen

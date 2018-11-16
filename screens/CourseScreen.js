@@ -47,11 +47,16 @@ class CourseScreen extends Component {
     render() {
 
         const course = this.props.navigation.getParam('course', 'default');
-        const weeks = this.props.navigation.getParam('weeks', 'default');
+        //const weeks = this.props.navigation.getParam('weeks', 'default');
+        const student = this.props.navigation.getParam('student', 'default');
 
         return (
             <CourseTabNavigator
-                screenProps={{course: course, weeks: weeks, navigation: this.props.navigation}}></CourseTabNavigator>
+                screenProps={{
+                    course: course,
+                    student: student,
+                    navigation: this.props.navigation
+                }}></CourseTabNavigator>
         )
     }
 }
