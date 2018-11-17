@@ -43,7 +43,8 @@ class QuizScreen extends Component {
     submit = () => {
 
         console.log("SUBMITTED");
-        console.log(this.state.studentAnswers)
+        console.log("Student answres : "+this.state.studentAnswers)
+        console.log("Correct answres : "+this.state.correctAnswers)
 
     }
 
@@ -55,11 +56,15 @@ class QuizScreen extends Component {
             questions: [],
             studentQuestions: [],
             studentAnswers: [],
+            correctAnswers: [],
             firstTime: true
         };
     }
 
     componentDidMount() {
+
+        console.log("QUIZ "+this.props.navigation.getParam('quiz', 'error'))
+
 
         this.props.navigation.setParams({
             goBack: this.goBackToDashboard.bind(this)
@@ -77,116 +82,13 @@ class QuizScreen extends Component {
 
     render() {
 
-        if (this.state.firstTime) {
+        if (this.state.firstTime && this.state.quiz != null) {
 
-            const quiz = {
-                id: 1,
-                questions: [
-                    {
-                        id: 1,
-                        title: 'Which American president appears on a one dollar bill ?',
-                        correctAnswer: 'George Washington',
-                        incorrectAnswers: [
-                            'Thomas Jefferson',
-                            'Abraham Lincoln',
-                            'Benjamin Franklin',
-                        ]
-                    },
-                    {
-                        id: 2,
-                        title: 'Which country does the YouTuber \'SinowBeats\' originate from ?',
-                        correctAnswer: 'Scotland',
-                        incorrectAnswers: [
-                            'England',
-                            'Sweden',
-                            'Germany'
-                        ]
-                    },
-                    {
-                        id: 3,
-                        title: 'In the video game \'Team Fortress 2\', which class is able to double jump ?',
-                        correctAnswer: 'Scout',
-                        incorrectAnswers: [
-                            'Spy',
-                            'Engineer',
-                            'Pyro'
-                        ]
-                    },
-                    {
-                        id: 4,
-                        title: 'In the Portal series of games, who was the founder of Aperture Science ?',
-                        correctAnswer: 'Cave Johnson',
-                        incorrectAnswers: [
-                            'GLaDOs',
-                            'Wallace Breen',
-                            'Gordon Freeman'
-                        ]
-                    },
-                    {
-                        id: 5,
-                        title: 'In the movie Gremlins, after what time of day should you not feed Mogwai ?',
-                        correctAnswer: 'Midnight',
-                        incorrectAnswers: [
-                            'Evening',
-                            'Morning',
-                            'Afternoon'
-                        ]
-                    },
-                    {
-                        id: 6,
-                        title: 'Sean Bean voices the character of "Martin Septim" in which Elder Scrolls game ?',
-                        correctAnswer: 'The Elder Scrolls IV: Oblivion',
-                        incorrectAnswers: [
-                            'The Elder Scrolls V: Skyrim',
-                            "The Elder Scrolls III: Morrowind ",
-                            "The Elder Scrolls III: Morrowind "
-                        ]
-                    },
-                    {
-                        id: 7,
-                        title: "What was the original release date of Grand Theft Auto V ?",
-                        correctAnswer: "September 17, 2013",
-                        incorrectAnswers: [
-                            "August 17, 2013",
-                            "April 14, 2015",
-                            "November 18, 2014"
-                        ]
-                    },
-                    {
-                        id: 8,
-                        title: 'Nidhogg is a mythical creature from what mythology ?',
-                        correctAnswer: 'Norse',
-                        incorrectAnswers: [
-                            'Greek',
-                            'Egyptian',
-                            'Hindu'
-                        ]
-                    },
-                    {
-                        id: 9,
-                        title: "How many sides does a heptagon have ?",
-                        correctAnswer: '7',
-                        incorrectAnswers: [
-                            '8',
-                            '6',
-                            '5'
-                        ]
-                    },
-                    {
-                        id: 10,
-                        title: "How many countries are inside the United Kingdom ?",
-                        correctAnswer: 'Four',
-                        incorrectAnswers: [
-                            'Two',
-                            'Three',
-                            'One'
-                        ]
-                    }
-                ]
-            }
+            const quiz = this.state.quiz;
 
             var allAnswers = [];
             var allQuestions = [];
+            var correctAns = [];
 
             //Loop through quiz
             for (let i = 0; i < quiz.questions.length; i++) {
@@ -194,7 +96,8 @@ class QuizScreen extends Component {
                 allQuestions.push(quiz.questions[i].title);
                 var answers = [];
 
-                answers.push(quiz.questions[i].correctAnswer)
+                correctAns.push(quiz.questions[i].correctAnswer);
+                answers.push(quiz.questions[i].correctAnswer);
                 //Loop through answers
                 for (let j = 0; j < 3; j++) {
 
@@ -226,10 +129,11 @@ class QuizScreen extends Component {
                 answ.push(allAnswers[z]);
             }
 
-            const shuffledQuestions = this.shuffle(resultQuiz);
+            //const shuffledQuestions = this.shuffle(resultQuiz);
 
             this.setState({
-                questions: shuffledQuestions,
+                questions: resultQuiz,
+                correctAnswers: correctAns,
                 firstTime: false,
             })
 

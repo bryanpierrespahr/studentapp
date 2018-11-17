@@ -111,7 +111,7 @@ export const AppStackNavigator = createStackNavigator({
     Quiz: {
         screen: QuizStack,
         navigationOptions: ({navigation}) => ({
-            title: `${navigation.state.params.course.name} - Quiz ${navigation.state.params.quiz.id}`,
+            title: `${navigation.state.params.course.name} - ${navigation.state.params.quiz.title}`,
         })
     }
 })

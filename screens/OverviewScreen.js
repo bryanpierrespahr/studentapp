@@ -38,7 +38,9 @@ class OverviewScreen extends Component {
             <Text style={styles.weekTitle}>Week {index + 1}</Text>
             <FlatList
                 data={item.content}
-                renderItem={this.renderWeek}/>
+                renderItem={this.renderWeek}
+                keyExtrator={(item, index) => index.toString()}
+            />
         </View>
 
     );
@@ -407,6 +409,7 @@ class OverviewScreen extends Component {
                             data={weeks}
                             horizontal={true}
                             renderItem={this.renderWeeks}
+                            keyExtractor={(item, index) => index.toString()}
                         />
                     </View>
                 </View>
@@ -414,7 +417,6 @@ class OverviewScreen extends Component {
         }
 
         return null;
-
 
     }
 
