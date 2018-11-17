@@ -7,6 +7,7 @@ import AchievementsScreen from "./screens/AchievementsScreen";
 import WebViewScreen from "./screens/WebViewScreen";
 import QuizScreen from "./screens/QuizScreen";
 import CourseScreen from "./screens/CourseScreen";
+import QuizResultScreen from "./screens/QuizResultScreen";
 
 
 const OverviewStack = createStackNavigator({
@@ -33,6 +34,12 @@ const WebviewStack = createStackNavigator({
 const QuizStack = createStackNavigator({
     Quiz: {
         screen: QuizScreen,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    QuizResult: {
+        screen: QuizResultScreen,
         navigationOptions: {
             header: null,
         }

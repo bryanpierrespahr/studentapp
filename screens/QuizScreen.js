@@ -40,11 +40,22 @@ class QuizScreen extends Component {
             studentAnswers: answersCopy
         })
     }
+
     submit = () => {
 
-        console.log("SUBMITTED");
-        console.log("Student answres : "+this.state.studentAnswers)
-        console.log("Correct answres : "+this.state.correctAnswers)
+        // console.log("SUBMITTED");
+        // console.log("Student answres : " + this.state.studentAnswers)
+        // console.log("Correct answres : " + this.state.correctAnswers)
+
+        console.log("questions  :"+JSON.stringify(this.state.questions))
+
+        this.props.navigation.navigate('QuizResult', {
+                questions: this.state.questions,
+                answers: this.state.allAnswers,
+                studentAnswers: this.state.studentAnswers,
+                correctAnswers: this.state.correctAnswers,
+            }
+        )
 
     }
 
@@ -57,13 +68,14 @@ class QuizScreen extends Component {
             studentQuestions: [],
             studentAnswers: [],
             correctAnswers: [],
+            allAnswers: [],
             firstTime: true
         };
     }
 
     componentDidMount() {
 
-        console.log("QUIZ "+this.props.navigation.getParam('quiz', 'error'))
+        console.log("QUIZ " + this.props.navigation.getParam('quiz', 'error'))
 
 
         this.props.navigation.setParams({
@@ -135,6 +147,7 @@ class QuizScreen extends Component {
                 questions: resultQuiz,
                 correctAnswers: correctAns,
                 firstTime: false,
+                allAnswers: allAnswers
             })
 
         }
@@ -200,10 +213,10 @@ const styles = StyleSheet.create({
         color: 'red',
         backgroundColor: 'green',
         justifyContent: 'center',
-        alignItems:'center'
+        alignItems: 'center'
     },
-    textButton:{
-        color:'white',
+    textButton: {
+        color: 'white',
         fontSize: 16,
         fontWeight: '600'
     },
