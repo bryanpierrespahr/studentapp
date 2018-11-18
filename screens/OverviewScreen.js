@@ -297,7 +297,7 @@ class OverviewScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {course: null, weeks: [], lectures: [], quizzes: [], links: [], counter: -1, currentCounter: 0};
+        this.state = {course: null, student: null, percentage: 50, weeks: [], lectures: [], quizzes: [], links: [], counter: -1, currentCounter: 0};
     }
 
     componentDidMount() {
@@ -305,17 +305,26 @@ class OverviewScreen extends Component {
 
         this.props.navigation.setParams({
             goBack: this.goBackToDashboard.bind(this),
-            course: this.props.screenProps.course
+            course: this.props.screenProps.course,
         });
 
         this.setState({
             course: this.props.screenProps.course,
-            //weeks: this.props.screenProps.weeks
+            //weeks: this.props.screenProps.weeks,
+            student: this.props.screenProps.student,
         }, () => this.getWeeks())
 
-        //TODO: Get this value from the DB via server
+        const student = this.props.screenProps.student;
+        const course = this.props.screenProps.course;
+
+        var abc = student.courses.filter(c => {
+            console.log(c.courseId);
+            console.log(course._id);
+            return c.courseId == course._id
+        })
+
         this.setState({
-            percentage: 70
+            percentage: abc[0].percentage
         })
 
     }

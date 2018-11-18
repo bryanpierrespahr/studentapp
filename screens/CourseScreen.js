@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 import CourseTabNavigator from '../navigator';
+import API from '../utils/api';
 
 class CourseScreen extends Component {
 
@@ -10,9 +11,32 @@ class CourseScreen extends Component {
         }
     };
 
+    saveTimeSpent = (timeSpent) => {
+
+        console.log("SAVING TIME SPENT")
+        console.log("TIME SPENT : " + timeSpent);
+        console.log("course id : " + this.state.course._id);
+        console.log(JSON.stringify(this.state.student.courses));
+        const studentId = this.state.student._id;
+        const currentCourseId = this.state.course._id;
+
+        var index = this.state.student.courses.findIndex(c => {
+            return c.courseId == currentCourseId
+        })
+
+        const courses = this.state.student.courses;
+        courses[index].timeSpent += timeSpent;
+
+        API.patchTimeSpent(studentId, courses)
+            .then((response) => {
+                console.log(response.data);
+            })
+
+    }
+
     constructor(props) {
         super(props);
-        this.state = {openedAt: null, closedAt: null, timeSpent: null}
+        this.state = {openedAt: null, closedAt: null, timeSpent: null, courses: null, course: null, student: null}
     }
 
     componentDidMount() {
@@ -24,6 +48,11 @@ class CourseScreen extends Component {
         })
 
         console.log("Opened at : " + openedAt)
+
+        this.setState({
+            course: this.props.navigation.getParam('course', 'default'),
+            student: this.props.navigation.getParam('student', 'default'),
+        })
 
     }
 
@@ -37,6 +66,8 @@ class CourseScreen extends Component {
 
         console.log("TIME SPENT : " + timeSpent);
 
+        this.saveTimeSpent(timeSpent);
+
         this.setState({
             closedAt: closedAt,
             timeSpent: timeSpent
@@ -46,18 +77,21 @@ class CourseScreen extends Component {
 
     render() {
 
-        const course = this.props.navigation.getParam('course', 'default');
-        //const weeks = this.props.navigation.getParam('weeks', 'default');
-        const student = this.props.navigation.getParam('student', 'default');
+        if (this.state.course != null) {
+            return (
+                <CourseTabNavigator
+                    screenProps={{
+                        courses: this.state.courses,
+                        course: this.state.course,
+                        student: this.state.student,
+                        navigation: this.props.navigation
+                    }}></CourseTabNavigator>
+            )
 
-        return (
-            <CourseTabNavigator
-                screenProps={{
-                    course: course,
-                    student: student,
-                    navigation: this.props.navigation
-                }}></CourseTabNavigator>
-        )
+        } else {
+            return null;
+        }
+
     }
 }
 

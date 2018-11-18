@@ -19,19 +19,15 @@ class DashboardScreen extends Component {
 
     onPress = (course) => {
 
-        console.log("Dashboard : course : "+course)
-
         this.props.navigation.navigate('Course', {
             course: course,
-            weeks: course.weeks,
+           // weeks: course.weeks,
             student: this.state.student
         });
 
 
     }
-    keyExtractor = (item) => {
-        return item.code
-    }
+
 
     navigateToScreen = () => {
 
@@ -45,6 +41,7 @@ class DashboardScreen extends Component {
         this.props.navigation.navigate('Loading');
 
     }
+
     getCourses = (studentCourses) => {
 
         var courses = [];
@@ -59,6 +56,8 @@ class DashboardScreen extends Component {
                     })
                 })
         }
+
+
 
     }
 
@@ -84,6 +83,7 @@ class DashboardScreen extends Component {
 
         this.getCourses(student.courses);
 
+
     }
 
     render() {
@@ -94,7 +94,7 @@ class DashboardScreen extends Component {
                 <View style={styles.container}>
                     <FlatList
                         data={this.state.courses}
-                        keyExtractor={this.keyExtractor}
+                        keyExtractor={(item, index) => index.toString()}
                         renderItem={({item}) =>
                             <TouchableOpacity onPress={() => this.onPress(item)}>
                                 <View style={styles.course}>
