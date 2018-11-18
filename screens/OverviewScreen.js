@@ -110,6 +110,8 @@ class OverviewScreen extends Component {
 
     handleOnPress = (item) => {
 
+        this.itemDone(item._id);
+
         switch (item.type) {
             case 'link':
                 this.openLinkInWebView(item)
@@ -121,6 +123,55 @@ class OverviewScreen extends Component {
                 this.openQuiz(item)
                 break;
         }
+    }
+
+    itemDone = (itemId) => {
+
+        const studentId = this.state.student._id;
+        const studentCourses = this.state.student.courses;
+        const currentCourseId = this.state.course._id;
+
+        var index = studentCourses.findIndex(c => {
+            return c.courseId == currentCourseId
+        })
+
+        if (studentCourses[index].done.indexOf(itemId) == -1) {
+
+            studentCourses[index].done.push(itemId);
+            API.patchDoneArray(studentId, studentCourses)
+                .then((response) => {
+                    console.log(response.data);
+                }).then(() => {
+                this.adjustPercentage(index)
+            })
+        }
+
+    }
+
+    adjustPercentage = (index) => {
+
+        var doneLength;
+
+        API.getStudent(this.state.student._id)
+            .then((response) => {
+                doneLength = response.data.courses[index].done.length;
+
+            }).then(() => {
+
+            var percentage = (doneLength / this.state.counter) * 100;
+
+            this.setState({
+                percentage: percentage
+            }, () => {
+                const studentCourses = this.state.student.courses;
+                studentCourses[index].percentage = percentage;
+
+                API.patchPercentage(this.state.student._id, studentCourses);
+
+            })
+
+        })
+
     }
 
     openQuiz = (quiz) => {
@@ -297,11 +348,22 @@ class OverviewScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {course: null, student: null, percentage: 50, weeks: [], lectures: [], quizzes: [], links: [], counter: -1, currentCounter: 0};
+        this.state = {
+            course: null,
+            student: null,
+            percentage: 0,
+            weeks: [],
+            lectures: [],
+            quizzes: [],
+            links: [],
+            counter: -1,
+            currentCounter: 0
+        };
     }
 
     componentDidMount() {
 
+        console.log("DID MOUNT");
 
         this.props.navigation.setParams({
             goBack: this.goBackToDashboard.bind(this),
@@ -310,7 +372,6 @@ class OverviewScreen extends Component {
 
         this.setState({
             course: this.props.screenProps.course,
-            //weeks: this.props.screenProps.weeks,
             student: this.props.screenProps.student,
         }, () => this.getWeeks())
 
@@ -318,8 +379,6 @@ class OverviewScreen extends Component {
         const course = this.props.screenProps.course;
 
         var abc = student.courses.filter(c => {
-            console.log(c.courseId);
-            console.log(course._id);
             return c.courseId == course._id
         })
 
@@ -341,6 +400,8 @@ class OverviewScreen extends Component {
 
         if (this.state.course != null && this.state.counter == this.state.currentCounter) {
 
+            console.log("RENDERING")
+            console.log(this.state.percentage)
 
             //Array of weeks
             const weeks = this.state.weeks;

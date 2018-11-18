@@ -13,10 +13,6 @@ class CourseScreen extends Component {
 
     saveTimeSpent = (timeSpent) => {
 
-        console.log("SAVING TIME SPENT")
-        console.log("TIME SPENT : " + timeSpent);
-        console.log("course id : " + this.state.course._id);
-        console.log(JSON.stringify(this.state.student.courses));
         const studentId = this.state.student._id;
         const currentCourseId = this.state.course._id;
 
@@ -31,7 +27,6 @@ class CourseScreen extends Component {
             .then((response) => {
                 console.log(response.data);
             })
-
     }
 
     constructor(props) {

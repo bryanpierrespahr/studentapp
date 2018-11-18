@@ -55,5 +55,24 @@ export default {
             , {
                 headers: headers
             })
-    }
+    },
+
+    patchDoneArray: function (studentId, courses) {
+        return axios.patch(burl + "/student/" + studentId, [{
+                "propName": "courses", "value": courses
+            }]
+            , {
+                headers: headers
+            })
+    },
+
+    patchPercentage: function (studentId, courses) {
+        return axios.patch(burl + "/student/" + studentId, [{
+                "propName": "courses", "value": courses
+            }]
+            , {
+                headers: headers
+            })
+    },
+
 }

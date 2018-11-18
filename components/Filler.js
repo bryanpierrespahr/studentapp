@@ -9,11 +9,24 @@ class Filler extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            percentage: this.props.percentage
+            percentage: 0
         }
     }
 
+    componentDidMount() {
+
+        this.setState({
+            percentage: this.props.percentage
+        })
+    }
+
+    componentWillReceiveProps(nextProps) {
+
+        this.setState({percentage: nextProps.percentage});
+    }
+
     render() {
+
         return (
             <View style={{
                 width: `${this.state.percentage}%`,
