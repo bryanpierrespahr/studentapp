@@ -42,8 +42,6 @@ class CourseScreen extends Component {
             openedAt: openedAt
         })
 
-        console.log("Opened at : " + openedAt)
-
         this.setState({
             course: this.props.navigation.getParam('course', 'default'),
             student: this.props.navigation.getParam('student', 'default'),
@@ -55,11 +53,7 @@ class CourseScreen extends Component {
 
         var closedAt = new Date();
 
-        console.log("Closed at : " + closedAt);
-
         var timeSpent = (closedAt.getTime() - this.state.openedAt.getTime()) / 1000;
-
-        console.log("TIME SPENT : " + timeSpent);
 
         this.saveTimeSpent(timeSpent);
 
