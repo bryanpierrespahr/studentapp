@@ -31,12 +31,22 @@ const WebviewStack = createStackNavigator({
     }
 });
 
+const QuizResultStack = createStackNavigator({
+    QuizResult: {
+        screen: QuizResultScreen,
+        navigationOptions:{
+            header: null,
+        }
+    }
+})
+
 const QuizStack = createStackNavigator({
     Quiz: {
         screen: QuizScreen,
         navigationOptions: {
             header: null,
         }
+
     },
     QuizResult: {
         screen: QuizResultScreen,
@@ -117,6 +127,12 @@ export const AppStackNavigator = createStackNavigator({
     },
     Quiz: {
         screen: QuizStack,
+        navigationOptions: ({navigation}) => ({
+            title: `${navigation.state.params.course.name} - ${navigation.state.params.quiz.title}`,
+        })
+    },
+    QuizResult: {
+        screen: QuizResultStack,
         navigationOptions: ({navigation}) => ({
             title: `${navigation.state.params.course.name} - ${navigation.state.params.quiz.title}`,
         })

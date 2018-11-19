@@ -7,6 +7,7 @@ import {
     TouchableOpacity
 } from 'react-native'
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
+import API from "../utils/api";
 
 class QuizScreen extends Component {
 
@@ -43,21 +44,79 @@ class QuizScreen extends Component {
 
     submit = () => {
 
-        // console.log("SUBMITTED");
-        // console.log("Student answres : " + this.state.studentAnswers)
-        // console.log("Correct answres : " + this.state.correctAnswers)
-
-        console.log("questions  :"+JSON.stringify(this.state.questions))
+        this.saveQuizResult();
 
         this.props.navigation.navigate('QuizResult', {
-                questions: this.state.questions,
-                answers: this.state.allAnswers,
-                studentAnswers: this.state.studentAnswers,
-                correctAnswers: this.state.correctAnswers,
+                student: this.state.student,
+                course: this.state.course,
+                quiz: this.state.quiz,
             }
         )
 
     }
+
+    saveQuizResult = () => {
+
+        const student = this.state.student;
+        const studentCourses = this.state.student.courses;
+        const currentCourseId = this.state.course._id;
+
+        var index = studentCourses.findIndex(c => {
+            return c.courseId == currentCourseId
+        })
+
+        const studentAnswers = this.state.studentAnswers;
+        const correctAnswers = this.state.correctAnswers;
+
+        var quizResult = {
+            quizId: this.state.quiz._id,
+            questions: this.state.questions,
+            answers: this.state.answers,
+            studentAnswers: studentAnswers,
+            correctAnswers: correctAnswers
+        }
+
+        studentCourses[index].quizResults.push(quizResult);
+
+        var correctAns = 0;
+
+        for(var u = 0 ; u < correctAnswers.length; u++){
+            if(correctAnswers[u] == studentAnswers[u]){
+                correctAns++;
+            }
+        }
+
+        var quizScore = (correctAns / correctAnswers.length) * 100;
+
+        var globalResult = {
+            title: this.state.quiz.title,
+            score: quizScore
+        }
+
+        studentCourses[index].globalResults.push(globalResult);
+
+        const globalResults = studentCourses[index].globalResults;
+
+        var totalScore = 0;
+
+        for(var g = 0 ; g < studentCourses[index].globalResults.length; g++){
+            totalScore+= studentCourses[index].globalResults[g].score;
+        }
+
+        console.log("TOTAL SCORE : "+totalScore);
+
+        var avgScore = (totalScore / globalResults.length);
+
+        console.log("AVG SCORE : "+avgScore);
+
+        studentCourses[index].globalScore = avgScore;
+
+        API.patchQuizResult(student._id, studentCourses)
+            .then((response) => {
+                console.log(response.data)
+            })
+    }
+
 
     constructor(props) {
         super(props);
@@ -75,15 +134,13 @@ class QuizScreen extends Component {
 
     componentDidMount() {
 
-        console.log("QUIZ " + this.props.navigation.getParam('quiz', 'error'))
-
-
         this.props.navigation.setParams({
             goBack: this.goBackToDashboard.bind(this)
         });
 
         this.setState({
             course: this.props.navigation.getParam('course', 'NO-COURSE'),
+            student: this.props.navigation.getParam('student', 'default'),
             quiz: this.props.navigation.getParam('quiz', 'default')
         })
     }

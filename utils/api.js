@@ -75,4 +75,22 @@ export default {
             })
     },
 
+    patchQuizResult: function (studentId, courses) {
+        return axios.patch(burl + "/student/" + studentId, [{
+                "propName": "courses", "value": courses
+            }]
+            , {
+                headers: headers
+            })
+    },
+
+    patchGlobalScore: function (studentId, courses) {
+        return axios.patch(burl + "/student/" + studentId, [{
+                "propName": "courses", "value": courses
+            }]
+            , {
+                headers: headers
+            })
+    }
+
 }

@@ -10,7 +10,7 @@ import {
 import Checkbox from 'react-native-modest-checkbox';
 import Entypo from 'react-native-vector-icons/Entypo';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
-
+import API from '../utils/api';
 
 class QuizResultScreen extends Component {
 
@@ -33,8 +33,6 @@ class QuizResultScreen extends Component {
 
         if (this.state.studentAnswers.includes(item) && !this.state.correctAnswers.includes(item)) {
 
-
-
             return (
                 <View>
                     <Checkbox
@@ -51,7 +49,6 @@ class QuizResultScreen extends Component {
         } else if (this.state.studentAnswers.includes(item) && this.state.correctAnswers.includes(item)) {
 
 
-
             return (
                 <View>
                     <Checkbox
@@ -66,7 +63,6 @@ class QuizResultScreen extends Component {
             )
 
         } else if (!this.state.studentAnswers.includes(item) && this.state.correctAnswers.includes(item)) {
-
 
 
             return (
@@ -101,60 +97,102 @@ class QuizResultScreen extends Component {
 
     calculPercentage = () => {
 
-        var percentage = this.state.correctNumber / this.state.questions.length * 100;
+        var percentage = (this.state.correctNumber / this.state.questions.length) * 100;
+        console.log("CORRECT : "+this.state.correctNumber)
+        console.log("ICCORRECT : "+this.state.incorrectNumber)
 
         this.setState({
             percentage: percentage
         })
-
     }
 
     checkAnswers = () => {
 
-        console.log("CALCUL")
-
         var correct = 0;
         var incorrect = 0;
 
-        for(var i = 0 ; i < this.state.questions.length; i++){
+        for (var i = 0; i < this.state.questions.length; i++) {
 
-            if(this.state.correctAnswers.includes(this.state.studentAnswers[i])){
-                console.log(this.state.studentAnswers[i])
-                console.log("CORRECT")
+            if (this.state.correctAnswers.includes(this.state.studentAnswers[i])) {
+                correct++;
                 this.setState({
-                    correctNumber: this.state.correctNumber+1
+                    correctNumber: correct
                 }, () => this.calculPercentage())
             }
-            else{
-                console.log(this.state.studentAnswers[i])
-                console.log("INCORRECT")
+            else {
+                incorrect++;
                 this.setState({
-                    incorrectNumber: this.state.incorrectNumber+1
+                    incorrectNumber: incorrect
                 }, () => this.calculPercentage())
             }
         }
 
     }
 
+    getResults = () => {
+
+        const student = this.state.student;
+        const studentCourses = this.state.student.courses;
+        const currentCourseId = this.state.course._id;
+        const currentQuizId = this.state.quiz._id;
+
+        var index = studentCourses.findIndex(c => {
+            return c.courseId == currentCourseId
+        })
+
+        const course = studentCourses[index];
+
+
+        var indexQuiz = course.quizResults.findIndex(q => {
+            return q.quizId == currentQuizId
+        })
+
+        const questions = course.quizResults[indexQuiz].questions;
+        const answers = course.quizResults[indexQuiz].answers;
+        const correctAnswers = course.quizResults[indexQuiz].correctAnswers;
+        const studentAnswers = course.quizResults[indexQuiz].studentAnswers;
+
+        this.setState({
+            questions: questions,
+            answers: answers,
+            correctAnswers: correctAnswers,
+            studentAnswers: studentAnswers,
+        }, () => this.checkAnswers())
+
+    }
+
     constructor(props) {
         super(props);
-        this.state = {questions: [], answers: [], correctAnswers: [], studentAnswers: [], incorrectNumber: 0, correctNumber: 0};
+        this.state = {
+            student: null,
+            course: null,
+            quiz: null,
+            questions: [],
+            answers: [],
+            correctAnswers: [],
+            studentAnswers: [],
+            incorrectNumber: 0,
+            correctNumber: 0
+        };
     }
 
     componentDidMount() {
 
+        const student = this.props.navigation.getParam('student', 'default');
+        const course = this.props.navigation.getParam('course', 'default');
+        const quiz = this.props.navigation.getParam('quiz', 'default')
+
         this.setState({
-            questions: this.props.navigation.getParam('questions', 'default'),
-            answers: this.props.navigation.getParam('answers', 'default'),
-            correctAnswers: this.props.navigation.getParam('correctAnswers', 'default'),
-            studentAnswers: this.props.navigation.getParam('studentAnswers', 'default'),
-        }, () => this.checkAnswers())
+            student: student,
+            course: course,
+            quiz: quiz
+        }, () => this.getResults());
+
     }
 
     render() {
 
         const percentage = (this.state.correctNumber / this.state.total) * 100;
-
 
         if (this.state.questions != null) {
 

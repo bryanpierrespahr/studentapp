@@ -13,6 +13,7 @@ import OcticonsIcon from 'react-native-vector-icons/Octicons';
 import SimpleLineIconsIcon from 'react-native-vector-icons/SimpleLineIcons';
 import ProgressBar from '../components/ProgressBar';
 import API from '../utils/api';
+import QuizResultScreen from "./QuizResultScreen";
 
 class OverviewScreen extends Component {
 
@@ -110,7 +111,9 @@ class OverviewScreen extends Component {
 
     handleOnPress = (item) => {
 
-        this.itemDone(item._id);
+        if (item.type != "quiz") {
+            this.itemDone(item._id);
+        }
 
         switch (item.type) {
             case 'link':
@@ -178,10 +181,34 @@ class OverviewScreen extends Component {
 
         const nav = this.props.screenProps.navigation;
 
-        nav.navigate('Quiz', {
-            quiz: quiz,
-            course: this.state.course
+        const studentId = this.state.student._id;
+        const studentCourses = this.state.student.courses;
+        const currentCourseId = this.state.course._id;
+
+        var index = studentCourses.findIndex(c => {
+            return c.courseId == currentCourseId
         })
+
+        if (this.state.student.courses[index].done.includes(quiz._id)) {
+            console.log("DEJA cliqué")
+
+            nav.navigate('QuizResult', {
+                quiz: quiz,
+                course: this.state.course,
+                student: this.state.student
+            })
+
+        } else {
+            console.log("FIRST TIME")
+            this.itemDone(quiz._id);
+
+            nav.navigate('Quiz', {
+                quiz: quiz,
+                course: this.state.course,
+                student: this.state.student
+            })
+
+        }
     }
 
     openLinkInWebView = (link) => {
@@ -494,75 +521,76 @@ class OverviewScreen extends Component {
 
 export default OverviewScreen;
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-    },
-    head: {
-        flex: 30,
-    },
-    body: {
-        flex: 70,
-    },
-    imageBackground: {
-        flex: 1,
-        alignSelf: 'center',
-        position: 'relative',
-    },
-    courseTitle: {
-        fontSize: 35,
-        fontWeight: 'bold',
-        marginTop: 25,
-    },
-    textHeader: {
-        flex: 1,
-    },
-    textFooter: {
-        flex: 1,
-        flexDirection: 'row',
-    },
-    progress: {
-        flex: 2,
-        justifyContent: 'flex-end',
-    },
-    schedule: {
-        flex: 1,
-        marginLeft: 20,
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end'
-    },
-    details: {
-        alignSelf: 'flex-start',
-        fontSize: 17,
-        fontWeight: '500',
-    },
-    week: {
-        width: 250,
-        backgroundColor: '#DCDCDC',
-        marginHorizontal: 8,
-        marginTop: 10,
-    },
-    weekTitle: {
-        fontSize: 16,
-        fontWeight: '600',
-        borderBottomWidth: 2,
-        borderBottomColor: 'black',
-        textAlign: 'center',
-        justifyContent: 'center',
-        marginVertical: 3,
-    },
-    weekContent: {
-        fontSize: 15,
-        paddingLeft: 8,
+const
+    styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            flexDirection: 'column',
+        },
+        head: {
+            flex: 30,
+        },
+        body: {
+            flex: 70,
+        },
+        imageBackground: {
+            flex: 1,
+            alignSelf: 'center',
+            position: 'relative',
+        },
+        courseTitle: {
+            fontSize: 35,
+            fontWeight: 'bold',
+            marginTop: 25,
+        },
+        textHeader: {
+            flex: 1,
+        },
+        textFooter: {
+            flex: 1,
+            flexDirection: 'row',
+        },
+        progress: {
+            flex: 2,
+            justifyContent: 'flex-end',
+        },
+        schedule: {
+            flex: 1,
+            marginLeft: 20,
+            alignItems: 'flex-end',
+            justifyContent: 'flex-end'
+        },
+        details: {
+            alignSelf: 'flex-start',
+            fontSize: 17,
+            fontWeight: '500',
+        },
+        week: {
+            width: 250,
+            backgroundColor: '#DCDCDC',
+            marginHorizontal: 8,
+            marginTop: 10,
+        },
+        weekTitle: {
+            fontSize: 16,
+            fontWeight: '600',
+            borderBottomWidth: 2,
+            borderBottomColor: 'black',
+            textAlign: 'center',
+            justifyContent: 'center',
+            marginVertical: 3,
+        },
+        weekContent: {
+            fontSize: 15,
+            paddingLeft: 8,
 
-    },
-    inline: {
-        marginVertical: 2,
-        paddingHorizontal: 10,
-        flexDirection: 'row'
-    },
-    ic: {
-        paddingTop: 5,
-    }
-})
+        },
+        inline: {
+            marginVertical: 2,
+            paddingHorizontal: 10,
+            flexDirection: 'row'
+        },
+        ic: {
+            paddingTop: 5,
+        }
+    })
