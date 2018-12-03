@@ -21,17 +21,9 @@ class DashboardScreen extends Component {
 
         this.props.navigation.navigate('Course', {
             course: course,
-           // weeks: course.weeks,
             student: this.state.student
         });
 
-
-    }
-
-
-    navigateToScreen = () => {
-
-        this.props.navigation.navigate('');
 
     }
 
@@ -39,6 +31,12 @@ class DashboardScreen extends Component {
 
         API.logout();
         this.props.navigation.navigate('Loading');
+
+        //TODO : add to render method
+        {/*<Button*/}
+            {/*size={50}*/}
+            {/*title='LOG OUT'*/}
+            {/*onPress={this.logout}></Button>*/}
 
     }
 
@@ -110,15 +108,6 @@ class DashboardScreen extends Component {
                                 </View>
                             </TouchableOpacity>}
                     />
-                    <Text>Email : {this.state.student.email}</Text>
-                    <Button
-                        size={50}
-                        title='TEST'
-                        onPress={this.navigateToScreen}></Button>
-                    <Button
-                        size={50}
-                        title='LOG OUT'
-                        onPress={this.logout}></Button>
                 </View>
             )
         }

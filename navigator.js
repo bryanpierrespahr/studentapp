@@ -98,10 +98,6 @@ export default CourseTabNavigator = createBottomTabNavigator({
     order: ['Overview', 'Infos', 'Achievements']
 });
 
-// CourseTabNavigator.navigationOptions = {
-//     // Hide the header from AppNavigator stack
-//     header: null,
-// };
 
 CourseTabNavigator.navigationOptions = ({navigation}) => {
 
@@ -138,12 +134,3 @@ export const AppStackNavigator = createStackNavigator({
         })
     }
 })
-
-// export const AuthStackNavigator = createStackNavigator({
-//     Login: {
-//         screen: LoginScreen,
-//         navigationOptions: {
-//             header: null,
-//         }
-//     },
-// })

@@ -22,7 +22,6 @@ class LoadingScreen extends Component {
 
 
         } catch (error) {
-            console.log("Error retrieving token");
         }
 
         return token;

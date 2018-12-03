@@ -103,11 +103,7 @@ class QuizScreen extends Component {
             totalScore+= studentCourses[index].globalResults[g].score;
         }
 
-        console.log("TOTAL SCORE : "+totalScore);
-
         var avgScore = (totalScore / globalResults.length);
-
-        console.log("AVG SCORE : "+avgScore);
 
         studentCourses[index].globalScore = avgScore;
 

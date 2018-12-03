@@ -7,6 +7,7 @@ import {
     ScrollView
 } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import API from "../utils/api";
 
 class InfosScreen extends Component {
 
@@ -27,7 +28,7 @@ class InfosScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {course: null};
+        this.state = {course: null, teacher: null};
     }
 
     componentDidMount() {
@@ -36,9 +37,19 @@ class InfosScreen extends Component {
             goBack: this.goBackToDashboard.bind(this)
         });
 
+        const course = this.props.screenProps.course;
+
         this.setState({
-            course: this.props.screenProps.course,
+            course: course
         })
+
+        API.getTeacher(course.teacherId)
+            .then((data) => {
+                this.setState({
+                    teacher: data.data
+                })
+            })
+
     }
 
     goBackToDashboard() {
@@ -50,9 +61,10 @@ class InfosScreen extends Component {
 
     render() {
 
-        if (this.state.course != null) {
+        if (this.state.course != null && this.state.teacher != null) {
 
             const course = this.state.course;
+            const teacher = this.state.teacher;
 
             return (
                 <View style={styles.container}>
@@ -67,8 +79,8 @@ class InfosScreen extends Component {
                     <View style={styles.body}>
                         <ScrollView>
                             <Text style={styles.subTitle}>Teacher</Text>
-                            <Text style={styles.paragraph}>Name : {course.teacher.name}</Text>
-                            <Text style={styles.paragraph}>Email : {course.teacher.email}</Text>
+                            <Text style={styles.paragraph}>Name : {teacher.firstName} {teacher.lastName}</Text>
+                            <Text style={styles.paragraph}>Email : {teacher.email}</Text>
                             <Text style={styles.subTitle}>Course Description</Text>
                             <Text style={styles.paragraph}>Name : {course.name}</Text>
                             <Text style={styles.paragraph}>Code : {course.code}</Text>

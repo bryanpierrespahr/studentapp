@@ -84,8 +84,6 @@ class AchievementsScreen extends Component {
 
     renderResults = ({item, index}) => {
 
-        console.log("LOG");
-
         return (
 
             <View style={styles.result}>

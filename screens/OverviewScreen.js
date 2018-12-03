@@ -143,7 +143,6 @@ class OverviewScreen extends Component {
             studentCourses[index].done.push(itemId);
             API.patchDoneArray(studentId, studentCourses)
                 .then((response) => {
-                    console.log(response.data);
                 }).then(() => {
                 this.adjustPercentage(index)
             })
@@ -199,7 +198,6 @@ class OverviewScreen extends Component {
             })
 
         } else {
-            console.log("FIRST TIME")
             this.itemDone(quiz._id);
 
             nav.navigate('Quiz', {
@@ -426,9 +424,6 @@ class OverviewScreen extends Component {
 
 
         if (this.state.course != null && this.state.counter == this.state.currentCounter) {
-
-            console.log("RENDERING")
-            console.log(this.state.percentage)
 
             //Array of weeks
             const weeks = this.state.weeks;

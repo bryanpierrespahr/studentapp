@@ -48,6 +48,10 @@ export default {
         return axios.get(burl + "/lecture/" + lectureId);
     },
 
+    getTeacher: function (teacherId) {
+        return axios.get(burl + "/teacher/" + teacherId);
+    },
+
     patchTimeSpent: function (studentId, courses) {
         return axios.patch(burl + "/student/" + studentId, [{
                 "propName": "courses", "value": courses

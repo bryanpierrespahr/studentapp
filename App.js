@@ -10,3 +10,5 @@ export default createSwitchNavigator({
     Auth: LoginScreen,
     App: AppStackNavigator
 })
+
+console.disableYellowBox = true;

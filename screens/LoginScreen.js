@@ -21,7 +21,6 @@ class LoginScreen extends Component {
             await AsyncStorage.setItem("student", JSON.stringify(student))
 
         } catch (error) {
-            console.log("Error setting token");
         }
     }
 

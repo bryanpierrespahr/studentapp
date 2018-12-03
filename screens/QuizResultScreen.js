@@ -98,8 +98,6 @@ class QuizResultScreen extends Component {
     calculPercentage = () => {
 
         var percentage = (this.state.correctNumber / this.state.questions.length) * 100;
-        console.log("CORRECT : "+this.state.correctNumber)
-        console.log("ICCORRECT : "+this.state.incorrectNumber)
 
         this.setState({
             percentage: percentage

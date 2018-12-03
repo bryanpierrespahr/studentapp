@@ -25,7 +25,6 @@ class CourseScreen extends Component {
 
         API.patchTimeSpent(studentId, courses)
             .then((response) => {
-                console.log(response.data);
             })
     }
 
@@ -67,6 +66,7 @@ class CourseScreen extends Component {
     render() {
 
         if (this.state.course != null) {
+
             return (
                 <CourseTabNavigator
                     screenProps={{
