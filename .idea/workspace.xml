@@ -2,19 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4a3dccde-4f22-4c5f-8737-3516fd038d7a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/App.js" afterPath="$PROJECT_DIR$/App.js" />
-      <change beforePath="$PROJECT_DIR$/navigator.js" afterPath="$PROJECT_DIR$/navigator.js" />
       <change beforePath="$PROJECT_DIR$/screens/AchievementsScreen.js" afterPath="$PROJECT_DIR$/screens/AchievementsScreen.js" />
-      <change beforePath="$PROJECT_DIR$/screens/CourseScreen.js" afterPath="$PROJECT_DIR$/screens/CourseScreen.js" />
-      <change beforePath="$PROJECT_DIR$/screens/DashboardScreen.js" afterPath="$PROJECT_DIR$/screens/DashboardScreen.js" />
-      <change beforePath="$PROJECT_DIR$/screens/InfosScreen.js" afterPath="$PROJECT_DIR$/screens/InfosScreen.js" />
-      <change beforePath="$PROJECT_DIR$/screens/LoadingScreen.js" afterPath="$PROJECT_DIR$/screens/LoadingScreen.js" />
-      <change beforePath="$PROJECT_DIR$/screens/LoginScreen.js" afterPath="$PROJECT_DIR$/screens/LoginScreen.js" />
       <change beforePath="$PROJECT_DIR$/screens/OverviewScreen.js" afterPath="$PROJECT_DIR$/screens/OverviewScreen.js" />
-      <change beforePath="$PROJECT_DIR$/screens/QuizResultScreen.js" afterPath="$PROJECT_DIR$/screens/QuizResultScreen.js" />
-      <change beforePath="$PROJECT_DIR$/screens/QuizScreen.js" afterPath="$PROJECT_DIR$/screens/QuizScreen.js" />
-      <change beforePath="$PROJECT_DIR$/utils/api.js" afterPath="$PROJECT_DIR$/utils/api.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -28,7 +17,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="navigator.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AchievementsScreen.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/screens/AchievementsScreen.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="266">
+              <caret line="198" column="29" lean-forward="true" selection-start-line="198" selection-start-column="29" selection-end-line="198" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InfosScreen.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/screens/InfosScreen.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="583">
+              <caret line="132" column="35" lean-forward="true" selection-start-line="131" selection-start-column="8" selection-end-line="132" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="navigator.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/navigator.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="624">
@@ -49,10 +58,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>openQ</find>
-      <find>openQUi</find>
-      <find>save</find>
-      <find>q.quizI</find>
       <find>openqui</find>
       <find>this.save</find>
       <find>submit</find>
@@ -79,6 +84,10 @@
       <find>console.log</find>
       <find>course.teach</find>
       <find>email</find>
+      <find>courseId</find>
+      <find>c.course</find>
+      <find>index</find>
+      <find>flex</find>
     </findStrings>
     <replaceStrings>
       <replace>\'</replace>
@@ -105,13 +114,13 @@
         <option value="$PROJECT_DIR$/screens/OverviewScreen.js" />
         <option value="$PROJECT_DIR$/screens/QuizResultScreen.js" />
         <option value="$PROJECT_DIR$/screens/QuizScreen.js" />
-        <option value="$PROJECT_DIR$/screens/AchievementsScreen.js" />
         <option value="$PROJECT_DIR$/App.js" />
         <option value="$PROJECT_DIR$/screens/CourseScreen.js" />
         <option value="$PROJECT_DIR$/utils/api.js" />
         <option value="$PROJECT_DIR$/screens/InfosScreen.js" />
         <option value="$PROJECT_DIR$/screens/DashboardScreen.js" />
         <option value="$PROJECT_DIR$/navigator.js" />
+        <option value="$PROJECT_DIR$/screens/AchievementsScreen.js" />
       </list>
     </option>
   </component>
@@ -248,12 +257,12 @@
       <workItem from="1542363326782" duration="7639000" />
       <workItem from="1542440421284" duration="29143000" />
       <workItem from="1542629437990" duration="7046000" />
-      <workItem from="1543826620532" duration="2062000" />
+      <workItem from="1543826620532" duration="6379000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="165132000" />
+    <option name="totallyTimeSpent" value="169449000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -307,7 +316,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="3" />
+      <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -612,16 +621,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/screens/AchievementsScreen.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="122" column="14" lean-forward="true" selection-start-line="122" selection-start-column="14" selection-end-line="122" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#38#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/screens/CourseScreen.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="428">
@@ -636,14 +635,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="651">
           <caret line="48" column="6" lean-forward="true" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/screens/InfosScreen.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="57" column="34" lean-forward="true" selection-start-line="57" selection-start-column="34" selection-end-line="57" selection-end-column="34" />
           <folding />
         </state>
       </provider>
@@ -668,6 +659,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="624">
           <caret line="34" column="17" lean-forward="true" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/screens/InfosScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="583">
+          <caret line="132" column="35" lean-forward="true" selection-start-line="131" selection-start-column="8" selection-end-line="132" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/screens/AchievementsScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="198" column="29" lean-forward="true" selection-start-line="198" selection-start-column="29" selection-end-line="198" selection-end-column="29" />
           <folding />
         </state>
       </provider>

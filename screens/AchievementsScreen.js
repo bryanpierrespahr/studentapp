@@ -27,6 +27,7 @@ class AchievementsScreen extends Component {
         this.getResults();
         this.getStatistics();
     }
+
     getResults = () => {
 
         const studentCourses = this.state.student.courses;
@@ -37,8 +38,11 @@ class AchievementsScreen extends Component {
         })
 
         this.setState({
-            results: this.state.student.courses[index].globalResults
+            results: this.state.student.courses[index].globalResults,
+            globalScore: this.state.student.courses[index].globalScore
         })
+
+
     }
     getStatistics = () => {
 
@@ -88,15 +92,40 @@ class AchievementsScreen extends Component {
 
             <View style={styles.result}>
                 <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.score}>{item.score}</Text>
+                <Text style={styles.score}>{item.score} %</Text>
             </View>
         )
 
     }
 
+    // getGlobalScore = () => {
+    //
+    //     const studentId = this.state.student._id;
+    //     const studentCourses = this.state.student.courses;
+    //     const currentCourseId = this.state.course._id;
+    //
+    //     var index = studentCourses.findIndex(c => {
+    //         return c.courseId == currentCourseId
+    //     })
+    //
+    //     this.setState({
+    //         globalScore: this.state.student.courses[index].globalScore
+    //     })
+    //
+    //
+    // }
+
     constructor(props) {
         super(props);
-        this.state = {course: null, student: null, results: [], hourSpent: 0, minuteSpent: 0, secondSpent: 0};
+        this.state = {
+            course: null,
+            student: null,
+            results: [],
+            hourSpent: 0,
+            minuteSpent: 0,
+            secondSpent: 0,
+            globalScore: 0
+        };
     }
 
     componentDidMount() {
@@ -124,14 +153,22 @@ class AchievementsScreen extends Component {
 
             return (
                 <View style={styles.container}>
-                    <Text>Results</Text>
+                    <Text style={styles.resultsTitle}>Results</Text>
                     <FlatList
+                        style={styles.flatList}
                         data={this.state.results}
                         renderItem={this.renderResults}
                         keyExtrator={(item, index) => index.toString()}/>
-                    <Text>Total time spent : {this.state.hourSpent} hours&#32;
-                        {this.state.minuteSpent} minutes&#32;
+                    <View style={styles.average}>
+                        <Text style={styles.averageTitle}>Average</Text>
+                        <Text style={styles.averageScore}>{this.state.globalScore} %</Text>
+                    </View>
+                    <Text style={styles.timeSpentTitle}>Total time spent</Text>
+                    <Text style={styles.timeSpentText}>{this.state.hourSpent} hours&nbsp;
+                        {this.state.minuteSpent} minutes&nbsp;
                         {this.state.secondSpent} seconds </Text>
+
+
                 </View>
             )
 
@@ -147,17 +184,90 @@ class AchievementsScreen extends Component {
 export default AchievementsScreen;
 
 const styles = StyleSheet.create({
+
     container: {
         flex: 1,
         flexDirection: 'column'
     },
 
-    result: {
-        flex: 1,
-        flexDirection: 'row',
+    resultsTitle: {
+        alignSelf: "center",
+        fontSize: 26,
+        fontWeight: 'bold',
+        marginTop: 15,
+        marginBottom: 15,
+        borderBottomWidth: 2,
+        borderBottomColor: 'black',
     },
 
-    title: {},
+    timeSpentTitle: {
 
-    score: {},
+        alignSelf: "center",
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginTop: 20,
+        marginBottom: 15,
+        borderBottomWidth: 2,
+        borderBottomColor: 'black',
+    },
+
+    result: {
+        flexDirection: 'row',
+        marginBottom: 4,
+
+    },
+
+    average: {
+
+        paddingTop: 5,
+        marginTop: 5,
+        paddingLeft: 5,
+        marginLeft: 60,
+        marginRight: 100,
+        flexDirection: 'row',
+        marginBottom: 5,
+        paddingBottom: 5,
+        borderTopWidth: 1,
+        borderTopColor: 'black',
+        borderBottomWidth: 3,
+        borderBottomColor: 'black',
+    },
+
+    flatList: {
+        flexGrow: 0
+    },
+
+    title: {
+        flex: 1,
+        marginLeft: 65,
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+
+    averageTitle: {
+
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+
+    averageScore: {
+
+        marginRight: 50,
+        marginLeft: 120,
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+
+    score: {
+        flex: 1,
+        marginRight: 10,
+        marginLeft: 60,
+        fontSize: 18,
+    },
+
+    timeSpentText: {
+        alignSelf: 'center',
+        fontSize: 18,
+    },
+
 })

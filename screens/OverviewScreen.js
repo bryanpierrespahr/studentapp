@@ -189,7 +189,6 @@ class OverviewScreen extends Component {
         })
 
         if (this.state.student.courses[index].done.includes(quiz._id)) {
-            console.log("DEJA cliqué")
 
             nav.navigate('QuizResult', {
                 quiz: quiz,
