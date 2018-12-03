@@ -87,7 +87,7 @@ class LoadingScreen extends Component {
                 student = json;
             }).then(() => {
 
-            this.props.navigation.navigate('Dashboard', {
+            this.props.navigation.navigate('Home', {
                 student: student
             })
         })

@@ -98,23 +98,6 @@ class AchievementsScreen extends Component {
 
     }
 
-    // getGlobalScore = () => {
-    //
-    //     const studentId = this.state.student._id;
-    //     const studentCourses = this.state.student.courses;
-    //     const currentCourseId = this.state.course._id;
-    //
-    //     var index = studentCourses.findIndex(c => {
-    //         return c.courseId == currentCourseId
-    //     })
-    //
-    //     this.setState({
-    //         globalScore: this.state.student.courses[index].globalScore
-    //     })
-    //
-    //
-    // }
-
     constructor(props) {
         super(props);
         this.state = {
@@ -175,7 +158,6 @@ class AchievementsScreen extends Component {
         }
 
         return null;
-
 
     }
 

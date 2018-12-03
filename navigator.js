@@ -8,11 +8,14 @@ import WebViewScreen from "./screens/WebViewScreen";
 import QuizScreen from "./screens/QuizScreen";
 import CourseScreen from "./screens/CourseScreen";
 import QuizResultScreen from "./screens/QuizResultScreen";
+import RecommendationScreen from "./screens/RecommendationScreen";
+import HomeScreen from "./screens/HomeScreen";
 
 
 const OverviewStack = createStackNavigator({
     Overview: OverviewScreen
 });
+
 
 const InfosStack = createStackNavigator({
     Infos: InfosScreen
@@ -111,7 +114,9 @@ CourseTabNavigator.navigationOptions = ({navigation}) => {
 }
 
 export const AppStackNavigator = createStackNavigator({
+    Home: {screen: HomeScreen},
     Dashboard: {screen: DashboardScreen},
+    Recommendation: {screen: RecommendationScreen},
     Course: {
         screen: CourseScreen,
     },

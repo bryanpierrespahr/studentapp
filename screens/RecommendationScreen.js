@@ -11,35 +11,27 @@ import {
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import API from '../utils/api';
 
-class DashboardScreen extends Component {
+class HomeScreen extends Component {
 
     static navigationOptions = {
-        title: 'Dashboard',
+        title: 'Home',
     };
 
-    onPress = (course) => {
-
-        this.props.navigation.navigate('Course', {
-            course: course,
-            student: this.state.student
-        });
-
-
-    }
+    // onPress = (course) => {
+    //
+    //     this.props.navigation.navigate('Course', {
+    //         course: course,
+    //         student: this.state.student
+    //     });
+    //
+    // }
 
     logout = () => {
 
         API.logout();
         this.props.navigation.navigate('Loading');
 
-        //TODO : add to render method
-        {/*<Button*/}
-            {/*size={50}*/}
-            {/*title='LOG OUT'*/}
-            {/*onPress={this.logout}></Button>*/}
-
     }
-
     getCourses = (studentCourses) => {
 
         var courses = [];
@@ -79,33 +71,33 @@ class DashboardScreen extends Component {
 
         this.getCourses(student.courses);
 
-
     }
 
     render() {
 
-        if (this.state.student != null && this.state.courses != null) {
+        if (this.state.student != null) {
 
             return (
                 <View style={styles.container}>
-                    <FlatList
-                        data={this.state.courses}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({item}) =>
-                            <TouchableOpacity onPress={() => this.onPress(item)}>
-                                <View style={styles.course}>
-                                    <Text style={styles.courseName}>
-                                        {item.name}
-                                    </Text>
-                                    <IoniconsIcon
-                                        style={styles.ic}
-                                        name='ios-arrow-forward'
-                                        backgroundColor='white'
-                                        color='black'
-                                        size={30}/>
-                                </View>
-                            </TouchableOpacity>}
-                    />
+
+                    <TouchableOpacity onPress={() => this.logout}>
+                        <View style={styles.course}>
+                            <Text style={styles.courseName}>
+                                LOG OUT
+                            </Text>
+                            <IoniconsIcon
+                                style={styles.ic}
+                                name='ios-arrow-forward'
+                                backgroundColor='white'
+                                color='black'
+                                size={30}/>
+                        </View>
+                    </TouchableOpacity>}
+
+                    <Button
+                        size={50}
+                        title='LOG OUT'
+                        onPress={this.logout}></Button>
                 </View>
             )
         }
@@ -116,7 +108,7 @@ class DashboardScreen extends Component {
 
 }
 
-export default DashboardScreen;
+export default HomeScreen;
 
 const styles = StyleSheet.create({
     container: {
