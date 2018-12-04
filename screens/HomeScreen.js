@@ -60,12 +60,12 @@ class HomeScreen extends Component {
             student: student
         })
 
-        API.getStudent(student._id)
-            .then((data) => {
-                this.setState({
-                    student: data.data
-                })
-            })
+        // API.getStudent(student._id)
+        //     .then((data) => {
+        //         this.setState({
+        //             student: data.data
+        //         })
+        //     })
 
         this.getCourses(student.courses);
 
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         paddingVertical: 4,
         flexDirection: 'row',
-        backgroundColor: '#D3D3D3',
+        backgroundColor: '#90EE90',
         marginVertical: 8,
         borderRadius: 10,
     },

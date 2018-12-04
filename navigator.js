@@ -8,7 +8,7 @@ import WebViewScreen from "./screens/WebViewScreen";
 import QuizScreen from "./screens/QuizScreen";
 import CourseScreen from "./screens/CourseScreen";
 import QuizResultScreen from "./screens/QuizResultScreen";
-import RecommendationScreen from "./screens/RecommendationScreen";
+import RecommendationScreen from "./screens/RecoScreen";
 import HomeScreen from "./screens/HomeScreen";
 
 

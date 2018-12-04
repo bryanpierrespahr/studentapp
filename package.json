@@ -11,7 +11,10 @@
   "dependencies": {
     "axios": "^0.18.0",
     "expo": "^31.0.2",
+    "moment": "^2.22.2",
+    "moment-timezone": "^0.5.23",
     "react": "16.5.0",
+    "react-moment": "^0.8.4",
     "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
     "react-native-check-box": "^2.1.6",
     "react-native-flexi-radio-button": "^0.2.2",

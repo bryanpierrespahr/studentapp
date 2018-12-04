@@ -27,19 +27,6 @@ class DashboardScreen extends Component {
 
     }
 
-    logout = () => {
-
-        API.logout();
-        this.props.navigation.navigate('Loading');
-
-        //TODO : add to render method
-        {/*<Button*/}
-            {/*size={50}*/}
-            {/*title='LOG OUT'*/}
-            {/*onPress={this.logout}></Button>*/}
-
-    }
-
     getCourses = (studentCourses) => {
 
         var courses = [];
@@ -70,12 +57,6 @@ class DashboardScreen extends Component {
             student: student
         })
 
-        API.getStudent(student._id)
-            .then((data) => {
-                this.setState({
-                    student: data.data
-                })
-            })
 
         this.getCourses(student.courses);
 
