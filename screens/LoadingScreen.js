@@ -81,7 +81,7 @@ class LoadingScreen extends Component {
 
         var student = null;
 
-        fetch("http://192.168.1.100:3001/student/5bebf038a58c013f583b38c1")
+        fetch("http://192.168.0.102:3001/student/5bebf038a58c013f583b38c1")
             .then((response) => response.json())
             .then((json) => {
                 student = json;

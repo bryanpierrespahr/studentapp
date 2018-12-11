@@ -72,12 +72,12 @@ class RecommendationScreen extends Component {
     }
 
     orderFavoritesCourses = (a, b) => {
-        if (a.total < b.total)
-            return -1;
         if (a.total > b.total)
+            return -1;
+        if (a.total < b.total)
             return 1;
         if (a.total = b.total) {
-            if (a.timeSpent > b.timeSpent)
+            if (a.timeSpent < b.timeSpent)
                 return 1;
             else
                 return -1;
@@ -115,8 +115,9 @@ class RecommendationScreen extends Component {
             }
         }
 
+        console.log(JSON.stringify(path)+" BEFORE")
         path.sort((a, b) => (a.points < b.points) ? 1 : ((b.points < a.points) ? -1 : 0));
-
+        console.log(JSON.stringify(path)+" AFTER")
 
         this.setState({
             favoriteCourses: courses,

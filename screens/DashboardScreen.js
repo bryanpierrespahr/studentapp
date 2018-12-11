@@ -40,7 +40,9 @@ class DashboardScreen extends Component {
                         courses: courses
                     })
                 })
+
         }
+
 
     }
 
@@ -66,6 +68,10 @@ class DashboardScreen extends Component {
     render() {
 
         if (this.state.student != null && this.state.courses != null) {
+
+            const courses = this.state.courses;
+
+            courses.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
 
             return (
                 <View style={styles.container}>
@@ -107,7 +113,7 @@ const styles = StyleSheet.create({
     course: {
         flexDirection: 'row',
         height: 30,
-        backgroundColor: '#D3D3D3',
+        backgroundColor: '#90EE90',
         marginVertical: 6,
     },
     courseName: {

@@ -160,7 +160,7 @@ class OverviewScreen extends Component {
 
             }).then(() => {
 
-            var percentage = (doneLength / this.state.counter) * 100;
+            var percentage = Math.round((doneLength / this.state.counter) * 100);
 
             this.setState({
                 percentage: percentage
@@ -240,7 +240,7 @@ class OverviewScreen extends Component {
 
         for (var i = 0; i < weeksId.length; i++) {
             fetches.push(
-                fetch("http://192.168.1.100:3001/week/" + weeksId[i])
+                fetch("http://192.168.0.102:3001/week/" + weeksId[i])
                     .then((response) => response.json())
                     .then((week) => {
                         var week = week;
@@ -293,7 +293,7 @@ class OverviewScreen extends Component {
 
         for (var i = 0; i < lecturesId.length; i++) {
             fetches.push(
-                fetch("http://192.168.1.100:3001/lecture/" + lecturesId[i])
+                fetch("http://192.168.0.102:3001/lecture/" + lecturesId[i])
                     .then((response) => response.json())
                     .then((lecture) => {
                         currentCounter++;
@@ -322,7 +322,7 @@ class OverviewScreen extends Component {
 
         for (var i = 0; i < quizzesId.length; i++) {
             fetches.push(
-                fetch("http://192.168.1.100:3001/quiz/" + quizzesId[i])
+                fetch("http://192.168.0.102:3001/quiz/" + quizzesId[i])
                     .then((response) => response.json())
                     .then((quiz) => {
                         currentCounter++;
@@ -350,7 +350,7 @@ class OverviewScreen extends Component {
 
         for (var i = 0; i < linksId.length; i++) {
             fetches.push(
-                fetch("http://192.168.1.100:3001/link/" + linksId[i])
+                fetch("http://192.168.0.102:3001/link/" + linksId[i])
                     .then((response) => response.json())
                     .then((link) => {
                         currentCounter++;
@@ -523,6 +523,7 @@ const
         },
         head: {
             flex: 30,
+            backgroundColor : '#90EE90',
         },
         body: {
             flex: 70,
