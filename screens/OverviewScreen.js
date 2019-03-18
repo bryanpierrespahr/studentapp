@@ -13,9 +13,11 @@ import OcticonsIcon from 'react-native-vector-icons/Octicons';
 import SimpleLineIconsIcon from 'react-native-vector-icons/SimpleLineIcons';
 import ProgressBar from '../components/ProgressBar';
 import API from '../utils/api';
+import moment from 'moment';
 import QuizResultScreen from "./QuizResultScreen";
 
 class OverviewScreen extends Component {
+
 
     static navigationOptions = ({navigation}) => {
 
@@ -140,11 +142,22 @@ class OverviewScreen extends Component {
 
         if (studentCourses[index].done.indexOf(itemId) == -1) {
 
-            studentCourses[index].done.push(itemId);
+            var itemDone = {
+                "id": itemId,
+                "timeSpent": 0
+            }
+
+            console.log("Item done : " + itemDone);
+
+            studentCourses[index].done.push(itemDone);
+
+            console.log("StudentCourses done array " + studentCourses[index].done);
+
             API.patchDoneArray(studentId, studentCourses)
                 .then((response) => {
                 }).then(() => {
                 this.adjustPercentage(index)
+                console.log("PATCHED")
             })
         }
 
@@ -188,7 +201,22 @@ class OverviewScreen extends Component {
             return c.courseId == currentCourseId
         })
 
-        if (this.state.student.courses[index].done.includes(quiz._id)) {
+        var alreadyDone = false;
+
+        var doneArray = this.state.student.courses[index].done;
+
+        for (var i = 0; i < doneArray.length; i++) {
+
+            console.log("Done id : "+doneArray[i].id)
+            console.log("Quiz id : "+quiz._id)
+
+            if (doneArray[i].id == quiz._id) {
+                alreadyDone = true;
+            }
+        }
+
+        if (alreadyDone) {
+            // if (this.state.student.courses[index].done.includes(quiz._id)) {
 
             nav.navigate('QuizResult', {
                 quiz: quiz,
@@ -214,7 +242,10 @@ class OverviewScreen extends Component {
 
         nav.navigate('WebView', {
             title: link.title,
-            uri: link.link
+            uri: link.link,
+            item: link,
+            student: this.state.student,
+            course: this.state.course
         });
 
     }
@@ -225,7 +256,10 @@ class OverviewScreen extends Component {
 
         nav.navigate('WebView', {
             title: pdf.title,
-            uri: pdf.link
+            uri: pdf.link,
+            item: pdf,
+            student: this.state.student,
+            course: this.state.course
         })
     }
 
@@ -233,6 +267,7 @@ class OverviewScreen extends Component {
     getWeeks = () => {
 
         const weeksId = this.state.course.weeksId;
+        const burl = "http://backend-backend.7e14.starter-us-west-2.openshiftapps.com/week/"
 
 
         var weeks = [];
@@ -240,7 +275,7 @@ class OverviewScreen extends Component {
 
         for (var i = 0; i < weeksId.length; i++) {
             fetches.push(
-                fetch("http://192.168.0.102:3001/week/" + weeksId[i])
+                fetch(burl + weeksId[i])
                     .then((response) => response.json())
                     .then((week) => {
                         var week = week;
@@ -286,6 +321,8 @@ class OverviewScreen extends Component {
 
     getLectures = (lecturesId) => {
 
+        const burl = "http://backend-backend.7e14.starter-us-west-2.openshiftapps.com/lecture/"
+
 
         var currentCounter = 0;
         var lectures = this.state.lectures;
@@ -293,7 +330,7 @@ class OverviewScreen extends Component {
 
         for (var i = 0; i < lecturesId.length; i++) {
             fetches.push(
-                fetch("http://192.168.0.102:3001/lecture/" + lecturesId[i])
+                fetch(burl + lecturesId[i])
                     .then((response) => response.json())
                     .then((lecture) => {
                         currentCounter++;
@@ -319,10 +356,11 @@ class OverviewScreen extends Component {
         var fetches = [];
         var currentCounter = 0;
 
+        const burl = "http://backend-backend.7e14.starter-us-west-2.openshiftapps.com/quiz/"
 
         for (var i = 0; i < quizzesId.length; i++) {
             fetches.push(
-                fetch("http://192.168.0.102:3001/quiz/" + quizzesId[i])
+                fetch(burl + quizzesId[i])
                     .then((response) => response.json())
                     .then((quiz) => {
                         currentCounter++;
@@ -348,9 +386,11 @@ class OverviewScreen extends Component {
         var fetches = [];
         var currentCounter = 0;
 
+        const burl = "http://backend-backend.7e14.starter-us-west-2.openshiftapps.com/link/"
+
         for (var i = 0; i < linksId.length; i++) {
             fetches.push(
-                fetch("http://192.168.0.102:3001/link/" + linksId[i])
+                fetch(burl + linksId[i])
                     .then((response) => response.json())
                     .then((link) => {
                         currentCounter++;
@@ -387,7 +427,7 @@ class OverviewScreen extends Component {
 
     componentDidMount() {
 
-        console.log("DID MOUNT");
+        console.log(" overview screen DID MOUNT");
 
         this.props.navigation.setParams({
             goBack: this.goBackToDashboard.bind(this),
@@ -430,50 +470,81 @@ class OverviewScreen extends Component {
             const links = this.state.links;
             const quizzes = this.state.quizzes;
 
+
             for (var i = 0; i < weeks.length; i++) {
 
-                //Create an array for content
-                var content = [];
+                var content2 = [];
 
-                for (var z = 1; z < 6; z++) {
-
-                    //Loop through lectures array
-                    for (let a = 0; a < lectures.length; a++) {
-
-                        //if no = current no
-                        if (lectures[a].weekNo == (i + 1) && lectures[a].no == z) {
-                            content.push(lectures[a])
-                        }
-                    }
-
-                    //Loop through lectures array
-                    for (let b = 0; b < links.length; b++) {
-
-                        //if no = current no
-                        if (links[b].weekNo == (i + 1) && links[b].no == z) {
-                            content.push(links[b])
-                        }
-                    }
-
-                    //Loop through quizzes array
-                    for (let c = 0; c < quizzes.length; c++) {
-
-                        //if no = current no
-                        if (quizzes[c].weekNo == (i + 1) && quizzes[c].no == z) {
-                            content.push(quizzes[c])
-                        }
-                    }
-
+                for (var lec = 0; lec < lectures.length; lec++) {
+                    if (lectures[lec].weekNo == i + 1)
+                        content2.push(lectures[lec])
                 }
 
-                //Add content property & array to the week
-                weeks[i].content = content;
+                for (var link = 0; link < links.length; link++) {
+                    if (links[link].weekNo == i + 1)
+                        content2.push(links[link])
+                }
 
-                //Empty array
-                content = [];
+                for (var q = 0; q < quizzes.length; q++) {
+                    if (quizzes[q].weekNo == i + 1)
+                        content2.push(quizzes[q])
+                }
+
+                weeks[i].content = content2;
+
+                content2 = [];
             }
 
+            //
+            // for (var i = 0; i < weeks.length; i++) {
+            //
+            //     //Create an array for content
+            //     var content = [];
+            //
+            //
+            //     for (var z = 1; z < 10; z++) {
+            //
+            //         //Loop through lectures array
+            //         for (let a = 0; a < lectures.length; a++) {
+            //
+            //             //if no = current no
+            //             if (lectures[a].weekNo == (i + 1) && lectures[a].no == z) {
+            //                 content.push(lectures[a])
+            //             }
+            //         }
+            //
+            //         //Loop through lectures array
+            //         for (let b = 0; b < links.length; b++) {
+            //
+            //             //if no = current no
+            //             if (links[b].weekNo == (i + 1) && links[b].no == z) {
+            //                 content.push(links[b])
+            //             }
+            //         }
+            //
+            //         //Loop through quizzes array
+            //         for (let c = 0; c < quizzes.length; c++) {
+            //
+            //             //if no = current no
+            //             if (quizzes[c].weekNo == (i + 1) && quizzes[c].no == z) {
+            //                 content.push(quizzes[c])
+            //             }
+            //         }
+            //
+            //     }
+            //
+            //     //Add content property & array to the week
+            //     weeks[i].content = content;
+            //
+            //     //Empty array
+            //     content = [];
+            // }
+
             const course = this.state.course;
+            const startHour = moment(course.schedule.startHour).format('LT');
+            const endHour = moment(course.schedule.endHour).format('LT');
+
+            console.log("start hour " + startHour);
 
             return (
                 <View style={styles.container}>
@@ -489,7 +560,7 @@ class OverviewScreen extends Component {
                                 </View>
                                 <View style={styles.schedule}>
                                     <Text style={styles.details}>{course.schedule.day}</Text>
-                                    <Text style={styles.details}>{course.schedule.hour}</Text>
+                                    <Text style={styles.details}>{startHour} - {endHour}</Text>
                                     <Text style={styles.details}>Room {course.schedule.room}</Text>
                                 </View>
                             </View>
@@ -523,41 +594,47 @@ const
         },
         head: {
             flex: 30,
-            backgroundColor : '#90EE90',
+            backgroundColor: '#83C669',
+            flexDirection: 'column',
         },
         body: {
             flex: 70,
         },
         imageBackground: {
             flex: 1,
-            alignSelf: 'center',
             position: 'relative',
         },
         courseTitle: {
             fontSize: 35,
             fontWeight: 'bold',
             marginTop: 25,
+
+            justifyContent: 'center'
         },
         textHeader: {
             flex: 1,
+            flexDirection: 'row',
+            marginHorizontal: 5,
         },
         textFooter: {
-            flex: 1,
+            flex: 5,
             flexDirection: 'row',
+            marginHorizontal: 5,
         },
         progress: {
-            flex: 2,
-            justifyContent: 'flex-end',
+            flex: 3,
+            justifyContent: 'center',
         },
         schedule: {
-            flex: 1,
-            marginLeft: 20,
-            alignItems: 'flex-end',
-            justifyContent: 'flex-end'
+            flex: 2,
+            flexDirection: 'column',
+            marginLeft: 15,
+            alignItems: 'flex-start',
+            justifyContent: 'center'
         },
         details: {
             alignSelf: 'flex-start',
-            fontSize: 17,
+            fontSize: 16,
             fontWeight: '500',
         },
         week: {

@@ -5,7 +5,7 @@ const headers = {
     'Content-Type': 'application/json'
 }
 
-const burl = "http://192.168.0.102:3001";
+const burl = "http://backend-backend.7e14.starter-us-west-2.openshiftapps.com";
 
 export default {
 
@@ -17,13 +17,18 @@ export default {
             headers: headers
         })
     },
-    signup: function (send) {
-        return axios.post(burl + '/user/signup', send, {headers: headers})
+    signUpStudent: function (student) {
+        return axios.post(burl + '/student/signup', student, {headers: headers})
+    },
+
+    signUpUser: function (user) {
+        return axios.post(burl + '/user/signup', user, {headers: headers})
     },
 
     isAuth: function () {
         return (AsyncStorage.getItem('token') !== null);
     },
+
     logout: function () {
         AsyncStorage.clear();
     },
@@ -48,6 +53,10 @@ export default {
         return axios.get(burl + "/lecture/" + lectureId);
     },
 
+    getQuiz: function (quizId) {
+        return axios.get(burl + "/quiz/" + quizId);
+    },
+
     getTeacher: function (teacherId) {
         return axios.get(burl + "/teacher/" + teacherId);
     },
@@ -55,6 +64,36 @@ export default {
     patchTimeSpent: function (studentId, courses) {
         return axios.patch(burl + "/student/" + studentId, [{
                 "propName": "courses", "value": courses
+            }]
+            , {
+                headers: headers
+            })
+    },
+
+    patchTimeSpentLecture : function(lectureId, timeSpent){
+
+        return axios.patch(burl + "/lecture/" + lectureId, [{
+                "propName": "timeSpent", "value": timeSpent
+            }]
+            , {
+                headers: headers
+            })
+    },
+
+    patchTimeSpentLink : function(linkId, timeSpent){
+
+        return axios.patch(burl + "/link/" + linkId, [{
+                "propName": "timeSpent", "value": timeSpent
+            }]
+            , {
+                headers: headers
+            })
+    },
+
+    patchTimeSpentQuiz : function(quizId, timeSpent){
+
+        return axios.patch(burl + "/quiz/" + quizId, [{
+                "propName": "timeSpent", "value": timeSpent
             }]
             , {
                 headers: headers
@@ -88,6 +127,15 @@ export default {
             })
     },
 
+    patchQuizQuestionsStats: function (quizId, questions) {
+        return axios.patch(burl + "/quiz/" + quizId, [{
+                "propName": "questions", "value": questions
+            }]
+            , {
+                headers: headers
+            })
+    },
+
     patchGlobalScore: function (studentId, courses) {
         return axios.patch(burl + "/student/" + studentId, [{
                 "propName": "courses", "value": courses
@@ -95,6 +143,25 @@ export default {
             , {
                 headers: headers
             })
-    }
+    },
+
+    patchStudentCourses: function (studentId, courses) {
+        return axios.patch(burl + "/student/" + studentId, [{
+                "propName": "courses", "value": courses
+            }]
+            , {
+                headers: headers
+            })
+    },
+
+    patchCourseStudents: function (courseId, students) {
+        return axios.patch(burl + "/course/" + courseId, [{
+                "propName": "students", "value": students
+            }]
+            , {
+                headers: headers
+            })
+    },
+
 
 }

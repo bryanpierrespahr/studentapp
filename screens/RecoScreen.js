@@ -89,35 +89,46 @@ class RecommendationScreen extends Component {
 
         courses.sort(this.orderFavoritesCourses);
 
-        const path = [
-            {name: "design", points: 0},
-            {name: "programming", points: 0},
-            {name: "business", points: 0},
-            {name: "technology", points: 0},
+        var path = [
+            {name: "Design", points: 0},
+            {name: "Programming", points: 0},
+            {name: "Business", points: 0},
+            {name: "Technology", points: 0},
         ];
-        const points = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1];
+
+        var points = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1];
 
         for (let h = 0; h < 10 && h < courses.length; h++) {
-            console.log(courses[h].path)
+            // console.log(courses[h].path)
+            // console.log(courses[h].points);
+
+            console.log(JSON.stringify(path))
+
+            console.log(courses[h].path);
+
             switch (courses[h].path) {
-                case 'design':
+
+
+                case 'Design':
                     path[0].points += points[h];
                     break;
-                case 'programming':
+                case 'Programming':
                     path[1].points += points[h];
                     break;
-                case 'business':
+                case 'Business':
                     path[2].points += points[h];
                     break;
-                case 'technology':
+                case 'Technology':
                     path[3].points += points[h];
                     break;
             }
+
+            console.log(JSON.stringify(path))
         }
 
-        console.log(JSON.stringify(path)+" BEFORE")
+      //  console.log(JSON.stringify(path)+" BEFORE")
         path.sort((a, b) => (a.points < b.points) ? 1 : ((b.points < a.points) ? -1 : 0));
-        console.log(JSON.stringify(path)+" AFTER")
+      //  console.log(JSON.stringify(path)+" AFTER")
 
         this.setState({
             favoriteCourses: courses,
@@ -134,6 +145,8 @@ class RecommendationScreen extends Component {
         const grade = Number((item.total / 133) * 4 + 1).toFixed(2);
         const seconds = item.timeSpent;
         const time = moment.utc(seconds * 1000).format('HH:mm:ss');
+        const globalScore = item.globalScore;
+        const roundedGS =  Number(globalScore).toFixed(2);
 
         return (
 
@@ -145,7 +158,7 @@ class RecommendationScreen extends Component {
                     <Text style={styles.name}>{item.name}</Text>
                 </View>
                 <View style={styles.gsContainer}>
-                    <Text style={styles.number}>{item.globalScore}</Text>
+                    <Text style={styles.number}>{roundedGS}</Text>
                 </View>
                 <View style={styles.percentageContainer}>
                     <Text style={styles.number}>{item.percentage} %</Text>
@@ -253,7 +266,7 @@ const styles = StyleSheet.create({
         paddingVertical: 2,
         backgroundColor: '#74C365',
         borderBottomColor: 'black',
-        borderBottomWidth : 2
+        borderBottomWidth : 2,
     },
 
     courseContainer: {
@@ -261,7 +274,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingVertical: 2,
-        backgroundColor: '#98FB98'
+        backgroundColor: '#83C669'
     },
 
     header: {
@@ -319,7 +332,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '600',
         marginTop: 10,
-        color: '#228B22'
+        color: '#74C365'
     }
 
 })

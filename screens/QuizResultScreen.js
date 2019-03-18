@@ -16,10 +16,12 @@ class QuizResultScreen extends Component {
 
     renderQuestion = ({item, index}) => {
 
+        console.log("Item " + JSON.stringify(item))
+
         return (
 
             <View style={styles.questions}>
-                <Text>{item.title}</Text>
+                <Text>{item.question}</Text>
                 <FlatList
                     data={item.answers}
                     renderItem={this.renderItem}
@@ -55,8 +57,8 @@ class QuizResultScreen extends Component {
                         style={{flex: 1, padding: 10}}
                         onChange={() => {
                         }}
-                        checkedComponent={<IoniconsIcon name="ios-checkbox" size={26} color="blue"/>}
-                        uncheckedComponent={<IoniconsIcon name="ios-checkbox" size={26} color="blue"/>}
+                        checkedComponent={<IoniconsIcon name="ios-checkbox" size={26} color="green"/>}
+                        uncheckedComponent={<IoniconsIcon name="ios-checkbox" size={26} color="green"/>}
                         label={item}
                     />
                 </View>
@@ -71,8 +73,8 @@ class QuizResultScreen extends Component {
                         style={{flex: 1, padding: 10}}
                         onChange={() => {
                         }}
-                        checkedComponent={<IoniconsIcon name="ios-checkbox" size={26} color="green"/>}
-                        uncheckedComponent={<IoniconsIcon name="ios-checkbox" size={26} color="green"/>}
+                        checkedComponent={<IoniconsIcon name="ios-checkbox" size={26} color="blue"/>}
+                        uncheckedComponent={<IoniconsIcon name="ios-checkbox" size={26} color="blue"/>}
                         label={item}
                     />
                 </View>
@@ -190,7 +192,9 @@ class QuizResultScreen extends Component {
 
     render() {
 
-        const percentage = (this.state.correctNumber / this.state.total) * 100;
+        const percentage = (this.state.correctNumber / this.state.questions.length) * 100;
+        const roundedPercentage = Number(percentage).toFixed(2);
+
 
         if (this.state.questions != null) {
 
@@ -198,7 +202,7 @@ class QuizResultScreen extends Component {
                 <View style={styles.container}>
                     <View style={styles.header}>
                         <Text>Results : {this.state.correctNumber} of {this.state.questions.length}</Text>
-                        <Text>Percentage : {this.state.percentage} %</Text>
+                        <Text>Percentage : {roundedPercentage} %</Text>
                     </View>
                     <View style={styles.body}>
                         <FlatList
@@ -246,3 +250,5 @@ const styles = StyleSheet.create({
     },
 
 })
+
+console.disableYellowBox = true;

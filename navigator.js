@@ -10,7 +10,23 @@ import CourseScreen from "./screens/CourseScreen";
 import QuizResultScreen from "./screens/QuizResultScreen";
 import RecommendationScreen from "./screens/RecoScreen";
 import HomeScreen from "./screens/HomeScreen";
+import LoginScreen from "./screens/LoginScreen";
+import SignUpScreen from "./screens/SignUpScreen";
 
+export const AuthNavigator = createStackNavigator({
+    Login: {
+        screen: LoginScreen,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    SignUp: {
+        screen: SignUpScreen,
+        navigationOptions: {
+            header: null,
+        }
+    }
+});
 
 const OverviewStack = createStackNavigator({
     Overview: OverviewScreen
@@ -139,3 +155,5 @@ export const AppStackNavigator = createStackNavigator({
         })
     }
 })
+
+console.disableYellowBox = true;

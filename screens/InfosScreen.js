@@ -89,8 +89,8 @@ class InfosScreen extends Component {
                             <Text style={styles.paragraph}>Language : {course.language}</Text>
                             <Text style={styles.paragraph}>Course level : {course.level}</Text>
                             <Text style={styles.paragraph}>Course type : {course.type}</Text>
-                            <Text style={styles.subTitle}>Objective</Text>
-                            <Text style={styles.paragraph}>{course.objective}</Text>
+                            <Text style={styles.subTitle}>Objectives</Text>
+                            <Text style={styles.paragraph}>{course.objectives}</Text>
                         </ScrollView>
                     </View>
 

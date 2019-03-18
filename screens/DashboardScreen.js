@@ -29,26 +29,63 @@ class DashboardScreen extends Component {
 
     getCourses = (studentCourses) => {
 
-        var courses = [];
+        console.log("Student courses : "+JSON.stringify(studentCourses[0].courseId));
 
-        for (let i = 0; i < studentCourses.length; i++) {
-            API.getCourse(studentCourses[i].courseId)
-                .then((data) => {
-                    const course = data.data;
-                    courses.push(course);
-                    this.setState({
-                        courses: courses
+        var courses2 = [];
+        var fetches2 = [];
+
+        const burl = "http://backend-backend.7e14.starter-us-west-2.openshiftapps.com/course/";
+
+        for (var i = 0; i < studentCourses.length; i++) {
+
+            fetches2.push(
+                fetch(burl + studentCourses[i].courseId)
+                    .then((response) => response.json())
+
+                    .then((data) => {
+
+                        console.log("Data "+data)
+                        console.log("Data " + JSON.stringify(data))
+                        var course = data;
+                        console.log("Course " + course)
+                        courses2.push(course);
                     })
-                })
-
+            )
         }
 
+        Promise.all(fetches2).then(() => {
+
+            this.setState({
+                courses: courses2,
+                ready: true,
+            })
+        })
+
+
+        // var courses = [];
+        //
+        // for (let i = 0; i < studentCourses.length; i++) {
+        //
+        //     if(i+1 == studentCourses.length){
+        //
+        //     }else{
+        //
+        //     }
+        //     API.getCourse(studentCourses[i].courseId)
+        //         .then((data) => {
+        //             const course = data.data;
+        //             console.log("COURSE : "+JSON.stringify(course))
+        //             courses.push(course);
+        //
+        //         })
+        // }
+        //
 
     }
 
     constructor(props) {
         super(props);
-        this.state = {courses: [], student: null};
+        this.state = {courses: [], student: null, ready: false};
     }
 
     componentDidMount() {
@@ -59,7 +96,6 @@ class DashboardScreen extends Component {
             student: student
         })
 
-
         this.getCourses(student.courses);
 
 
@@ -67,11 +103,14 @@ class DashboardScreen extends Component {
 
     render() {
 
-        if (this.state.student != null && this.state.courses != null) {
+        // if (this.state.student != null && this.state.courses != null) {
+
+        if (this.state.ready) {
 
             const courses = this.state.courses;
+            console.log("Courses : " + courses)
 
-            courses.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+            courses.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
 
             return (
                 <View style={styles.container}>
@@ -95,8 +134,11 @@ class DashboardScreen extends Component {
                     />
                 </View>
             )
+        } else {
+            return (
+                <View/>
+            )
         }
-        return null;
 
     }
 
@@ -112,9 +154,11 @@ const styles = StyleSheet.create({
     },
     course: {
         flexDirection: 'row',
-        height: 30,
-        backgroundColor: '#90EE90',
+        height: 40,
+        backgroundColor: '#83C669',
         marginVertical: 6,
+        borderRadius: 10,
+        padding: 5,
     },
     courseName: {
         justifyContent: 'center',

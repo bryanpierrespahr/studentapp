@@ -54,7 +54,12 @@ class HomeScreen extends Component {
 
     componentDidMount() {
 
+        console.log("Component HomeScreen Mounted");
+
         const student = this.props.navigation.getParam('student');
+
+        //TODO : remove onPress
+        //() =>  this.onPress('Dashboard')
 
         this.setState({
             student: student
@@ -67,8 +72,15 @@ class HomeScreen extends Component {
         //         })
         //     })
 
-        this.getCourses(student.courses);
 
+        //this.getCourses(student.courses);
+
+
+
+    }
+
+    logout = () => {
+        console.log("Log out");
     }
 
     render() {
@@ -87,7 +99,9 @@ class HomeScreen extends Component {
                         <Text style={styles.details}>{student.number}</Text>
                     </View>
                     <View style={styles.body}>
-                        <TouchableOpacity onPress={() => this.onPress('Dashboard')}>
+                        <TouchableOpacity onPress={() => {
+                            this.onPress('Dashboard')
+                        }}>
                             <View style={styles.button}>
                                 <Text style={styles.buttonText}>
                                     My Courses
@@ -114,15 +128,19 @@ class HomeScreen extends Component {
                                     size={30}/>
                             </View>
                         </TouchableOpacity>
-
+                        <button onClick={this.logout}></button>
                     </View>
                 </View>
             )
+        } else {
+            return (
+                <View>
+                    <Text>Test</Text>
+                </View>
+            )
         }
-        return null;
 
     }
-
 
 }
 
@@ -168,12 +186,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         paddingVertical: 4,
         flexDirection: 'row',
-        backgroundColor: '#90EE90',
+        backgroundColor: '#83C669',
         marginVertical: 8,
         borderRadius: 10,
     },
 
-    buttonText:{
+    buttonText: {
         justifyContent: 'center',
         textAlign: 'center',
         fontSize: 20,

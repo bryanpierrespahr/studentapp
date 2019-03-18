@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, ActivityIndicator} from 'react-native';
 import CourseTabNavigator from '../navigator';
 import API from '../utils/api';
 
@@ -78,7 +78,11 @@ class CourseScreen extends Component {
             )
 
         } else {
-            return null;
+            return (
+                <View>
+                    <ActivityIndicator size="large"/>
+                </View>
+            )
         }
 
     }

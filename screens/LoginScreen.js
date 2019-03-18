@@ -16,15 +16,22 @@ class LoginScreen extends Component {
 
     storeToken = async (student, token) => {
 
+        const studentId = student._id;
+
+        console.log("Storing tokens")
+
         try {
             await AsyncStorage.setItem("token", token);
-            await AsyncStorage.setItem("student", JSON.stringify(student))
+            await AsyncStorage.setItem("studentId", studentId)
 
         } catch (error) {
+            console.log(error);
         }
     }
 
     login = () => {
+
+        console.log("LOGIN")
 
         API.login(this.state.email, this.state.password)
             .then((data) => {
@@ -32,13 +39,21 @@ class LoginScreen extends Component {
                     student: data.data.student
                 }, () => this.storeToken(data.data.student, data.data.token));
             }).then(() => {
-            this.props.navigation.navigate('App', {
-                user: this.state.user
+            this.props.navigation.navigate('Home', {
+                student: this.state.student
             });
         })
             .catch(error => {
                 console.log(error);
             })
+    }
+
+    signUpButton = () => {
+
+        console.log("Sign up clicked");
+
+        this.props.navigation.navigate('SignUp');
+
     }
 
     constructor(props) {
@@ -75,6 +90,12 @@ class LoginScreen extends Component {
                     <TouchableOpacity style={styles.button}
                                       onPress={this.login}>
                         <Text style={styles.buttonText}>LOG IN</Text>
+                    </TouchableOpacity>
+                    <View style={styles.margin}></View>
+                    <Text style={styles.orText}>Don't have an account yet ?</Text>
+                    <TouchableOpacity style={styles.buttonSignUp}
+                                      onPress={this.signUpButton}>
+                        <Text style={styles.buttonText}>SIGN UP</Text>
                     </TouchableOpacity>
                 </View>
             </KeyboardAvoidingView>
@@ -120,14 +141,29 @@ const styles = StyleSheet.create({
         width: 300,
         backgroundColor: '#1c313a',
         borderRadius: 25,
-        marginVertical: 20,
+        marginTop: 20,
+        marginBottom: 8,
         paddingVertical: 13
+    },
+    buttonSignUp:{
+        width: 300,
+        backgroundColor: '#1c313a',
+        borderRadius: 25,
+        paddingVertical: 13,
+        marginTop: 5,
     },
     buttonText: {
         fontSize: 16,
         fontWeight: '500',
         color: '#ffffff',
         textAlign: 'center'
+    },
+    orText: {
+        marginTop:12,
+        fontSize: 14,
+        fontWeight: '500',
+        color: '#ffffff',
+        textAlign: 'left'
     }
 });
 

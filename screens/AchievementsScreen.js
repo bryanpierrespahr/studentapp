@@ -6,6 +6,9 @@ import {
     FlatList
 } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Video from "expo/build/av/Video";
+
+console.disableYellowBox = true;
 
 class AchievementsScreen extends Component {
 
@@ -22,7 +25,10 @@ class AchievementsScreen extends Component {
             ),
         };
     };
+
     getInfo = () => {
+
+        console.log("Getting info");
 
         this.getResults();
         this.getStatistics();
@@ -30,21 +36,33 @@ class AchievementsScreen extends Component {
 
     getResults = () => {
 
+
+        console.log("getting results");
+
         const studentCourses = this.state.student.courses;
         const currentCourseId = this.state.course._id;
+
+        console.log("Current course id : "+currentCourseId)
 
         var index = studentCourses.findIndex(c => {
             return c.courseId == currentCourseId
         })
 
+        console.log("Index : "+index)
+        console.log("Results : "+JSON.stringify(this.state.student.courses[index].globalResults))
+
         this.setState({
             results: this.state.student.courses[index].globalResults,
-            globalScore: this.state.student.courses[index].globalScore
+            globalScore: this.state.student.courses[index].globalScore,
+            resultsReady: true,
         })
 
 
     }
+
     getStatistics = () => {
+
+        console.log("getting statistics");
 
         const studentCourses = this.state.student.courses;
         const currentCourseId = this.state.course._id;
@@ -64,6 +82,7 @@ class AchievementsScreen extends Component {
             hourSpent: hours,
             minuteSpent: minutes,
             secondSpent: seconds,
+            statReady: true,
         })
     }
 
@@ -88,11 +107,14 @@ class AchievementsScreen extends Component {
 
     renderResults = ({item, index}) => {
 
+        const score = item.score;
+        const roundedScore = Number(score).toFixed(2);
+
         return (
 
             <View style={styles.result}>
                 <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.score}>{item.score} %</Text>
+                <Text style={styles.score}>{roundedScore} %</Text>
             </View>
         )
 
@@ -107,7 +129,9 @@ class AchievementsScreen extends Component {
             hourSpent: 0,
             minuteSpent: 0,
             secondSpent: 0,
-            globalScore: 0
+            globalScore: 0,
+            resultsReady: false,
+            statReady: false
         };
     }
 
@@ -122,7 +146,6 @@ class AchievementsScreen extends Component {
             student: this.props.screenProps.student
         }, () => this.getInfo())
 
-
     }
 
     goBackToDashboard() {
@@ -132,7 +155,10 @@ class AchievementsScreen extends Component {
 
     render() {
 
-        if (this.state.results.length > 1) {
+        if (this.state.resultsReady && this.state.statReady) {
+
+            const averageGS = this.state.globalScore;
+            const roundedAvgGS = Number(averageGS).toFixed(2);
 
             return (
                 <View style={styles.container}>
@@ -144,7 +170,7 @@ class AchievementsScreen extends Component {
                         keyExtrator={(item, index) => index.toString()}/>
                     <View style={styles.average}>
                         <Text style={styles.averageTitle}>Average</Text>
-                        <Text style={styles.averageScore}>{this.state.globalScore} %</Text>
+                        <Text style={styles.averageScore}>{roundedAvgGS} %</Text>
                     </View>
                     <Text style={styles.timeSpentTitle}>Total time spent</Text>
                     <Text style={styles.timeSpentText}>{this.state.hourSpent} hours&nbsp;
@@ -155,6 +181,12 @@ class AchievementsScreen extends Component {
                 </View>
             )
 
+        }else{
+            return(
+                <View style={styles.container}>
+                    <Text>No results yet</Text>
+                </View>
+            )
         }
 
         return null;
@@ -205,7 +237,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
         paddingLeft: 5,
         marginLeft: 60,
-        marginRight: 100,
+        marginRight: 60,
         flexDirection: 'row',
         marginBottom: 5,
         paddingBottom: 5,
@@ -253,3 +285,5 @@ const styles = StyleSheet.create({
     },
 
 })
+
+console.disableYellowBox = true;

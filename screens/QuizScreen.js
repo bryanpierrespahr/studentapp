@@ -80,8 +80,8 @@ class QuizScreen extends Component {
 
         var correctAns = 0;
 
-        for(var u = 0 ; u < correctAnswers.length; u++){
-            if(correctAnswers[u] == studentAnswers[u]){
+        for (var u = 0; u < correctAnswers.length; u++) {
+            if (correctAnswers[u] == studentAnswers[u]) {
                 correctAns++;
             }
         }
@@ -90,7 +90,8 @@ class QuizScreen extends Component {
 
         var globalResult = {
             title: this.state.quiz.title,
-            score: quizScore
+            score: quizScore,
+            quizId: this.state.quiz._id,
         }
 
         studentCourses[index].globalResults.push(globalResult);
@@ -99,8 +100,8 @@ class QuizScreen extends Component {
 
         var totalScore = 0;
 
-        for(var g = 0 ; g < studentCourses[index].globalResults.length; g++){
-            totalScore+= studentCourses[index].globalResults[g].score;
+        for (var g = 0; g < studentCourses[index].globalResults.length; g++) {
+            totalScore += studentCourses[index].globalResults[g].score;
         }
 
         var avgScore = (totalScore / globalResults.length);
@@ -111,8 +112,73 @@ class QuizScreen extends Component {
             .then((response) => {
                 console.log(response.data)
             })
-    }
 
+
+        //Updating quiz questions stats
+
+        var questions = this.state.questions;
+
+        for (var i = 0; i < questions.length; i++) {
+            if (studentAnswers[i] == correctAnswers[i])
+                questions[i].nbCorrect = questions[i].nbCorrect + 1;
+            else {
+                questions[i].nbIncorrect = questions[i].nbIncorrect + 1;
+            }
+        }
+
+
+    }
+    saveTimeSpent = (timeSpent) => {
+
+        console.log("SAVING time spent")
+        console.log("Time spent " + timeSpent)
+
+        const studentId = this.state.student._id;
+        const currentCourseId = this.state.course._id;
+        const quiz = this.state.quiz;
+
+        var index = this.state.student.courses.findIndex(c => {
+            return c.courseId == currentCourseId
+        })
+
+
+        var indexId = this.state.student.courses[index].done.findIndex(d => {
+            return d.id == quiz._id
+        })
+
+
+        const courses = this.state.student.courses;
+        courses[index].done[indexId].timeSpent += timeSpent;
+
+
+        API.patchTimeSpent(studentId, courses)
+            .then((response) => {
+
+            })
+            .catch(error => {
+                console.error(error)
+            })
+
+        var newTimeSpent;
+
+
+        API.getQuiz(quiz._id)
+            .then((data) => {
+                var quiz = data.data;
+                var ts = quiz.timeSpent;
+                if (ts == null)
+                    ts = 0
+                newTimeSpent = ts + timeSpent;
+            })
+            .then(() => {
+                API.patchTimeSpentQuiz(quiz._id, newTimeSpent)
+                    .then((data) => {
+                        console.log(data.data)
+                    })
+            })
+
+
+    }
 
     constructor(props) {
         super(props);
@@ -124,7 +190,10 @@ class QuizScreen extends Component {
             studentAnswers: [],
             correctAnswers: [],
             allAnswers: [],
-            firstTime: true
+            firstTime: true,
+            openedAt: null,
+            closedAt: null,
+            timeSpent: 0,
         };
     }
 
@@ -138,7 +207,25 @@ class QuizScreen extends Component {
             course: this.props.navigation.getParam('course', 'NO-COURSE'),
             student: this.props.navigation.getParam('student', 'default'),
             quiz: this.props.navigation.getParam('quiz', 'default')
+        }, () =>   console.log("QUIZ : "+JSON.stringify(this.state.quiz)))
+
+
+        var openedAt = new Date();
+
+        this.setState({
+            openedAt: openedAt
         })
+    }
+
+    componentWillUnmount() {
+
+        var closedAt = new Date();
+
+        var timeSpent = (closedAt.getTime() - this.state.openedAt.getTime()) / 1000;
+
+
+        this.saveTimeSpent(timeSpent);
+
     }
 
     goBackToDashboard() {
@@ -158,7 +245,17 @@ class QuizScreen extends Component {
             //Loop through quiz
             for (let i = 0; i < quiz.questions.length; i++) {
 
-                allQuestions.push(quiz.questions[i].title);
+                allQuestions.push(quiz.questions[i].question);
+
+                console.log("QUESTION QUESTION "+quiz.questions[i].question);
+                console.log("QUESTION QUESTION "+quiz.questions[i].question);
+                console.log("QUESTION QUESTION "+quiz.questions[i].question);
+                console.log("QUESTION QUESTION "+quiz.questions[i].question);
+                console.log("QUESTION QUESTION "+quiz.questions[i].question);
+                console.log("QUESTION QUESTION "+quiz.questions[i].question);
+                console.log("QUESTION QUESTION "+quiz.questions[i].question);
+                console.log("QUESTION QUESTION "+quiz.questions[i].question);
+
                 var answers = [];
 
                 correctAns.push(quiz.questions[i].correctAnswer);
@@ -184,7 +281,7 @@ class QuizScreen extends Component {
                 if (z % 4 == 0 && z != 0) {
 
                     var quest = {};
-                    quest.title = allQuestions[(z - 4) / 4];
+                    quest.question = allQuestions[(z - 4) / 4];
                     quest.answers = answ;
                     resultQuiz.push(quest);
                     answ = [];
@@ -202,8 +299,8 @@ class QuizScreen extends Component {
                 firstTime: false,
                 allAnswers: allAnswers
             })
-
         }
+
 
         return (
             <View style={styles.container}>
@@ -212,7 +309,7 @@ class QuizScreen extends Component {
                         data={this.state.questions}
                         renderItem={({item, index}) =>
                             <View style={styles.questions}>
-                                <Text>{item.title}</Text>
+                                <Text>{item.question}</Text>
                                 <RadioGroup
                                     onSelect={(i, value) => this.onSelect(i, value, index)}
                                 >
