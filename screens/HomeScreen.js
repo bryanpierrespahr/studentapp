@@ -23,30 +23,6 @@ class HomeScreen extends Component {
         });
     }
 
-    logout = () => {
-
-        API.logout();
-        this.props.navigation.navigate('Loading');
-
-    }
-
-    getCourses = (studentCourses) => {
-
-        var courses = [];
-
-        for (let i = 0; i < studentCourses.length; i++) {
-            API.getCourse(studentCourses[i].courseId)
-                .then((data) => {
-                    const course = data.data;
-                    courses.push(course);
-                    this.setState({
-                        courses: courses
-                    })
-                })
-        }
-
-    }
-
     constructor(props) {
         super(props);
         this.state = {courses: [], student: null};
@@ -58,23 +34,9 @@ class HomeScreen extends Component {
 
         const student = this.props.navigation.getParam('student');
 
-        //TODO : remove onPress
-        //() =>  this.onPress('Dashboard')
-
         this.setState({
             student: student
         })
-
-        // API.getStudent(student._id)
-        //     .then((data) => {
-        //         this.setState({
-        //             student: data.data
-        //         })
-        //     })
-
-
-        //this.getCourses(student.courses);
-
 
 
     }
@@ -128,14 +90,12 @@ class HomeScreen extends Component {
                                     size={30}/>
                             </View>
                         </TouchableOpacity>
-                        <button onClick={this.logout}></button>
                     </View>
                 </View>
             )
         } else {
             return (
                 <View>
-                    <Text>Test</Text>
                 </View>
             )
         }

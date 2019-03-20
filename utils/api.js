@@ -100,6 +100,66 @@ export default {
             })
     },
 
+    patchTimesOpenedLink : function(linkId, timesOpened){
+
+        return axios.patch(burl + "/link/" + linkId, [{
+                "propName": "timesOpened", "value": timesOpened
+            }]
+            , {
+                headers: headers
+            })
+    },
+
+    patchTimesOpenedLecture : function(lectureId, timesOpened){
+
+        return axios.patch(burl + "/lecture/" + lectureId, [{
+                "propName": "timesOpened", "value": timesOpened
+            }]
+            , {
+                headers: headers
+            })
+    },
+
+    patchTimesOpenedQuiz : function(quizId, timesOpened){
+
+        return axios.patch(burl + "/quizId/" + quizId, [{
+                "propName": "timesOpened", "value": timesOpened
+            }]
+            , {
+                headers: headers
+            })
+    },
+
+    patchUniqueTimesOpenedQuiz : function(quizId, uniqueTimesOpened){
+
+        return axios.patch(burl + "/quizId/" + quizId, [{
+                "propName": "uniqueTimesOpened", "value": uniqueTimesOpened
+            }]
+            , {
+                headers: headers
+            })
+    },
+
+    patchUniqueTimesOpenedLecture : function(lectureId, uniqueTimesOpened){
+
+        return axios.patch(burl + "/lecture/" + lectureId, [{
+                "propName": "uniqueTimesOpened", "value": uniqueTimesOpened
+            }]
+            , {
+                headers: headers
+            })
+    },
+
+    patchUniqueTimesOpenedLink : function(linkId, uniqueTimesOpened){
+
+        return axios.patch(burl + "/link/" + linkId, [{
+                "propName": "uniqueTimesOpened", "value": uniqueTimesOpened
+            }]
+            , {
+                headers: headers
+            })
+    },
+
     patchDoneArray: function (studentId, courses) {
         return axios.patch(burl + "/student/" + studentId, [{
                 "propName": "courses", "value": courses

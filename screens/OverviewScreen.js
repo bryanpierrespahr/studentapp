@@ -114,7 +114,7 @@ class OverviewScreen extends Component {
     handleOnPress = (item) => {
 
         if (item.type != "quiz") {
-            this.itemDone(item._id);
+            this.itemDone(item);
         }
 
         switch (item.type) {
@@ -130,17 +130,28 @@ class OverviewScreen extends Component {
         }
     }
 
-    itemDone = (itemId) => {
+    itemDone = (item) => {
 
         const studentId = this.state.student._id;
         const studentCourses = this.state.student.courses;
         const currentCourseId = this.state.course._id;
+        const itemId = item._id;
 
         var index = studentCourses.findIndex(c => {
             return c.courseId == currentCourseId
         })
 
-        if (studentCourses[index].done.indexOf(itemId) == -1) {
+        var alreadyOpened = false;
+        var doneArray = studentCourses[index].done;
+
+        for(var i = 0 ; i < doneArray.length; i++){
+            if (doneArray[i].id == itemId)
+                alreadyOpened = true;
+        }
+
+        if (!alreadyOpened) {
+
+            console.log("NOT INCLUDED")
 
             var itemDone = {
                 "id": itemId,
@@ -159,9 +170,83 @@ class OverviewScreen extends Component {
                 this.adjustPercentage(index)
                 console.log("PATCHED")
             })
+
+            switch (item.type) {
+                case 'link':
+                    this.firstTimeLink(item);
+                    break;
+                case 'lecture':
+                    this.firstTimeLecture(item);
+                    break;
+            }
+        }else{
+            console.log("INCLDUED")
         }
 
     }
+
+
+    firstTimeLink = (link) => {
+
+        var uniqueTimesOpened;
+
+        API.getLink(link._id)
+            .then((data) => {
+                var newLink = data.data;
+                if (newLink.uniqueTimesOpened == null) {
+                    uniqueTimesOpened = 1;
+                } else {
+                    uniqueTimesOpened = newLink.uniqueTimesOpened + 1;
+                }
+            })
+            .then(() => {
+                API.patchUniqueTimesOpenedLink(link._id, uniqueTimesOpened)
+
+            })
+
+    }
+
+    firstTimeQuiz = (quiz) => {
+
+        var uniqueTimesOpened;
+
+        API.getQuiz(quiz._id)
+            .then((data) => {
+                var newQuiz = data.data;
+                if (newQuiz.uniqueTimesOpened == null) {
+                    uniqueTimesOpened = 1;
+                } else {
+                    uniqueTimesOpened = newQuiz.uniqueTimesOpened + 1;
+                }
+            })
+            .then(() => {
+                API.patchUniqueTimesOpenedQuiz(quiz._id, uniqueTimesOpened)
+
+            })
+
+
+    }
+
+    firstTimeLecture = (lecture) => {
+
+        var uniqueTimesOpened;
+
+        API.getLecture(lecture._id)
+            .then((data) => {
+                var newLecture = data.data;
+                if (newLecture.uniqueTimesOpened == null) {
+                    uniqueTimesOpened = 1;
+                } else {
+                    uniqueTimesOpened = newLecture.uniqueTimesOpened + 1;
+                }
+            })
+            .then(() => {
+                API.patchUniqueTimesOpenedLecture(lecture._id, uniqueTimesOpened)
+
+            })
+
+    }
+
 
     adjustPercentage = (index) => {
 
@@ -207,8 +292,8 @@ class OverviewScreen extends Component {
 
         for (var i = 0; i < doneArray.length; i++) {
 
-            console.log("Done id : "+doneArray[i].id)
-            console.log("Quiz id : "+quiz._id)
+            console.log("Done id : " + doneArray[i].id)
+            console.log("Quiz id : " + quiz._id)
 
             if (doneArray[i].id == quiz._id) {
                 alreadyDone = true;
@@ -233,10 +318,28 @@ class OverviewScreen extends Component {
                 student: this.state.student
             })
 
+            this.firstTimeQuiz(quiz);
         }
+
+        var timesOpened;
+
+        API.getQuiz(quiz._id)
+            .then((data) => {
+                var newQuiz = data.data;
+                if (newQuiz.timesOpened == null) {
+                    timesOpened = 1;
+                } else {
+                    timesOpened = newQuiz.timesOpened + 1;
+                }
+            })
+            .then(() => {
+                API.patchTimesOpenedQuiz(quiz._id, timesOpened)
+            })
     }
 
     openLinkInWebView = (link) => {
+
+        console.log("LINK " + link)
 
         const nav = this.props.screenProps.navigation;
 
@@ -247,6 +350,25 @@ class OverviewScreen extends Component {
             student: this.state.student,
             course: this.state.course
         });
+
+        var timesOpened;
+
+        API.getLink(link._id)
+            .then((data) => {
+                var newLink = data.data;
+                if (newLink.timesOpened == null) {
+                    timesOpened = 1;
+                } else {
+                    timesOpened = newLink.timesOpened + 1;
+                }
+            })
+            .then(() => {
+                API.patchTimesOpenedLink(link._id, timesOpened)
+                    .then(() => {
+
+                    })
+            })
+
 
     }
 
@@ -261,6 +383,24 @@ class OverviewScreen extends Component {
             student: this.state.student,
             course: this.state.course
         })
+
+        var timesOpened;
+
+        API.getLecture(pdf._id)
+            .then((data) => {
+                var newLecture = data.data;
+                if (newLecture.timesOpened == null) {
+                    timesOpened = 1;
+                } else {
+                    timesOpened = newLecture.timesOpened + 1;
+                }
+            })
+            .then(() => {
+                API.patchTimesOpenedLecture(pdf._id, timesOpened)
+                    .then(() => {
+
+                    })
+            })
     }
 
 
@@ -495,6 +635,7 @@ class OverviewScreen extends Component {
                 content2 = [];
             }
 
+            //old algorithm
             //
             // for (var i = 0; i < weeks.length; i++) {
             //
@@ -546,39 +687,74 @@ class OverviewScreen extends Component {
 
             console.log("start hour " + startHour);
 
+            if (course.name.length < 12) {
+                return (
+                    <View style={styles.container}>
+                        <View style={styles.head}>
+                            <ImageBackground source={require('../assets/overview_background.png')}
+                                             style={styles.imageBackground}>
+                                <View styles={styles.textHeader}>
+                                    <Text style={styles.courseTitle}>{course.name}</Text>
+                                </View>
+                                <View style={styles.textFooter}>
+                                    <View style={styles.progress}>
+                                        <ProgressBar percentage={this.state.percentage}/>
+                                    </View>
+                                    <View style={styles.schedule}>
+                                        <Text style={styles.details}>{course.schedule.day}</Text>
+                                        <Text style={styles.details}>{startHour} - {endHour}</Text>
+                                        <Text style={styles.details}>Room {course.schedule.room}</Text>
+                                    </View>
+                                </View>
+                            </ImageBackground>
+                        </View>
+                        <View style={styles.body}>
+                            <FlatList
+                                data={weeks}
+                                horizontal={true}
+                                renderItem={this.renderWeeks}
+                                keyExtractor={(item, index) => index.toString()}
+                            />
+                        </View>
+                    </View>
+                )
+            } else {
+                return (
+                    <View style={styles.container}>
+                        <View style={styles.head}>
+                            <ImageBackground source={require('../assets/overview_background.png')}
+                                             style={styles.imageBackground}>
+                                <View styles={styles.textHeader}>
+                                    <Text style={styles.courseLongTitle}>{course.name}</Text>
+                                </View>
+                                <View style={styles.textFooter}>
+                                    <View style={styles.progress}>
+                                        <ProgressBar percentage={this.state.percentage}/>
+                                    </View>
+                                    <View style={styles.schedule}>
+                                        <Text style={styles.details}>{course.schedule.day}</Text>
+                                        <Text style={styles.details}>{startHour} - {endHour}</Text>
+                                        <Text style={styles.details}>Room {course.schedule.room}</Text>
+                                    </View>
+                                </View>
+                            </ImageBackground>
+                        </View>
+                        <View style={styles.body}>
+                            <FlatList
+                                data={weeks}
+                                horizontal={true}
+                                renderItem={this.renderWeeks}
+                                keyExtractor={(item, index) => index.toString()}
+                            />
+                        </View>
+                    </View>
+                )
+            }
+        } else {
             return (
-                <View style={styles.container}>
-                    <View style={styles.head}>
-                        <ImageBackground source={require('../assets/overview_background.png')}
-                                         style={styles.imageBackground}>
-                            <View styles={styles.textHeader}>
-                                <Text style={styles.courseTitle}>{course.name}</Text>
-                            </View>
-                            <View style={styles.textFooter}>
-                                <View style={styles.progress}>
-                                    <ProgressBar percentage={this.state.percentage}/>
-                                </View>
-                                <View style={styles.schedule}>
-                                    <Text style={styles.details}>{course.schedule.day}</Text>
-                                    <Text style={styles.details}>{startHour} - {endHour}</Text>
-                                    <Text style={styles.details}>Room {course.schedule.room}</Text>
-                                </View>
-                            </View>
-                        </ImageBackground>
-                    </View>
-                    <View style={styles.body}>
-                        <FlatList
-                            data={weeks}
-                            horizontal={true}
-                            renderItem={this.renderWeeks}
-                            keyExtractor={(item, index) => index.toString()}
-                        />
-                    </View>
-                </View>
+                <View/>
             )
         }
-
-        return null;
 
     }
 
@@ -608,13 +784,21 @@ const
             fontSize: 35,
             fontWeight: 'bold',
             marginTop: 25,
+            marginLeft: 5,
+            justifyContent: 'center'
+        },
 
+        courseLongTitle: {
+            fontSize: 30,
+            fontWeight: 'bold',
+            marginTop: 25,
+            marginLeft: 5,
             justifyContent: 'center'
         },
         textHeader: {
             flex: 1,
             flexDirection: 'row',
-            marginHorizontal: 5,
+            marginHorizontal: 10,
         },
         textFooter: {
             flex: 5,

@@ -20,32 +20,44 @@ class RecommendationScreen extends Component {
 
     getCourses = (studentCourses) => {
 
-        var courses = [];
+        console.log("Student courses : "+JSON.stringify(studentCourses))
 
-        for (let i = 0; i < studentCourses.length; i++) {
-            API.getCourse(studentCourses[i].courseId)
-                .then((data) => {
-                    const course = data.data;
-                    courses.push(course);
-                    this.setState({
-                        courses: courses
+        var courses = [];
+        var fetches = [];
+
+        const burl = "http://backend-backend.7e14.starter-us-west-2.openshiftapps.com/course/";
+
+        for (var i = 0; i < studentCourses.length; i++) {
+
+            fetches.push(
+                fetch(burl + studentCourses[i].courseId)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        var course = data;
+                        courses.push(course);
                     })
-                })
-                .then(() => {
-                    this.getFavoritesCourses();
-                })
+            )
         }
+
+        Promise.all(fetches).then(() => {
+            this.setState({
+                courses: courses,
+            }, () => this.getFavoritesCourses(courses))
+
+        })
 
     }
 
-    getFavoritesCourses = () => {
+    getFavoritesCourses = (courses) => {
 
         const studentCourses = this.state.student.courses;
-        const courses = this.state.courses;
 
         var coursesTotal = [];
 
-        for (var i = 0; i < studentCourses.length; i++) {
+        for (var i = 0; i < courses.length; i++) {
+
+            console.log("course name : "+courses[i].name)
+            console.log("course name : "+courses[i].path)
 
             for (var z = 0; z < courses.length; z++) {
 
@@ -64,10 +76,13 @@ class RecommendationScreen extends Component {
             }
 
             coursesTotal.push(c);
+
+            if (i + 1 == studentCourses.length) {
+                console.log("Courses total " + JSON.stringify(coursesTotal))
+                this.sortCourses(coursesTotal);
+            }
+
         }
-
-        this.sortCourses(coursesTotal);
-
 
     }
 
@@ -87,6 +102,8 @@ class RecommendationScreen extends Component {
 
     sortCourses = (courses) => {
 
+        console.log("courses : " + JSON.stringify(courses))
+
         courses.sort(this.orderFavoritesCourses);
 
         var path = [
@@ -102,13 +119,11 @@ class RecommendationScreen extends Component {
             // console.log(courses[h].path)
             // console.log(courses[h].points);
 
-            console.log(JSON.stringify(path))
-
-            console.log(courses[h].path);
+            //  console.log("Courses string : "+JSON.stringify(courses[h]))
+            // console.log("COurse is : "+courses[h].name);
+            // console.log("course path is : "+courses[h].path);
 
             switch (courses[h].path) {
-
-
                 case 'Design':
                     path[0].points += points[h];
                     break;
@@ -123,22 +138,20 @@ class RecommendationScreen extends Component {
                     break;
             }
 
-            console.log(JSON.stringify(path))
         }
 
-      //  console.log(JSON.stringify(path)+" BEFORE")
+        //  console.log(JSON.stringify(path)+" BEFORE")
         path.sort((a, b) => (a.points < b.points) ? 1 : ((b.points < a.points) ? -1 : 0));
-      //  console.log(JSON.stringify(path)+" AFTER")
+        //  console.log(JSON.stringify(path)+" AFTER")
 
         this.setState({
             favoriteCourses: courses,
             recommendedPath: path[0].name
-        }, () => console.log("COURSES : " + JSON.stringify(courses) + "\n\nRECOMMENDED PATH = " + path[0].name))
+        })
 
     }
 
     renderCourse = ({item, index}) => {
-
 
         var moment = require("moment");
 
@@ -146,7 +159,7 @@ class RecommendationScreen extends Component {
         const seconds = item.timeSpent;
         const time = moment.utc(seconds * 1000).format('HH:mm:ss');
         const globalScore = item.globalScore;
-        const roundedGS =  Number(globalScore).toFixed(2);
+        const roundedGS = Number(globalScore).toFixed(2);
 
         return (
 
@@ -259,14 +272,14 @@ const styles = StyleSheet.create({
         flexGrow: 0,
     },
 
-    head : {
+    head: {
 
         flexDirection: 'row',
         alignItems: 'center',
         paddingVertical: 2,
         backgroundColor: '#74C365',
         borderBottomColor: 'black',
-        borderBottomWidth : 2,
+        borderBottomWidth: 2,
     },
 
     courseContainer: {
@@ -318,8 +331,8 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
 
-    recommendationContainer:{
-        flexDirection : 'row',
+    recommendationContainer: {
+        flexDirection: 'row',
     },
 
     recoText: {
@@ -328,7 +341,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
 
-    recoPath : {
+    recoPath: {
         fontSize: 20,
         fontWeight: '600',
         marginTop: 10,

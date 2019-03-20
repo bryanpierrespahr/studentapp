@@ -24,62 +24,39 @@ class DashboardScreen extends Component {
             student: this.state.student
         });
 
-
     }
 
     getCourses = (studentCourses) => {
 
-        console.log("Student courses : "+JSON.stringify(studentCourses[0].courseId));
+        console.log("Student courses : " + JSON.stringify(studentCourses[0].courseId));
 
-        var courses2 = [];
-        var fetches2 = [];
+        var courses = [];
+        var fetches = [];
 
         const burl = "http://backend-backend.7e14.starter-us-west-2.openshiftapps.com/course/";
 
         for (var i = 0; i < studentCourses.length; i++) {
 
-            fetches2.push(
+            fetches.push(
                 fetch(burl + studentCourses[i].courseId)
                     .then((response) => response.json())
 
                     .then((data) => {
 
-                        console.log("Data "+data)
-                        console.log("Data " + JSON.stringify(data))
                         var course = data;
-                        console.log("Course " + course)
-                        courses2.push(course);
+
+                        courses.push(course);
                     })
             )
         }
 
-        Promise.all(fetches2).then(() => {
+        Promise.all(fetches).then(() => {
 
             this.setState({
-                courses: courses2,
+                courses: courses,
                 ready: true,
             })
         })
-
-
-        // var courses = [];
-        //
-        // for (let i = 0; i < studentCourses.length; i++) {
-        //
-        //     if(i+1 == studentCourses.length){
-        //
-        //     }else{
-        //
-        //     }
-        //     API.getCourse(studentCourses[i].courseId)
-        //         .then((data) => {
-        //             const course = data.data;
-        //             console.log("COURSE : "+JSON.stringify(course))
-        //             courses.push(course);
-        //
-        //         })
-        // }
-        //
 
     }
 

@@ -35,10 +35,12 @@ class SignUpScreen extends Component {
         var coursesToAdd = [];
         var JavaScriptCourse;
         var UXDesignCourse;
+        var AgileCourse;
 
         //TODO : remove in prod
         const javaScriptCourseId = "5c8a1ba0f78a770019265865";
         const uxDesignCourseId = "5c8b7036acfabb001aa351d3";
+        const agileCourseId = "5c8f93e537b8a8001a60ec6e";
 
         API.getCourse(javaScriptCourseId)
             .then((data) => {
@@ -51,9 +53,7 @@ class SignUpScreen extends Component {
                     globalResults: [],
                     quizResults: [],
                     timeSpent: 0,
-                    done: [{
-
-                    }],
+                    done: [{}],
                     percentage: 0
                 }
 
@@ -72,42 +72,68 @@ class SignUpScreen extends Component {
                             globalResults: [],
                             quizResults: [],
                             timeSpent: 0,
-                            done: [{
-
-                            }],
+                            done: [{}],
                             percentage: 0
                         }
 
-                        console.log("UX design course : "+JSON.stringify(UXtoAdd))
+                        console.log("UX design course : " + JSON.stringify(UXtoAdd))
                         coursesToAdd.push(UXtoAdd);
                     })
                     .then(() => {
-
-                        console.log("Courses to add : " + coursesToAdd)
-
-                        let JSstudents = JavaScriptCourse.students;
-                        JSstudents.push(studentId);
-
-                        API.patchCourseStudents(javaScriptCourseId, JSstudents)
+                        API.getCourse(agileCourseId)
                             .then((data) => {
+                                AgileCourse = data.data;
 
+                                var AgileToAdd = {
+                                    courseId: AgileCourse._id,
+                                    path: AgileCourse.path,
+                                    globalScore: 0,
+                                    globalResults: [],
+                                    quizResults: [],
+                                    timeSpent: 0,
+                                    done: [{}],
+                                    percentage: 0
+                                }
+
+                                coursesToAdd.push(AgileToAdd);
                             })
                             .then(() => {
-                                let UXstudents = UXDesignCourse.students;
-                                UXstudents.push(studentId);
 
-                                API.patchCourseStudents(uxDesignCourseId, UXstudents)
+
+                                let JSstudents = JavaScriptCourse.students;
+                                JSstudents.push(studentId);
+
+                                API.patchCourseStudents(javaScriptCourseId, JSstudents)
                                     .then((data) => {
 
                                     })
                                     .then(() => {
-                                        API.patchStudentCourses(studentId, coursesToAdd)
-                                            .then(() => {
+                                        let UXstudents = UXDesignCourse.students;
+                                        UXstudents.push(studentId);
 
+                                        API.patchCourseStudents(uxDesignCourseId, UXstudents)
+                                            .then((data) => {
+
+                                            })
+                                            .then(() => {
+                                                let agileStudents = AgileCourse.students;
+                                                agileStudents.push(studentId);
+
+                                                API.patchCourseStudents(agileCourseId, agileStudents)
+                                                    .then((data) => {
+
+                                                    })
+                                                    .then(() => {
+                                                        API.patchStudentCourses(studentId, coursesToAdd)
+                                                            .then(() => {
+
+                                                            })
+                                                    })
                                             })
                                     })
                             })
                     })
+
             })
     }
 
@@ -163,7 +189,15 @@ class SignUpScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {firstName: '', lastName: '', email: '', password: '', student: null, password2: '', number: ''}
+        this.state = {
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            student: null,
+            password2: '',
+            number: ''
+        }
     }
 
 
@@ -183,7 +217,7 @@ class SignUpScreen extends Component {
                                    placeholder="First name"
                                    placeholderTextColor="#ffffff"
                                    selectionColor="#fff"
-                                   keyboardType="text"
+                                   keyboardType="default"
                                    onSubmitEditing={() => this.state.password.focus()}
                         />
                         <TextInput style={styles.inputBox}
@@ -192,7 +226,7 @@ class SignUpScreen extends Component {
                                    placeholder="Last name"
                                    placeholderTextColor="#ffffff"
                                    selectionColor="#fff"
-                                   keyboardType="text"
+                                   keyboardType="default"
                                    onSubmitEditing={() => this.state.password.focus()}
                         />
                         <TextInput style={styles.inputBox}
@@ -201,7 +235,7 @@ class SignUpScreen extends Component {
                                    placeholder="Student number"
                                    placeholderTextColor="#ffffff"
                                    selectionColor="#fff"
-                                   keyboardType="text"
+                                   keyboardType="default"
                                    onSubmitEditing={() => this.state.password.focus()}
                         />
                         <TextInput style={styles.inputBox}
@@ -241,53 +275,54 @@ class SignUpScreen extends Component {
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#455a64',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start'
-    },
-    imageView: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    form: {
-        flex: 2,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    },
-    image: {
-        marginTop: 50,
-        marginBottom: 10,
-        width: 350,
-        height: 100,
-        resizeMode: 'contain'
-    },
-    inputBox: {
-        width: 300,
-        height: 45,
-        backgroundColor: 'rgba(255, 255,255,0.2)',
-        borderRadius: 25,
-        paddingHorizontal: 16,
-        fontSize: 16,
-        color: '#ffffff',
-        marginVertical: 10
-    },
-    button: {
-        width: 300,
-        backgroundColor: '#1c313a',
-        borderRadius: 25,
-        marginVertical: 20,
-        paddingVertical: 13
-    },
-    buttonText: {
-        fontSize: 16,
-        fontWeight: '500',
-        color: '#ffffff',
-        textAlign: 'center'
-    }
-});
+const
+    styles = StyleSheet.create({
+        container: {
+            backgroundColor: '#455a64',
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'flex-start'
+        },
+        imageView: {
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center'
+        },
+        form: {
+            flex: 2,
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+        },
+        image: {
+            marginTop: 50,
+            marginBottom: 10,
+            width: 350,
+            height: 100,
+            resizeMode: 'contain'
+        },
+        inputBox: {
+            width: 300,
+            height: 45,
+            backgroundColor: 'rgba(255, 255,255,0.2)',
+            borderRadius: 25,
+            paddingHorizontal: 16,
+            fontSize: 16,
+            color: '#ffffff',
+            marginVertical: 10
+        },
+        button: {
+            width: 300,
+            backgroundColor: '#1c313a',
+            borderRadius: 25,
+            marginVertical: 20,
+            paddingVertical: 13
+        },
+        buttonText: {
+            fontSize: 16,
+            fontWeight: '500',
+            color: '#ffffff',
+            textAlign: 'center'
+        }
+    });
 
 export default SignUpScreen;

@@ -120,14 +120,14 @@ class LoadingScreen extends Component {
         //     this.props.navigation.navigate('Auth')
         // }
 
-        var student = null;
-
-
-        API.getStudent("5c8cbfb9c50d210018252a17")
+        //TODO : dev
+        // var student = null;
+        API.getStudent("5c9204ef37b8a8001a60f308")
             .then((data) => {
                 student = data.data;
                 this.props.navigation.navigate('Home', {
-                    student: student
+                    student: student,
+
                 })
             })
 
@@ -154,7 +154,7 @@ class LoadingScreen extends Component {
 
     //var student = null;
 
-    //TODO : uncomment
+
     // fetch("http://192.168.0.102:3001/student/5bebf038a58c013f583b38c1")
     //     .then((response) => response.json())
     //     .then((json) => {
