@@ -1,17 +1,20 @@
 {
   "expo": {
-    "name": "studentapp",
+    "name": "Haaga-Helia moodle",
     "description": "Student mobile application",
-    "slug": "studentapp",
+    "slug": "hh-moodle",
     "privacy": "public",
     "sdkVersion": "31.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-	 "android": {
-		"package": "fi.haagahelia.studentapp"
-	},
+    "icon": "./assets/hh-logo.png",
+    "android": {
+      "package": "fi.haagahelia.hhmoodle"
+    },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -24,7 +27,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "fi.haagahelia.hhmoodle"
     }
   }
 }
