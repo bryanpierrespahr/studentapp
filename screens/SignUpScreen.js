@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    TouchableOpacity,
+    AsyncStorage,
     Image,
     KeyboardAvoidingView,
-    AsyncStorage,
-    ScrollView
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
 } from 'react-native';
 import API from '../utils/api';
 
@@ -23,14 +23,11 @@ class SignUpScreen extends Component {
             await AsyncStorage.setItem("student", JSON.stringify(student))
 
         } catch (error) {
-            console.log(error);
         }
     }
 
     //For testing purposes, add automatically JS intro & UX Design to student courses
     addExamplesCourses = (studentId) => {
-
-        console.log("Adding example courses")
 
         var coursesToAdd = [];
         var JavaScriptCourse;
@@ -53,7 +50,7 @@ class SignUpScreen extends Component {
                     globalResults: [],
                     quizResults: [],
                     timeSpent: 0,
-                    done: [{}],
+                    done: [],
                     percentage: 0
                 }
 
@@ -72,11 +69,10 @@ class SignUpScreen extends Component {
                             globalResults: [],
                             quizResults: [],
                             timeSpent: 0,
-                            done: [{}],
+                            done: [],
                             percentage: 0
                         }
 
-                        console.log("UX design course : " + JSON.stringify(UXtoAdd))
                         coursesToAdd.push(UXtoAdd);
                     })
                     .then(() => {
@@ -91,14 +87,13 @@ class SignUpScreen extends Component {
                                     globalResults: [],
                                     quizResults: [],
                                     timeSpent: 0,
-                                    done: [{}],
+                                    done: [],
                                     percentage: 0
                                 }
 
                                 coursesToAdd.push(AgileToAdd);
                             })
                             .then(() => {
-
 
                                 let JSstudents = JavaScriptCourse.students;
                                 JSstudents.push(studentId);
@@ -162,9 +157,6 @@ class SignUpScreen extends Component {
 
         API.signUpStudent(student)
             .then((data) => {
-
-                console.log("Data data : " + data.data);
-                console.log("Data data student : " + data.data.student);
 
                 this.setState({
                     student: data.data.student

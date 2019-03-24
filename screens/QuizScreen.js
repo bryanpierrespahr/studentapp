@@ -1,16 +1,26 @@
 import React, {Component} from 'react'
-import {
-    View,
-    Text,
-    StyleSheet,
-    FlatList,
-    TouchableOpacity
-} from 'react-native'
-import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
+import {BackHandler, FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import {RadioButton, RadioGroup} from 'react-native-flexi-radio-button'
 import API from "../utils/api";
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+console.disableYellowBox = true;
 
 class QuizScreen extends Component {
 
+    static navigationOptions = ({navigation}) => {
+
+        return {
+            headerTitle: 'Achievements',
+            headerLeft: (
+                <Icon.Button name='arrow-back'
+                             backgroundColor='white'
+                             color='black'
+                             size={24}
+                             onPress={() => navigation.state.params.goBack()}/>
+            ),
+        };
+    }
     shuffle = (array) => {
 
         let counter = array.length;
@@ -31,7 +41,6 @@ class QuizScreen extends Component {
 
         return array;
     }
-
     onSelect = (index, value, q) => {
 
         var answersCopy = this.state.studentAnswers;
@@ -41,8 +50,11 @@ class QuizScreen extends Component {
             studentAnswers: answersCopy
         })
     }
-
     submit = () => {
+
+        this.setState({
+            submitted: true
+        })
 
         this.saveQuizResult();
 
@@ -110,28 +122,30 @@ class QuizScreen extends Component {
 
         API.patchQuizResult(student._id, studentCourses)
             .then((response) => {
-                console.log(response.data)
             })
 
 
         //Updating quiz questions stats
+        var questionsStudent = this.state.questions;
+        var questionsQuiz = this.state.quiz.questions;
 
-        var questions = this.state.questions;
-
-        for (var i = 0; i < questions.length; i++) {
-            if (studentAnswers[i] == correctAnswers[i])
-                questions[i].nbCorrect = questions[i].nbCorrect + 1;
+        for (var i = 0; i < questionsStudent.length; i++) {
+            if (studentAnswers[i] == questionsQuiz[i].correctAnswer)
+                questionsQuiz[i].nbCorrect = questionsQuiz[i].nbCorrect + 1;
             else {
-                questions[i].nbIncorrect = questions[i].nbIncorrect + 1;
+                questionsQuiz[i].nbIncorrect = questionsQuiz[i].nbIncorrect + 1;
             }
         }
+
+
+        API.patchQuizQuestionsStats(this.state.quiz._id, questionsQuiz)
+            .then(() => {
+            })
 
 
     }
     saveTimeSpent = (timeSpent) => {
 
-        console.log("SAVING time spent")
-        console.log("Time spent " + timeSpent)
 
         const studentId = this.state.student._id;
         const currentCourseId = this.state.course._id;
@@ -173,10 +187,82 @@ class QuizScreen extends Component {
             .then(() => {
                 API.patchTimeSpentQuiz(quiz._id, newTimeSpent)
                     .then((data) => {
-                        console.log(data.data)
+
                     })
             })
 
+
+    }
+    saveQuizResultBlank = () => {
+
+        const student = this.state.student;
+        const studentCourses = this.state.student.courses;
+        const currentCourseId = this.state.course._id;
+
+        var index = studentCourses.findIndex(c => {
+            return c.courseId == currentCourseId
+        })
+
+        const studentAnswers = this.state.studentAnswers;
+        const correctAnswers = this.state.correctAnswers;
+
+        var quizResult = {
+            quizId: this.state.quiz._id,
+            questions: this.state.questions,
+            answers: this.state.answers,
+            studentAnswers: studentAnswers,
+            correctAnswers: correctAnswers
+        }
+
+        studentCourses[index].quizResults.push(quizResult);
+
+        var correctAns = 0;
+
+        for (var u = 0; u < correctAnswers.length; u++) {
+            if (correctAnswers[u] == studentAnswers[u]) {
+                correctAns++;
+            }
+        }
+
+        var quizScore = (correctAns / correctAnswers.length) * 100;
+
+        var globalResult = {
+            title: this.state.quiz.title,
+            score: quizScore,
+            quizId: this.state.quiz._id,
+        }
+
+        studentCourses[index].globalResults.push(globalResult);
+
+        const globalResults = studentCourses[index].globalResults;
+
+        var totalScore = 0;
+
+        for (var g = 0; g < studentCourses[index].globalResults.length; g++) {
+            totalScore += studentCourses[index].globalResults[g].score;
+        }
+
+        var avgScore = (totalScore / globalResults.length);
+
+        studentCourses[index].globalScore = avgScore;
+
+        API.patchQuizResult(student._id, studentCourses)
+            .then((response) => {
+
+            })
+
+
+        //Updating quiz questions stats
+
+        var questions = this.state.questions;
+
+        for (var i = 0; i < questions.length; i++) {
+            if (studentAnswers[i] == correctAnswers[i])
+                questions[i].nbCorrect = questions[i].nbCorrect + 1;
+            else {
+                questions[i].nbIncorrect = questions[i].nbIncorrect + 1;
+            }
+        }
 
     }
 
@@ -194,20 +280,26 @@ class QuizScreen extends Component {
             openedAt: null,
             closedAt: null,
             timeSpent: 0,
+            submitted: false
         };
+    }
+
+    handleBackButton() {
+
+        return true;
     }
 
     componentDidMount() {
 
-        this.props.navigation.setParams({
-            goBack: this.goBackToDashboard.bind(this)
-        });
+
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+
 
         this.setState({
             course: this.props.navigation.getParam('course', 'NO-COURSE'),
             student: this.props.navigation.getParam('student', 'default'),
             quiz: this.props.navigation.getParam('quiz', 'default')
-        }, () =>   console.log("QUIZ : "+JSON.stringify(this.state.quiz)))
+        })
 
 
         var openedAt = new Date();
@@ -223,8 +315,13 @@ class QuizScreen extends Component {
 
         var timeSpent = (closedAt.getTime() - this.state.openedAt.getTime()) / 1000;
 
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
 
         this.saveTimeSpent(timeSpent);
+
+        if (this.state.submitted == false) {
+            this.saveQuizResultBlank();
+        }
 
     }
 
@@ -246,15 +343,6 @@ class QuizScreen extends Component {
             for (let i = 0; i < quiz.questions.length; i++) {
 
                 allQuestions.push(quiz.questions[i].question);
-
-                console.log("QUESTION QUESTION "+quiz.questions[i].question);
-                console.log("QUESTION QUESTION "+quiz.questions[i].question);
-                console.log("QUESTION QUESTION "+quiz.questions[i].question);
-                console.log("QUESTION QUESTION "+quiz.questions[i].question);
-                console.log("QUESTION QUESTION "+quiz.questions[i].question);
-                console.log("QUESTION QUESTION "+quiz.questions[i].question);
-                console.log("QUESTION QUESTION "+quiz.questions[i].question);
-                console.log("QUESTION QUESTION "+quiz.questions[i].question);
 
                 var answers = [];
 

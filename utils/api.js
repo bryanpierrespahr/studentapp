@@ -70,7 +70,7 @@ export default {
             })
     },
 
-    patchTimeSpentLecture : function(lectureId, timeSpent){
+    patchTimeSpentLecture: function (lectureId, timeSpent) {
 
         return axios.patch(burl + "/lecture/" + lectureId, [{
                 "propName": "timeSpent", "value": timeSpent
@@ -80,7 +80,7 @@ export default {
             })
     },
 
-    patchTimeSpentLink : function(linkId, timeSpent){
+    patchTimeSpentLink: function (linkId, timeSpent) {
 
         return axios.patch(burl + "/link/" + linkId, [{
                 "propName": "timeSpent", "value": timeSpent
@@ -90,7 +90,7 @@ export default {
             })
     },
 
-    patchTimeSpentQuiz : function(quizId, timeSpent){
+    patchTimeSpentQuiz: function (quizId, timeSpent) {
 
         return axios.patch(burl + "/quiz/" + quizId, [{
                 "propName": "timeSpent", "value": timeSpent
@@ -100,7 +100,7 @@ export default {
             })
     },
 
-    patchTimesOpenedLink : function(linkId, timesOpened){
+    patchTimesOpenedLink: function (linkId, timesOpened) {
 
         return axios.patch(burl + "/link/" + linkId, [{
                 "propName": "timesOpened", "value": timesOpened
@@ -110,7 +110,7 @@ export default {
             })
     },
 
-    patchTimesOpenedLecture : function(lectureId, timesOpened){
+    patchTimesOpenedLecture: function (lectureId, timesOpened) {
 
         return axios.patch(burl + "/lecture/" + lectureId, [{
                 "propName": "timesOpened", "value": timesOpened
@@ -120,7 +120,7 @@ export default {
             })
     },
 
-    patchTimesOpenedQuiz : function(quizId, timesOpened){
+    patchTimesOpenedQuiz: function (quizId, timesOpened) {
 
         return axios.patch(burl + "/quizId/" + quizId, [{
                 "propName": "timesOpened", "value": timesOpened
@@ -130,7 +130,7 @@ export default {
             })
     },
 
-    patchUniqueTimesOpenedQuiz : function(quizId, uniqueTimesOpened){
+    patchUniqueTimesOpenedQuiz: function (quizId, uniqueTimesOpened) {
 
         return axios.patch(burl + "/quizId/" + quizId, [{
                 "propName": "uniqueTimesOpened", "value": uniqueTimesOpened
@@ -140,7 +140,7 @@ export default {
             })
     },
 
-    patchUniqueTimesOpenedLecture : function(lectureId, uniqueTimesOpened){
+    patchUniqueTimesOpenedLecture: function (lectureId, uniqueTimesOpened) {
 
         return axios.patch(burl + "/lecture/" + lectureId, [{
                 "propName": "uniqueTimesOpened", "value": uniqueTimesOpened
@@ -150,7 +150,7 @@ export default {
             })
     },
 
-    patchUniqueTimesOpenedLink : function(linkId, uniqueTimesOpened){
+    patchUniqueTimesOpenedLink: function (linkId, uniqueTimesOpened) {
 
         return axios.patch(burl + "/link/" + linkId, [{
                 "propName": "uniqueTimesOpened", "value": uniqueTimesOpened

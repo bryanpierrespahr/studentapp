@@ -1,12 +1,5 @@
 import React, {Component} from 'react'
-import {
-    View,
-    Text,
-    StyleSheet,
-    FlatList,
-    TouchableOpacity,
-    Button
-} from 'react-native'
+import {StyleSheet, View} from 'react-native'
 import Filler from './Filler';
 
 class ProgressBar extends Component {
@@ -19,7 +12,7 @@ class ProgressBar extends Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.setState({
             percentage: this.props.percentage
         })

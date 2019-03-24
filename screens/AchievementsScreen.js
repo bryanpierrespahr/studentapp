@@ -1,12 +1,6 @@
 import React, {Component} from 'react'
-import {
-    View,
-    Text,
-    StyleSheet,
-    FlatList
-} from 'react-native'
+import {FlatList, StyleSheet, Text, View} from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Video from "expo/build/av/Video";
 
 console.disableYellowBox = true;
 
@@ -28,8 +22,6 @@ class AchievementsScreen extends Component {
 
     getInfo = () => {
 
-        console.log("Getting info");
-
         this.getResults();
         this.getStatistics();
     }
@@ -37,19 +29,12 @@ class AchievementsScreen extends Component {
     getResults = () => {
 
 
-        console.log("getting results");
-
         const studentCourses = this.state.student.courses;
         const currentCourseId = this.state.course._id;
-
-        console.log("Current course id : "+currentCourseId)
 
         var index = studentCourses.findIndex(c => {
             return c.courseId == currentCourseId
         })
-
-        console.log("Index : "+index)
-        console.log("Results : "+JSON.stringify(this.state.student.courses[index].globalResults))
 
         this.setState({
             results: this.state.student.courses[index].globalResults,
@@ -62,7 +47,6 @@ class AchievementsScreen extends Component {
 
     getStatistics = () => {
 
-        console.log("getting statistics");
 
         const studentCourses = this.state.student.courses;
         const currentCourseId = this.state.course._id;
@@ -181,8 +165,8 @@ class AchievementsScreen extends Component {
                 </View>
             )
 
-        }else{
-            return(
+        } else {
+            return (
                 <View style={styles.container}>
                     <Text>No results yet</Text>
                 </View>

@@ -1,15 +1,5 @@
 import React, {Component} from 'react'
-import {
-    View,
-    Text,
-    StyleSheet,
-    FlatList,
-    TouchableOpacity,
-    Button,
-    AsyncStorage
-} from 'react-native'
-import API from '../utils/api';
-import Moment from 'react-moment';
+import {FlatList, StyleSheet, Text, View} from 'react-native'
 import 'moment-timezone';
 
 class RecommendationScreen extends Component {
@@ -19,8 +9,6 @@ class RecommendationScreen extends Component {
     };
 
     getCourses = (studentCourses) => {
-
-        console.log("Student courses : "+JSON.stringify(studentCourses))
 
         var courses = [];
         var fetches = [];
@@ -56,8 +44,6 @@ class RecommendationScreen extends Component {
 
         for (var i = 0; i < courses.length; i++) {
 
-            console.log("course name : "+courses[i].name)
-            console.log("course name : "+courses[i].path)
 
             for (var z = 0; z < courses.length; z++) {
 
@@ -78,7 +64,6 @@ class RecommendationScreen extends Component {
             coursesTotal.push(c);
 
             if (i + 1 == studentCourses.length) {
-                console.log("Courses total " + JSON.stringify(coursesTotal))
                 this.sortCourses(coursesTotal);
             }
 
@@ -102,8 +87,6 @@ class RecommendationScreen extends Component {
 
     sortCourses = (courses) => {
 
-        console.log("courses : " + JSON.stringify(courses))
-
         courses.sort(this.orderFavoritesCourses);
 
         var path = [
@@ -116,12 +99,7 @@ class RecommendationScreen extends Component {
         var points = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1];
 
         for (let h = 0; h < 10 && h < courses.length; h++) {
-            // console.log(courses[h].path)
-            // console.log(courses[h].points);
 
-            //  console.log("Courses string : "+JSON.stringify(courses[h]))
-            // console.log("COurse is : "+courses[h].name);
-            // console.log("course path is : "+courses[h].path);
 
             switch (courses[h].path) {
                 case 'Design':
@@ -140,9 +118,8 @@ class RecommendationScreen extends Component {
 
         }
 
-        //  console.log(JSON.stringify(path)+" BEFORE")
         path.sort((a, b) => (a.points < b.points) ? 1 : ((b.points < a.points) ? -1 : 0));
-        //  console.log(JSON.stringify(path)+" AFTER")
+
 
         this.setState({
             favoriteCourses: courses,

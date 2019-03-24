@@ -1,22 +1,12 @@
 import React, {Component} from 'react'
-import {
-    View,
-    Text,
-    StyleSheet,
-    FlatList,
-    TouchableOpacity,
-    Image
-} from 'react-native'
+import {FlatList, StyleSheet, Text, View} from 'react-native'
 import Checkbox from 'react-native-modest-checkbox';
 import Entypo from 'react-native-vector-icons/Entypo';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
-import API from '../utils/api';
 
 class QuizResultScreen extends Component {
 
     renderQuestion = ({item, index}) => {
-
-        console.log("Item " + JSON.stringify(item))
 
         return (
 

@@ -1,8 +1,5 @@
 import React, {Component} from 'react'
-import {
-    View,
-    Text, StyleSheet
-} from 'react-native'
+import {StyleSheet, Text, View} from 'react-native'
 
 class Filler extends Component {
 

@@ -1,12 +1,5 @@
 import React, {Component} from 'react'
-import {
-    View,
-    Text,
-    StyleSheet,
-    ImageBackground,
-    TouchableOpacity,
-    FlatList
-} from 'react-native'
+import {FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import OcticonsIcon from 'react-native-vector-icons/Octicons';
@@ -14,7 +7,6 @@ import SimpleLineIconsIcon from 'react-native-vector-icons/SimpleLineIcons';
 import ProgressBar from '../components/ProgressBar';
 import API from '../utils/api';
 import moment from 'moment';
-import QuizResultScreen from "./QuizResultScreen";
 
 class OverviewScreen extends Component {
 
@@ -137,38 +129,39 @@ class OverviewScreen extends Component {
         const currentCourseId = this.state.course._id;
         const itemId = item._id;
 
+
         var index = studentCourses.findIndex(c => {
             return c.courseId == currentCourseId
         })
 
+
         var alreadyOpened = false;
         var doneArray = studentCourses[index].done;
 
-        for(var i = 0 ; i < doneArray.length; i++){
-            if (doneArray[i].id == itemId)
+        for (var i = 0; i < doneArray.length; i++) {
+            if (doneArray[i].id == itemId) {
                 alreadyOpened = true;
+
+            }
+
         }
 
         if (!alreadyOpened) {
 
-            console.log("NOT INCLUDED")
 
             var itemDone = {
                 "id": itemId,
                 "timeSpent": 0
             }
 
-            console.log("Item done : " + itemDone);
-
             studentCourses[index].done.push(itemDone);
 
-            console.log("StudentCourses done array " + studentCourses[index].done);
 
             API.patchDoneArray(studentId, studentCourses)
                 .then((response) => {
                 }).then(() => {
                 this.adjustPercentage(index)
-                console.log("PATCHED")
+
             })
 
             switch (item.type) {
@@ -179,8 +172,8 @@ class OverviewScreen extends Component {
                     this.firstTimeLecture(item);
                     break;
             }
-        }else{
-            console.log("INCLDUED")
+        } else {
+
         }
 
     }
@@ -250,15 +243,14 @@ class OverviewScreen extends Component {
 
     adjustPercentage = (index) => {
 
-        var doneLength;
+
+        var percentage;
 
         API.getStudent(this.state.student._id)
             .then((response) => {
-                doneLength = response.data.courses[index].done.length;
-
+                var doneLength = response.data.courses[index].done.length;
+                percentage = Math.round((doneLength / this.state.counter) * 100);
             }).then(() => {
-
-            var percentage = Math.round((doneLength / this.state.counter) * 100);
 
             this.setState({
                 percentage: percentage
@@ -275,7 +267,6 @@ class OverviewScreen extends Component {
     }
 
     openQuiz = (quiz) => {
-
         const nav = this.props.screenProps.navigation;
 
         const studentId = this.state.student._id;
@@ -292,11 +283,10 @@ class OverviewScreen extends Component {
 
         for (var i = 0; i < doneArray.length; i++) {
 
-            console.log("Done id : " + doneArray[i].id)
-            console.log("Quiz id : " + quiz._id)
 
             if (doneArray[i].id == quiz._id) {
                 alreadyDone = true;
+
             }
         }
 
@@ -310,7 +300,8 @@ class OverviewScreen extends Component {
             })
 
         } else {
-            this.itemDone(quiz._id);
+
+            this.itemDone(quiz);
 
             nav.navigate('Quiz', {
                 quiz: quiz,
@@ -338,8 +329,6 @@ class OverviewScreen extends Component {
     }
 
     openLinkInWebView = (link) => {
-
-        console.log("LINK " + link)
 
         const nav = this.props.screenProps.navigation;
 
@@ -560,14 +549,12 @@ class OverviewScreen extends Component {
             lectures: [],
             quizzes: [],
             links: [],
-            counter: -1,
+            counter: 0,
             currentCounter: 0
         };
     }
 
     componentDidMount() {
-
-        console.log(" overview screen DID MOUNT");
 
         this.props.navigation.setParams({
             goBack: this.goBackToDashboard.bind(this),
@@ -685,8 +672,6 @@ class OverviewScreen extends Component {
             const startHour = moment(course.schedule.startHour).format('LT');
             const endHour = moment(course.schedule.endHour).format('LT');
 
-            console.log("start hour " + startHour);
-
             if (course.name.length < 12) {
                 return (
                     <View style={styles.container}>
@@ -767,14 +752,16 @@ const
         container: {
             flex: 1,
             flexDirection: 'column',
+
         },
         head: {
             flex: 30,
-            backgroundColor: '#83C669',
+
             flexDirection: 'column',
         },
         body: {
             flex: 70,
+
         },
         imageBackground: {
             flex: 1,

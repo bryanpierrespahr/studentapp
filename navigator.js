@@ -1,5 +1,5 @@
 //Navigators
-import {createStackNavigator, createBottomTabNavigator} from 'react-navigation';
+import {createBottomTabNavigator, createStackNavigator} from 'react-navigation';
 import DashboardScreen from "./screens/DashboardScreen";
 import OverviewScreen from "./screens/OverviewScreen";
 import InfosScreen from "./screens/InfosScreen";
@@ -12,6 +12,8 @@ import RecommendationScreen from "./screens/RecoScreen";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import SignUpScreen from "./screens/SignUpScreen";
+
+console.disableYellowBox = true;
 
 export const AuthNavigator = createStackNavigator({
     Login: {
@@ -53,7 +55,7 @@ const WebviewStack = createStackNavigator({
 const QuizResultStack = createStackNavigator({
     QuizResult: {
         screen: QuizResultScreen,
-        navigationOptions:{
+        navigationOptions: {
             header: null,
         }
     }
@@ -65,7 +67,6 @@ const QuizStack = createStackNavigator({
         navigationOptions: {
             header: null,
         }
-
     },
     QuizResult: {
         screen: QuizResultScreen,
@@ -128,6 +129,7 @@ CourseTabNavigator.navigationOptions = ({navigation}) => {
         headerTitle
     }
 }
+
 
 export const AppStackNavigator = createStackNavigator({
     Home: {screen: HomeScreen},

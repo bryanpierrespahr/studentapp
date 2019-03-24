@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    TouchableOpacity,
+    AsyncStorage,
     Image,
     KeyboardAvoidingView,
-    AsyncStorage
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
 } from 'react-native';
 import API from '../utils/api';
 
@@ -17,8 +17,6 @@ class LoginScreen extends Component {
     storeToken = async (student, token) => {
 
         const studentId = student._id;
-
-        console.log("Storing tokens")
 
         try {
             await AsyncStorage.setItem("token", token);
@@ -31,9 +29,9 @@ class LoginScreen extends Component {
 
     login = () => {
 
-        console.log("LOGIN")
+        var email = this.state.email.toLowerCase();
 
-        API.login(this.state.email, this.state.password)
+        API.login(email, this.state.password)
             .then((data) => {
                 this.setState({
                     student: data.data.student
@@ -49,8 +47,6 @@ class LoginScreen extends Component {
     }
 
     signUpButton = () => {
-
-        console.log("Sign up clicked");
 
         this.props.navigation.navigate('SignUp');
 
@@ -145,7 +141,7 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         paddingVertical: 13
     },
-    buttonSignUp:{
+    buttonSignUp: {
         width: 300,
         backgroundColor: '#1c313a',
         borderRadius: 25,
@@ -159,7 +155,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     orText: {
-        marginTop:12,
+        marginTop: 12,
         fontSize: 14,
         fontWeight: '500',
         color: '#ffffff',

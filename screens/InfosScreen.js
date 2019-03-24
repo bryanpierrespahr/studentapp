@@ -1,11 +1,5 @@
 import React, {Component} from 'react'
-import {
-    View,
-    Text,
-    StyleSheet,
-    ImageBackground,
-    ScrollView
-} from 'react-native'
+import {ImageBackground, ScrollView, StyleSheet, Text, View} from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import API from "../utils/api";
 
@@ -116,7 +110,7 @@ const styles = StyleSheet.create({
     },
     body: {
         flex: 85,
-        paddingHorizontal:3,
+        paddingHorizontal: 3,
     },
     imageBackground: {
         flex: 1,
@@ -133,7 +127,7 @@ const styles = StyleSheet.create({
         borderBottomColor: 'black',
         marginTop: 5,
     },
-    paragraph:{
+    paragraph: {
         fontSize: 14
     }
 })

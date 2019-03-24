@@ -1,15 +1,6 @@
 import React, {Component} from 'react'
-import {
-    View,
-    Text,
-    StyleSheet,
-    FlatList,
-    TouchableOpacity,
-    Button,
-    AsyncStorage
-} from 'react-native'
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
-import API from '../utils/api';
 
 class DashboardScreen extends Component {
 
@@ -27,8 +18,6 @@ class DashboardScreen extends Component {
     }
 
     getCourses = (studentCourses) => {
-
-        console.log("Student courses : " + JSON.stringify(studentCourses[0].courseId));
 
         var courses = [];
         var fetches = [];
@@ -85,7 +74,6 @@ class DashboardScreen extends Component {
         if (this.state.ready) {
 
             const courses = this.state.courses;
-            console.log("Courses : " + courses)
 
             courses.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
 

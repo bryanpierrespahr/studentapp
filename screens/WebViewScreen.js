@@ -1,15 +1,10 @@
 import React, {Component} from 'react'
-import {
-    WebView
-} from 'react-native'
+import {WebView} from 'react-native'
 import API from "../utils/api";
 
 class WebViewScreen extends Component {
 
     saveTimeSpent = (timeSpent) => {
-
-        console.log("SAVING time spent")
-        console.log("Time spent " + timeSpent)
 
         const studentId = this.state.student._id;
         const currentCourseId = this.state.course._id;
@@ -45,14 +40,14 @@ class WebViewScreen extends Component {
                     .then((data) => {
                         var link = data.data;
                         var ts = link.timeSpent;
-                        if(ts == null)
+                        if (ts == null)
                             ts = 0
                         newTimeSpent = ts + timeSpent;
                     })
                     .then(() => {
                         API.patchTimeSpentLink(item._id, newTimeSpent)
                             .then((data) => {
-                                console.log(data.data)
+
                             })
                     })
                 break;
@@ -61,14 +56,14 @@ class WebViewScreen extends Component {
                     .then((data) => {
                         var lecture = data.data;
                         var ts = lecture.timeSpent;
-                        if(ts == null)
+                        if (ts == null)
                             ts = 0
                         newTimeSpent = ts + timeSpent;
                     })
                     .then(() => {
                         API.patchTimeSpentLecture(item._id, newTimeSpent)
                             .then((data) => {
-                                console.log(data.data)
+
                             })
                     })
                 break;
@@ -77,14 +72,14 @@ class WebViewScreen extends Component {
                     .then((data) => {
                         var quiz = data.data;
                         var ts = quiz.timeSpent;
-                        if(ts == null)
+                        if (ts == null)
                             ts = 0
                         newTimeSpent = ts + timeSpent;
                     })
                     .then(() => {
                         API.patchTimeSpentQuiz(item._id, newTimeSpent)
                             .then((data) => {
-                                console.log(data.data)
+
                             })
                     })
                 break;
@@ -104,7 +99,7 @@ class WebViewScreen extends Component {
             item: this.props.navigation.getParam('item', 'default'),
             student: this.props.navigation.getParam('student', 'default'),
             course: this.props.navigation.getParam('course', 'default'),
-        }, () => console.log("ITEM ID : " + this.state.item._id))
+        })
 
         var openedAt = new Date();
 

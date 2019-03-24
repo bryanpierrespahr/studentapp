@@ -1,15 +1,6 @@
 import React, {Component} from 'react'
-import {
-    View,
-    Text,
-    StyleSheet,
-    Image,
-    TouchableOpacity,
-    Button,
-    AsyncStorage
-} from 'react-native'
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import API from '../utils/api';
 
 class HomeScreen extends Component {
 
@@ -30,7 +21,6 @@ class HomeScreen extends Component {
 
     componentDidMount() {
 
-        console.log("Component HomeScreen Mounted");
 
         const student = this.props.navigation.getParam('student');
 
@@ -39,10 +29,6 @@ class HomeScreen extends Component {
         })
 
 
-    }
-
-    logout = () => {
-        console.log("Log out");
     }
 
     render() {
